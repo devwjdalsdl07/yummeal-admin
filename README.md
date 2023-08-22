@@ -1,70 +1,99 @@
-# Getting Started with Create React App
+# 3차 협업 프로젝트 이유식 쇼핑몰(admin)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### 3차 Team A
 
-## Available Scripts
+## 프로젝트 정보
 
-In the project directory, you can run:
+- [Notion](https://www.notion.so/YUMMEAL-80d792f626424ef59dd2f22e8097d48f)
+- [Figma(wireframe)](https://www.figma.com/file/A0h9Ai58OM6pRxUXWUmYJP/yummeal?type=design&node-id=1096%3A369&mode=design&t=2UxOfiDdVm4zzZRJ-1)
+- [Figma(flowchart)](<https://www.figma.com/file/wuGGvaWhGaIq53x6VOSm8P/Pokedex-Flowchart-(Community)?type=whiteboard&node-id=0%3A1&t=DYSvMAgpH8f4KJT6-1>)
 
-### `npm start`
+## 활용 모듈
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- <img src="https://img.shields.io/badge/React-263238?style=flat&logo=React&logoColor=skyblue">
+- <img src="https://img.shields.io/badge/StyledComponent-DB7093?style=flat&logo=styledcomponents&logoColor=white">
+- <img src="https://img.shields.io/badge/ReduxToolkit-764ABC?style=flat&logo=redux&logoColor=white">
+- <img src="https://img.shields.io/badge/ReactRouter-CA4245?style=flat&logo=reactrouter&logoColor=white">
+- <img src="https://img.shields.io/badge/Prettier-F7B93E?style=flat&logo=prettier&logoColor=white">
+- <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=axios&logoColor=white">
+- <img src="https://img.shields.io/badge/Eslint-4B32C3?style=flat&logo=eslint&logoColor=white">
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 프로젝트 기간
 
-### `npm test`
+- 2023.07.14 ~ 2023.08.18
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 팀원 소개 및 역할
 
-### `npm run build`
+- Frontend
+  - 팀장 : 손용수(헤더 & 푸터, 장바구니페이지, 결제페이지, 결제내역페이지, 검색결과페이지)
+  - 팀원 : 박지성(상품등록페이지, 마이페이지(주문내역), TOKEN, REDUCER)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;손정민(회원가입페이지, 로그인페이지, 마이페이지(회원정보수정))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;정다혜(메인페이지, 상품리스트페이지, 상품상세페이지)
+- Backend
+  - 팀장 : 이진규
+  - 팀원 : 김다율, 서영기, 홍기윤
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 주요기능
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### 헤더 & 푸터
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- 로그인 여부에 따른 인터페이스 변화
+- 카테고리별 상품리스트 출력 및 이동
+- 반응형 구현
 
-### `npm run eject`
+#### 메인
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- 로그인 여부에 따른 상품추천 내용 변화(로그인 시 맞춤추천)
+- 반응형 구현
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### 로그인
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- jwt 토큰 인증 구현(cookie 및 session 사용)
+- 반응형 구현
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### 회원가입
 
-## Learn More
+- 유효성 검사
+- 아이디 및 닉네임 중복확인 기능
+- 다음 주소 API 이용 주소찾기 기능
+- 반응형 구현
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### 상품리스트
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- 페이지네이션 기능
+- 상세페이지 이동
+- 반응형 구현
 
-### Code Splitting
+#### 상품 상세
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- 이미지 클릭 시 교체
+- 장바구니 담기 및 바로구매 기능(로그인 유무 확인)
+- 앵커 활용한 영역이동
+- 반응형 구현
 
-### Analyzing the Bundle Size
+#### 검색결과
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- 검색어에 따른 결과 출력
+- 정렬(판매량, 가격) 기능, 알레르기 필터(선택한 값 제외한 결과, 다중선택가능)
+- 반응형 구현
 
-### Making a Progressive Web App
+#### 장바구니
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- 수량 조절 및 목록 삭제 기능
+- 상품 상세 페이지 이동 가능
+- 반응형 구현
 
-### Advanced Configuration
+#### 결제
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- 회원정보 자동 입력
+- 포인트 기능
+- 반응형 구현
 
-### Deployment
+#### 상품 등록
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- 웹 에디터 사용(이미지 넣으면 서버에 이미지 업로드 후 미리보기)
+- 반응형 구현
 
-### `npm run build` fails to minify
+#### 마이페이지
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- 주문 배송 / 유저 정보 수정 컴포넌트로 분리
+- 개월별 주문내역 조회 가능
+- 반응형 구현
