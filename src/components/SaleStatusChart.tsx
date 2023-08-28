@@ -1,8 +1,9 @@
-import { ResponsivePie, DatumId } from '@nivo/pie';
-import { LegendAnchor, LegendDirection } from '@nivo/legends'; // Importing LegendAnchor and LegendDirection
+import { ResponsivePie } from '@nivo/pie';
+import { LegendAnchor, LegendDirection } from '@nivo/legends';
+import { IPieData } from '../pages/SalesStatus';
 
 interface MyResponsivePieProps {
-    data: DatumId[];
+    data: Array<IPieData>;
 }
 
 const MyResponsivePie: React.FC<MyResponsivePieProps> = ({ data }) => (

@@ -1,58 +1,67 @@
 import styled from "@emotion/styled";
-import { DatumId } from "@nivo/pie";
 import MyResponsivePie from "../components/SaleStatusChart";
+
+export interface IPieData {
+  id: string;
+  label: string;
+  value: number;
+  color: string;
+}
 
 const SalesStatus = () => {
   const Wrap = styled.div`
+    width: 100%;
     max-width: 1400px;
     margin: 0 auto;
+    font-size: 15px;
     .pie-chart {
-      height: 500px;
-      margin-bottom: 50px;
+      height: 450px;
+      margin-bottom: 30px;
     }
-    .menu {
-      display: grid;
-      grid-template-columns: 150px 200px 400px 150px 200px;
-      text-align: center;
-      max-width: 1400px;
-      justify-content: space-between;
-      background: #bfb6b6;
-      border-bottom: 1px solid #aaa;
-      & > div {
-        padding: 10px;
-      }
-    }
-    .table {
-      display: grid;
-      justify-items: stretch;
-      text-align: center;
-      max-width: 1400px;
-      & > div {
-        border-bottom: 1px solid #aaa;
-      }
-      .table-content-wrap {
-        display: flex;
+    .content-wrap {
+      width: 100%;
+      .menu {
+        display: grid;
+        grid-template-columns: 150px 200px 400px 150px 200px;
+        text-align: center;
         justify-content: space-between;
-        &:hover {
-          background: #ebe1e1;
-        }
+        border-bottom: 1px solid #aaa;
+        background: #bfb6b6;
         & > div {
           padding: 10px;
         }
-        & > div:nth-child(1) {
-          width: 130px;
+      }
+      .table {
+        display: grid;
+        justify-items: stretch;
+        text-align: center;
+        & > div {
+          border-bottom: 1px solid #aaa;
         }
-        & > div:nth-child(2) {
-          width: 180px;
-        }
-        & > div:nth-child(3) {
-          width: 380px;
-        }
-        & > div:nth-child(4) {
-          width: 130px;
-        }
-        & > div:nth-child(5) {
-          width: 180px;
+        .table-content-wrap {
+          display: flex;
+          justify-content: space-between;
+          &:hover {
+            background: #ebe1e1;
+          }
+          & > div {
+            padding: 10px;
+          }
+          & > div:nth-of-type(1) {
+            width: 150px;
+          }
+          & > div:nth-of-type(2) {
+            width: 200px;
+          }
+          & > div:nth-of-type(3) {
+            width: 400px;
+          }
+          & > div:nth-of-type(4) {
+            width: 150px;
+          }
+          & > div:nth-of-type(5) {
+            width: 200px;
+          }
         }
       }
     }
@@ -138,7 +147,8 @@ const SalesStatus = () => {
       totalprice: 1,
     },
   ];
-  const pieData: Array<DatumId> = [
+
+  const pieData: Array<IPieData> = [
     {
       id: "stylus",
       label: "stylus",
@@ -173,11 +183,10 @@ const SalesStatus = () => {
 
   return (
     <Wrap>
-      SalesStatus
-      <div>
-        <div className="pie-chart">
-          <MyResponsivePie data={pieData} />
-        </div>
+      <div className="pie-chart">
+        <MyResponsivePie data={pieData} />
+      </div>
+      <div className="content-wrap">
         <div className="menu">
           <div>순위</div>
           <div>상품분류</div>
