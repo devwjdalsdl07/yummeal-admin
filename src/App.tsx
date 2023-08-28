@@ -4,6 +4,7 @@ import BestSellProd from "./pages/BestSellProd";
 import SalesStatus from "./pages/SalesStatus";
 import OrderStatus from "./pages/OrderStatus";
 import Header from "./components/Header";
+import OrderDetail from "./pages/OrderDetail";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/best" element={<BestSellProd />} />
       <Route path="/salestatus" element={<SalesStatus />} />
       <Route path="/orderstatus" element={<OrderStatus />} />
+      <Route path="/orderdetail" element={<OrderDetail />} />
     </Routes>
     </div>
   );

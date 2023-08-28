@@ -52,8 +52,7 @@ const Header = () => {
   const orderSubMenus: Array<IProdSub> = [
     { value: "배송 관리", path: "/" },
     { value: "배송 상태", path: "/" },
-    { value: "주문 현황", path: "/" },
-    { value: "주문 관리", path: "/" },
+    { value: "주문 현황", path: "/orderstatus" },
   ];
 
   const handleMenuClick = (
