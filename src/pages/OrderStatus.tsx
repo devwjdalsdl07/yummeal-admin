@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import SearchBar from "../components/SearchBar";
-import { Wrap } from "../style/SalesStatusCss";
+import { Wrap } from "../style/OrderStatutsCss";
+
 
 const OrderStatus = () => {
   interface IInit {

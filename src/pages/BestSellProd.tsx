@@ -1,6 +1,6 @@
 import { BarDatum } from "@nivo/bar";
 import MyResponsiveBar from "../components/BestSellProdChart";
-import { Wrap } from "../style/SalesStatusCss";
+import { Wrap } from "../style/BestSellProdCss";
 
 const BestSellProd = () => {
   type IData = {

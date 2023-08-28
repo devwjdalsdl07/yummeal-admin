@@ -1,4 +1,5 @@
-import { Wrap } from "../style/SalesStatusCss";
+import { Wrap } from "../style/OrderDetailCss";
+
 
 const OrderDetail = () => {
   interface IOrderDetail {
