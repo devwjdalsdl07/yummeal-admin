@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 const Header = () => {
   const Wrap = styled.div`
     display: flex;
-    width: 250px;
-    min-width: 250px;
+    width: 200px;
+    min-width: 200px;
     min-height: 100vh;
     font-size: 25px;
     text-align: center;
@@ -52,7 +52,6 @@ const Header = () => {
   ];
   const orderSubMenus: Array<IProdSub> = [
     { value: "배송 관리", path: "/" },
-    { value: "배송 상태", path: "/" },
     { value: "주문 현황", path: "/orderstatus" },
   ];
 

@@ -126,12 +126,12 @@ const SalesStatus = () => {
 
   return (
     <Wrap>
-      <div className="pie-chart">
+      {/* <div className="pie-chart">
         <MyResponsivePie data={pieData} />
-      </div>
+      </div> */}
       <div className="content-wrap">
         <div className="menu">
-          <div>순위</div>
+          <div>상품번호</div>
           <div>상품분류</div>
           <div>상품명</div>
           <div>판매수량</div>

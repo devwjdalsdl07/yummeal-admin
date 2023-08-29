@@ -1,40 +1,9 @@
-import styled from "@emotion/styled";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+import { Wrap } from "../style/SearchBarCss";
 import SelectBox from "./SelectBox";
 
-const Wrap = styled.div`
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  font-size: 15px;
-  .content-wrap {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    padding: 20px;
-    .select-wrap {
-      width: 150px;
-      padding-top: 20px;
-      .select {
-        width: 100%;
-        height: 30px;
-        border: 1px solid;
-        border-radius: 8px;
-      }
-    }
-  }
-  .search-wrap {
-    width: 40%;
-    padding-top: 20px;
-    .search {
-      width: 100%;
-      height: 30px;
-      border: 1px solid;
-      border-radius: 8px;
-      padding: 15px;
-    }
-  }
-`;
 const searchMenu = ["통합검색", "아이디", "주문 번호", "상품 번호"];
 
 export interface ISearchMenu {
@@ -85,9 +54,9 @@ const SearchBar = () => {
             onClick={() => setSearch("")}
           />
           <button className="glasswrap" onClick={e => handleSearchPost(e)}>
-            {/* <i className="glass">
-            <FontAwesomeIcon icon={faMagnifyingGlass} />
-          </i> */}
+            <i className="glass">
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </i>
           </button>
         </form>
       </div>

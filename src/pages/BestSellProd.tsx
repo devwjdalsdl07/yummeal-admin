@@ -24,7 +24,7 @@ const BestSellProd = () => {
     {
       country: "4",
       hotdog: 12,
-      hotdogColor: "hsl(206, 70%, 50%)",
+      hotdogColor: "hsl(153, 70%, 50%)",
       burger: 34,
       burgerColor: "hsl(194, 70%, 50%)",
       sandwich: 50,
