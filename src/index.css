@@ -11,10 +11,22 @@ a {
 }
 ul {
   list-style: none;
+
 }
 img {
   vertical-align: middle;
   border: 0;
+}
+html {
+  font-size: 10px;
+}
+body {
+  font-family: sans-serif;
+  font-size: 10px;
+  color: #000;
+  line-height: 1.4;
+  letter-spacing: -0.3px;
+  word-break: keep-all;
 }
 html {
   font-size: 10px;
@@ -27,3 +39,4 @@ body {
   letter-spacing: -0.3px;
   word-break: keep-all;
 }
+
