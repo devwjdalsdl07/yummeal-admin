@@ -1,21 +1,22 @@
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import Main from "./pages/Main";
+import Delivery from "./pages/Delivery";
+import Layout from "./components/Layout";
+import Sider from "./components/Sider";
+import Header from "./components/Header";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="warp">
+      <Sider />
+      <Layout>
+        <Header />
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/delivery" element={<Delivery />} />
+          </Routes>
+      </Layout>
     </div>
   );
 }
