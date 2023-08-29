@@ -62,6 +62,7 @@ const SearchBar = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
+    setSearch("");
   };
 
   return (

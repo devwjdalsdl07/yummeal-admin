@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import SearchBar from "../components/SearchBar";
 import { Wrap } from "../style/OrderStatutsCss";
+import Paging from "../components/Paging";
 
 
 const OrderStatus = () => {
@@ -149,7 +150,6 @@ const OrderStatus = () => {
 
   return (
     <Wrap>
-      OrderStatus
       <SearchBar />
       <div className="menu">
         <div>체크</div>
@@ -186,6 +186,7 @@ const OrderStatus = () => {
           </div>
         ))}
       </div>
+      <Paging/>
     </Wrap>
   );
 };

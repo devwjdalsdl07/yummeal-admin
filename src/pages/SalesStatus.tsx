@@ -1,3 +1,4 @@
+import Paging from "../components/Paging";
 import MyResponsivePie from "../components/SaleStatusChart";
 import { Wrap } from "../style/SalesStatusCss";
 
@@ -148,6 +149,7 @@ const SalesStatus = () => {
           ))}
         </div>
       </div>
+      <Paging/>
     </Wrap>
   );
 };

@@ -1,6 +1,7 @@
 import { BarDatum } from "@nivo/bar";
 import MyResponsiveBar from "../components/BestSellProdChart";
 import { Wrap } from "../style/BestSellProdCss";
+import Paging from "../components/Paging";
 
 const BestSellProd = () => {
   type IData = {
@@ -111,6 +112,7 @@ const BestSellProd = () => {
           ))}
         </div>
       </div>
+      <Paging/>
     </Wrap>
   );
 };

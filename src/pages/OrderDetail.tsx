@@ -1,3 +1,4 @@
+import Paging from "../components/Paging";
 import { Wrap } from "../style/OrderDetailCss";
 
 

@@ -6,7 +6,8 @@ const Header = () => {
   const Wrap = styled.div`
     display: flex;
     width: 250px;
-    height: 100vh;
+    min-width: 250px;
+    min-height: 100vh;
     font-size: 25px;
     text-align: center;
     background: #aaa;
