@@ -1,3 +1,4 @@
+
 import React from "react";
 import { HeaderCss } from "../style/SiderCss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,6 +9,7 @@ const Header = () => {
     <HeaderCss>
       <i><FontAwesomeIcon icon={faCircleUser} /></i>
     </HeaderCss>
+
   );
 };
 
