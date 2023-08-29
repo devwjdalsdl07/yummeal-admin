@@ -1,23 +1,17 @@
-import "./App.css";
+import React from 'react'
+import { Route, Routes } from 'react-router'
+import AdminAddItem from "./pages/AdminAddItem"
+import AdminLogin from './pages/AdminLogin'
+import AdminItem from './pages/AdminItem'
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Routes>
+      <Route path='/adminadd' element={<AdminAddItem/>}/>
+      <Route path="/adminlogin" element={<AdminLogin/>}/>
+      <Route path="/adminitem" element={<AdminItem/>}/>
+    </Routes>
+  )
 }
 
-export default App;
+export default App
