@@ -1,7 +1,6 @@
 import { BarDatum } from "@nivo/bar";
 import MyResponsiveBar from "../components/BestSellProdChart";
-import { Wrap } from "../style/BestSellProdCss";
-import Paging from "../components/Paging";
+import { BestProdWrap } from "../style/BestSellProdCss";
 
 const BestSellProd = () => {
   type IData = {
@@ -88,32 +87,34 @@ const BestSellProd = () => {
     },
   ];
   return (
-    <Wrap>
-      <div className="bar-chart">
-        <MyResponsiveBar data={barData} />
-      </div>
-      <div>
-        <div className="menu">
-          <div>순위</div>
-          <div>이미지</div>
-          <div>상품명</div>
-          <div>상품번호</div>
-          <div>판매수량</div>
+    <BestProdWrap>
+      <h2>베스트 상품</h2>
+      <div className="contents-wrap">
+        <div className="bar-chart">
+          <MyResponsiveBar data={barData} />
         </div>
-        <div className="table">
-          {data.map((item: IData, idx: number) => (
-            <div key={idx} className="table-content-wrap">
-              <div>{item.rank}</div>
-              <div>{item.fruit}</div>
-              <div>{item.price}</div>
-              <div>{item.prodNum}</div>
-              <div>{item.ea}</div>
-            </div>
-          ))}
+        <div className="grid-wrap">
+          <div className="menu">
+            <div>순위</div>
+            <div>이미지</div>
+            <div>상품명</div>
+            <div>상품번호</div>
+            <div>판매수량</div>
+          </div>
+          <div className="table">
+            {data.map((item: IData, idx: number) => (
+              <div key={idx} className="table-content-wrap">
+                <div>{item.rank}</div>
+                <div>{item.fruit}</div>
+                <div>{item.price}</div>
+                <div>{item.prodNum}</div>
+                <div>{item.ea}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-      <Paging/>
-    </Wrap>
+    </BestProdWrap>
   );
 };
 

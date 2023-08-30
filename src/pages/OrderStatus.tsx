@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import SearchBar from "../components/SearchBar";
-import { Wrap } from "../style/OrderStatutsCss";
 import Paging from "../components/Paging";
-
+import SearchBar from "../components/SearchBar";
+import { OrderStatusWrap } from "../style/OrderStatutsCss";
 
 const OrderStatus = () => {
   interface IInit {
@@ -149,45 +148,48 @@ const OrderStatus = () => {
   };
 
   return (
-    <Wrap>
-      <SearchBar />
-      <div className="menu">
-        <div>체크</div>
-        <div>번호</div>
-        <div>주문일시</div>
-        <div>주문번호</div>
-        <div>주문자</div>
-        <div>주문상품</div>
-        <div>총상품금액</div>
-        <div>총할인금액</div>
-        <div>총주문금액</div>
-      </div>
-      <div className="table">
-        {orderList.map((item: IInit, idx: number) => (
-          <div key={idx} className="table-content-wrap">
-            <div>
-              <input
-                type="checkbox"
-                className="checkbox"
-                checked={item.complete}
-                onChange={() => handleCheckChange(idx)}
-              />
+    <OrderStatusWrap>
+      <h2>주문 현황</h2>
+      <div className="contents-wrap">
+        <SearchBar />
+        <div className="menu">
+          {/* <div>체크</div> */}
+          <div>번호</div>
+          <div>주문일시</div>
+          <div>주문번호</div>
+          <div>주문자</div>
+          <div>주문상품</div>
+          <div>총상품금액</div>
+          <div>총할인금액</div>
+          <div>총주문금액</div>
+        </div>
+        <div className="table">
+          {orderList.map((item: IInit, idx: number) => (
+            <div key={idx} className="table-content-wrap">
+              {/* <div>
+                <input
+                  type="checkbox"
+                  className="checkbox"
+                  checked={item.complete}
+                  onChange={() => handleCheckChange(idx)}
+                />
+              </div> */}
+              <div>{item.rank}</div>
+              <div>{item.createAt}</div>
+              <div className="order-div" onClick={handleDetailMove}>
+                {item.orderNm}
+              </div>
+              <div>{item.userName}</div>
+              <div>{item.prodName}</div>
+              <div>{item.totalProdPrice}</div>
+              <div>{item.discount}</div>
+              <div>{item.totalOrderPrice}</div>
             </div>
-            <div>{item.rank}</div>
-            <div>{item.createAt}</div>
-            <div className="order-div" onClick={handleDetailMove}>
-              {item.orderNm}
-            </div>
-            <div>{item.userName}</div>
-            <div>{item.prodName}</div>
-            <div>{item.totalProdPrice}</div>
-            <div>{item.discount}</div>
-            <div>{item.totalOrderPrice}</div>
-          </div>
-        ))}
+          ))}
+        </div>
+        <Paging />
       </div>
-      <Paging/>
-    </Wrap>
+    </OrderStatusWrap>
   );
 };
 

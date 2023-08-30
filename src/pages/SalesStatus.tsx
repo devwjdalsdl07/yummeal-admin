@@ -1,6 +1,5 @@
 import Paging from "../components/Paging";
-import MyResponsivePie from "../components/SaleStatusChart";
-import { Wrap } from "../style/SalesStatusCss";
+import { SaleStatusWrap } from "../style/SalesStatusCss";
 
 export interface IPieData {
   id: string;
@@ -125,32 +124,35 @@ const SalesStatus = () => {
   ];
 
   return (
-    <Wrap>
+    <SaleStatusWrap>
       {/* <div className="pie-chart">
         <MyResponsivePie data={pieData} />
       </div> */}
-      <div className="content-wrap">
-        <div className="menu">
-          <div>상품번호</div>
-          <div>상품분류</div>
-          <div>상품명</div>
-          <div>판매수량</div>
-          <div>매출액</div>
+      <h2>판매현황</h2>
+      <div className="contents-wrap">
+        <div className="content-wrap">
+          <div className="menu">
+            <div>상품번호</div>
+            <div>상품분류</div>
+            <div>상품명</div>
+            <div>판매수량</div>
+            <div>매출액</div>
+          </div>
+          <div className="table">
+            {initialData.map((item: IStatus, idx: number) => (
+              <div key={idx} className="table-content-wrap">
+                <div>{item.rank}</div>
+                <div>{item.category}</div>
+                <div>{item.prodname}</div>
+                <div>{item.volumn}</div>
+                <div>{item.totalprice}</div>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="table">
-          {initialData.map((item: IStatus, idx: number) => (
-            <div key={idx} className="table-content-wrap">
-              <div>{item.rank}</div>
-              <div>{item.category}</div>
-              <div>{item.prodname}</div>
-              <div>{item.volumn}</div>
-              <div>{item.totalprice}</div>
-            </div>
-          ))}
-        </div>
+        <Paging />
       </div>
-      <Paging/>
-    </Wrap>
+    </SaleStatusWrap>
   );
 };
 

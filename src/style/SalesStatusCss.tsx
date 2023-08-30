@@ -1,21 +1,24 @@
 import styled from "@emotion/styled";
 
-export const Wrap = styled.div`
+export const SaleStatusWrap = styled.div`
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
   font-size: 15px;
+  padding: 20px 30px;
   .pie-chart {
     height: 400px;
     margin-bottom: 30px;
   }
   .content-wrap {
+    padding-top: 60px;
     width: 100%;
     .menu {
       display: grid;
       grid-template-columns: 150px 200px 400px 150px 200px;
       text-align: center;
-      justify-content: space-between;
+      width: 1100px;
+      margin: 0 auto;
       border-bottom: 1px solid #aaa;
       background: #e3eaf2;
       & > div {
@@ -24,14 +27,14 @@ export const Wrap = styled.div`
     }
     .table {
       display: grid;
-      justify-items: stretch;
       text-align: center;
       & > div {
         border-bottom: 1px solid #aaa;
       }
       .table-content-wrap {
         display: flex;
-        justify-content: space-between;
+        width: 1100px;
+        margin: 0 auto;
         &:hover {
           background: #e3eaf2;
         }
@@ -51,13 +54,13 @@ export const Wrap = styled.div`
           width: 150px;
         }
         & > div:nth-of-type(5) {
-          width: 200px;
+          width: 199px;
         }
       }
     }
   }
   .ant-pagination {
-    padding: 20px 0;
+    padding: 50px 0;
     text-align: center;
   }
 `;

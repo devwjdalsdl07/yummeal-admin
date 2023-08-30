@@ -1,14 +1,15 @@
 import styled from "@emotion/styled";
 
-export const Wrap = styled.div`
+export const OrderDetailWrap = styled.div`
   max-width: 1400px;
   margin: 0 auto;
   font-size: 15px;
   padding: 20px;
+  h3 {
+    padding: 20px 0;
+  }
   .prod-info {
-    h3 {
-      padding: 20px 0;
-    }
+    padding: 30px 0;
   }
   .prod-info-menu {
     width: 1050px;
@@ -38,17 +39,11 @@ export const Wrap = styled.div`
       & > ul {
         display: flex;
         margin: 0 auto;
-        &:hover {
-          background: #e3eaf2;
-        }
         & > li {
           line-height: 25px;
           padding: 10px 0;
           text-align: center;
           border-right: 1px solid black;
-          &:last-of-type {
-            border: none;
-          }
         }
         & > li:nth-of-type(1) {
           width: 150px;
@@ -66,7 +61,7 @@ export const Wrap = styled.div`
           width: 150px;
         }
         & > li:nth-of-type(6) {
-          width: 100px;
+          width: 99px;
         }
       }
     }
@@ -75,7 +70,8 @@ export const Wrap = styled.div`
     display: grid;
     grid-template-columns: repeat(2, auto);
     gap: 20px;
-    padding-top: 20px;
+    width: 1130px;
+    margin: 0 auto;
     h3 {
       padding: 10px 30px;
     }

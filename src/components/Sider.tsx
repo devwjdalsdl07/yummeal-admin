@@ -57,7 +57,7 @@ const Sider: React.FC = () => {
                   <span className="icon">{item.icon}</span>
                   <span className="name">
                     {item.name === "회원 관리" ? (
-                      <Link to="/">회원 관리</Link>
+                      <Link to="/userlist">회원 관리</Link>
                     ) : item.name === "상품 관리" ? (
                       <div onClick={() => setIconToggle(!iconToggle)}>
                         <Link to="/">상품 관리 </Link>
@@ -90,13 +90,13 @@ const Sider: React.FC = () => {
                 {item.subMenu.map((subItem, subIndex) => (
                   <li key={subIndex} className="sub-menu-item">
                     {subItem === "판매 현황" ? (
-                      <Link to="/">판매 현황</Link>
+                      <Link to="/salestatus">판매 현황</Link>
                     ) : subItem === "베스트 상품" ? (
-                      <Link to="/">베스트 상품</Link>
+                      <Link to="/bestsale">베스트 상품</Link>
                     ) : subItem === "배송 관리" ? (
-                      <Link to="/delivery">배송 관리</Link>
+                      <Link to="/delivery">배송 관리</Link> 
                     ) : subItem === "주문 현황" ? (
-                      <Link to="/">주문 현황</Link>
+                      <Link to="/orderstatus">주문 현황</Link>
                     ) : (
                       subItem
                     )}

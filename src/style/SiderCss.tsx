@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 export const SiderCss = styled.div`
   min-height: 100vh;
-  width: 15vw;
+  width: 250px;
   background: #222;
   color: white;
   padding: 20px;
@@ -17,10 +17,6 @@ export const SiderCss = styled.div`
       flex-direction: column;
       cursor: pointer;
       padding: 10px 0;
-
-      &:hover {
-        background-color: #444;
-      }
       .menu-wrap {
         display: flex;
         gap: 15px;
@@ -39,6 +35,7 @@ export const SiderCss = styled.div`
       }
     }
     a {
+      display: block;
       color: #fff;
     }
   }
@@ -49,6 +46,9 @@ export const SiderCss = styled.div`
     > li {
       list-style-type: none;
       padding: 5px 20px;
+      &:hover {
+        background-color: #444;
+      }
     }
     a {
       color: #fff;
@@ -60,14 +60,48 @@ export const LayoutCss = styled.div`
   position: relative;
 `;
 export const HeaderCss = styled.div`
+  position: relative;
   height: 70px;
   width: 100%;
   background-color: #fefefe;
   text-align: end;
   padding-top: 10px;
   padding-right: 40px;
-  i {
+  & > i {
     font-size: 30px;
+    cursor: pointer;
+  }
+  .userinfo-wrap{
+    position: absolute;
+    top:80px;
+    right: 10px;
+    width: 250px;
+    font-size: 20px;
+    font-weight: 700;
+    background: white;
+    border-radius: 6px;
+    padding: 30px;
+    z-index: 10;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    .home,.shoppingmall>a{
+      display: flex;
+      gap: 40px;
+      padding-bottom:30px;
+      cursor: pointer;
+    }
+    .logout{
+      padding: 10px 15px;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      background: #fefefe;
+      &:hover{
+        border: 1px solid #c3cbf3;
+        background: #222;
+        color: #fefefe;
+      }
+    }
   }
 `;
 export const FooterCss = styled.div`
