@@ -3,6 +3,12 @@ import styled from "@emotion/styled";
 export const ItemContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
+  .bg-white {
+    background: white;
+  }
+  .bg-grey {
+    background: rgb(234,234,235);
+  }
 `;
 export const TotalInfoWrap = styled.div`
   border: 1px solid;
@@ -24,6 +30,7 @@ export const TotalInfoWrap = styled.div`
     background: #3971ff;
     color: white;
     border-radius: 15px;
+    cursor: pointer;
   }
 `;
 
@@ -54,6 +61,7 @@ export const SearchFilterWrap = styled.div`
     border-top: none;
     font-size: 20px;
     .saleName {
+      cursor: pointer;
       padding: 10px;
       width: 10%;
       border-right: 1px solid;
@@ -69,7 +77,11 @@ export const SearchFilterWrap = styled.div`
       border-right: 1px solid;
     }
     .allergySelect {
+      width: 40%;
       padding: 10px;
+      .allergy {
+        width: 100%;
+      }
     }
   }
   .cateFilter {
@@ -115,9 +127,11 @@ export const ItemListWrap = styled.div`
       }
     }
     .itemListWrap {
-        display: flex;
-        height: 100px;
-        div {
+      display: flex;
+      height: 60px;
+      border-bottom: 1px solid;
+      background: #fff;
+      div {
         display: flex;
         align-items: center;
         height: 100%;
@@ -131,11 +145,19 @@ export const ItemListWrap = styled.div`
     .itemNum {
       width: 5%;
     }
-    .itemTitle {
-      width: 10%;
-    }
     .itemName {
-      width: 40%;
+      width: 50%;
+    }
+    .itemName-item {
+      display: flex;
+      width: 50%;
+      justify-content: flex-start !important;
+      gap: 10px;
+      img {
+        width: 60px;
+        height: 60px;
+        margin-left: 10px;
+      }
     }
     .itemPrice {
       width: 10%;
@@ -146,6 +168,9 @@ export const ItemListWrap = styled.div`
     .itemSubCate {
       width: 20%;
       border-right: none !important;
+    }
+    .itemList {
+      height: 400px;
     }
   }
 `;

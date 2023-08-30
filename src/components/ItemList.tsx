@@ -1,27 +1,24 @@
 import React from "react";
-// import { Iitem } from "../pages/AdminItem";
+import { Iitem } from "../pages/AdminItem";
 
-const ItemList:React.FC = ({item}:any) => {
+const ItemList = ({ item }: { item: Iitem }) => {
   return (
     <div className="itemListWrap">
       <div className="checkBox">
         <input type="checkBox" />
       </div>
       <div className="itemNum">
-        <span>{item.number}</span>
+        <span>{item.id}</span>
       </div>
-      <div className="itemTitle">
-        <span>{item.title}</span>
-      </div>
-      <div className="itemName">
-        <img src="" alt="" />
+      <div className="itemName-item">
+        <img src={item.thumnail} alt="썸네일" />
         <span>{item.name}</span>
       </div>
       <div className="itemPrice">
         <span>{item.price}</span>
       </div>
       <div className="itemCate">
-        <span>{item.cate}</span>
+        <span>{item.cate} 단계</span>
       </div>
       <div className="itemSubCate">
         <span>{item.subCate}</span>

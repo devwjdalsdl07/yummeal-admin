@@ -20,12 +20,33 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const AdminAddItem = () => {
+  const allergyArr = [
+    { value: 1, label: "난류" },
+    { value: 2, label: "우유" },
+    { value: 3, label: "메밀" },
+    { value: 4, label: "땅콩" },
+    { value: 5, label: "대두" },
+    { value: 6, label: "밀" },
+    { value: 7, label: "잣" },
+    { value: 8, label: "호두" },
+    { value: 9, label: "게" },
+    { value: 10, label: "새우" },
+    { value: 11, label: "오징어" },
+    { value: 12, label: "고등어" },
+    { value: 13, label: "조개류" },
+    { value: 14, label: "복숭아" },
+    { value: 15, label: "토마토" },
+    { value: 16, label: "닭고기" },
+    { value: 17, label: "돼지고기" },
+    { value: 18, label: "소고기" },
+    { value: 19, label: "아황산류" },
+    { value: 20, label: "생선류" },
+  ];
   const navigate = useNavigate();
   const quillRef = useRef();
   const [cateList, setCateList] = useState([]);
   const [subCateList, setSubCateList] = useState([]);
   const [content, setContent] = useState();
-  const [title, setTitle] = useState();
   const [itemName, setItemName] = useState();
   const [price, setPrice] = useState(0);
   const [commaPrice, setCommaPrice] = useState(0);
@@ -34,19 +55,17 @@ const AdminAddItem = () => {
   const [product, setProduct] = useState();
   const [imgArr, setImgArr] = useState([null, null, null, null]);
   const [showModal, setShowModal] = useState(false);
+  const [allegy, setAllegy] = useState([]);
   let storage = {
     product,
-    title,
     itemName,
     price,
     cate,
     selectedCateDetail,
     content,
+    allegy,
   };
   const productRef = useRef(product);
-  const handleTitleChange = e => {
-    setTitle(e.target.value);
-  };
   const handlePriceChange = e => {
     const value = e.target.value;
     const removedCommaValue = Number(value.replaceAll(/[^0-9]/g, ""));
@@ -75,6 +94,14 @@ const AdminAddItem = () => {
       setSelectedCateDetail(prevSelected =>
         prevSelected.filter(id => id !== cateDetailId),
       );
+    }
+  };
+  const handleAllegyChange = e => {
+    const allegyId = Number(e.target.value);
+    if (e.target.checked) {
+      setAllegy(prevSelected => [...prevSelected, allegyId]);
+    } else {
+      setAllegy(prevSelected => prevSelected.filter(id => id !== allegyId));
     }
   };
   const handleCancleClick = () => {
@@ -119,13 +146,13 @@ const AdminAddItem = () => {
     console.log(imgArr);
     const data = {
       productId: product,
-      title: title,
+      title: "",
       name: itemName,
       price: price,
       quantity: 0,
       description: content,
       saleVolume: 0,
-      allergy: 0,
+      allergy: allegy,
       category: cate,
       cateDetail: selectedCateDetail,
     };
@@ -142,21 +169,28 @@ const AdminAddItem = () => {
   };
   const handleGoClick = () => {
     setShowModal(false);
-    fetchCate();
+    const selectedCate = cateList.find(
+      item => item.cateId === Number(storage.cate),
+    );
+    if (selectedCate && selectedCate.list) {
+      setSubCateList(selectedCate.list);
+    } else {
+      setSubCateList([]);
+    }
   };
   const handleDelClick = async () => {
     localStorage.removeItem("adminStorage");
     deleteProduct(product);
     fetchProductId();
     fetchCate();
-    setTitle("");
     setItemName("");
     setPrice(0);
-    setCommaPrice(0)
+    setCommaPrice(0);
     setCate("");
     setSelectedCateDetail([]);
     setContent("");
-    setShowModal(false)
+    setShowModal(false);
+    setAllegy([]);
   };
 
   useLayoutEffect(() => {
@@ -168,15 +202,15 @@ const AdminAddItem = () => {
     if (storage && storage.product) {
       setShowModal(true);
       setProduct(storage.product);
-      setTitle(storage.title);
       setItemName(storage.itemName);
       setPrice(storage.price);
       setCommaPrice(storage.price?.toLocaleString());
       setCate(storage.cate);
       setSelectedCateDetail(storage.selectedCateDetail);
       setContent(storage.content);
-      productRef.current = storage.product;
+      setAllegy(storage.allegy);
       fetchCate();
+      productRef.current = storage.product;
     } else {
       fetchProductId();
       fetchCate();
@@ -204,100 +238,132 @@ const AdminAddItem = () => {
       },
     };
   }, []);
-  // const elements = [];
-  //   for (let i = 0; i < 4; i++) {
-  //     elements.push(<ImgUpload key={i} imgArr={imgArr} setImgArr={setImgArr} idx={i} />);
-  //   }
   return (
-    <AdminWrapper>
-      <div className="titleArea">
-        <div className="uploadContainer">
-          {/* {elements} */}
-          {imgArr.map((item, idx) => (
-            <ImgUpload
-              key={idx}
-              imgArr={imgArr}
-              setImgArr={setImgArr}
-              idx={idx}
-            />
-          ))}
-        </div>
-        <div>
-          <input
-            type="text"
-            value={title}
-            placeholder="타이틀"
-            onChange={e => handleTitleChange(e)}
-          ></input>
-          <input
-            type="text"
-            value={itemName}
-            placeholder="네임"
-            onChange={e => setItemName(e.target.value)}
-          />
-          <input
-            type="text"
-            value={commaPrice}
-            placeholder="가격"
-            onChange={e => handlePriceChange(e)}
-          ></input>
-          <p>원</p>
-          <select onChange={handleCateChange}>
-            <option value="">단계</option>
-            {cateList.map((item, idx) => (
-              <option key={idx} value={item.cateId} selected={cate == idx}>
-                {item.cateName}
-              </option>
-            ))}
-          </select>
-          {subCateList.map((item, idx) => (
-            <React.Fragment key={idx}>
+    <div
+      style={{
+        backgroundColor: "rgb(248, 245, 239)",
+      }}
+    >
+      <AdminWrapper>
+        <div className="titleArea">
+          <div>
+            <div className="uploadContainer">
+              {/* {elements} */}
+              {imgArr.map((item, idx) => (
+                <ImgUpload
+                  key={idx}
+                  imgArr={imgArr}
+                  setImgArr={setImgArr}
+                  idx={idx}
+                />
+              ))}
+            </div>
+            <br />
+            <div className="textWrap">
               <input
-                type="checkbox"
-                value={item.cateDetailId}
-                id={`checkbox-${item.cateDetailId}`}
-                onChange={e => handleCheckboxChange(e)}
-                checked={selectedCateDetail.includes(item.cateDetailId)}
+                className="nameText"
+                type="text"
+                value={itemName}
+                placeholder="네임"
+                onChange={e => setItemName(e.target.value)}
               />
-              <label htmlFor={`checkbox-${item.cateDetailId}`}>
-                {item.cateName}
-              </label>
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
-      <div className="editorWrapper">
-        <button onClick={() => console.log(content)}>Value</button>
-        <ReactQuill
-          style={{ width: "800px", height: "500px" }}
-          placeholder="상세정보"
-          theme="snow"
-          ref={quillRef}
-          value={content}
-          onChange={setContent}
-          modules={modules}
-        />
-      </div>
-      <div>
-        <button onClick={handleOkCliclk}>확인</button>
-        <button onClick={handleCancleClick}>취소</button>
-      </div>
-      {showModal ? (
-        <div className="modalWrap">
-          <div className="modalBody">
-            <span>이어서 작성 하시겠습니까 ?</span>
-            <div className="modalButton">
-              <div className="goButton" onClick={handleGoClick}>
-                이어쓰기
-              </div>
-              <div className="delButton" onClick={handleDelClick}>
-                삭제
-              </div>
+              <input
+                className="priceText"
+                type="text"
+                value={commaPrice}
+                placeholder="가격"
+                onChange={e => handlePriceChange(e)}
+              ></input>
+              <span>원</span>
+            </div>
+          </div>
+          <div className="textContainer">
+            <div className="cateWrap">
+              <span>단계 및 카테고리 선택</span>
+              <br />
+              <select onChange={handleCateChange}>
+                <option value="">단계</option>
+                {cateList.map((item, idx) => (
+                  <option
+                    key={idx}
+                    value={item.cateId}
+                    selected={cate == item.cateId}
+                  >
+                    {item.cateName}
+                  </option>
+                ))}
+              </select>
+              {subCateList.map((item, idx) => (
+                <React.Fragment key={idx}>
+                  <input
+                    type="checkbox"
+                    value={item.cateDetailId}
+                    id={`checkbox-${item.cateDetailId}`}
+                    onChange={e => handleCheckboxChange(e)}
+                    checked={selectedCateDetail.includes(item.cateDetailId)}
+                  />
+                  <label htmlFor={`checkbox-${item.cateDetailId}`}>
+                    {item.cateName}
+                  </label>
+                </React.Fragment>
+              ))}
+            </div>
+            <div className="allegyWrap">
+              <span>알러지 선택</span>
+              {allergyArr.map((item, idx) => {
+                return (
+                  <div className="allegyCheck" key={idx}>
+                    <input
+                      type="checkbox"
+                      value={item.value}
+                      id={`allergy-${item.value}`}
+                      onChange={handleAllegyChange}
+                      checked={allegy.includes(item.value)}
+                    />
+                    <label htmlFor={`allegy-${item.value}`}>{item.label}</label>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
-      ) : null}
-    </AdminWrapper>
+        <div className="editorWrapper">
+          <ReactQuill
+            className="editor"
+            style={{ width: "800px", height: "500px" }}
+            placeholder="상세정보"
+            theme="snow"
+            ref={quillRef}
+            value={content}
+            onChange={setContent}
+            modules={modules}
+          />
+          <div className="buttonWrap">
+            <button className="okButton" onClick={handleOkCliclk}>등록</button>
+            <button className="cancleButton" onClick={handleCancleClick}>취소</button>
+          </div>
+        </div>
+
+        {showModal ? (
+          <div className="modalWrap">
+            <div className="modalBody">
+              <span>이어서 작성 하시겠습니까 ?</span>
+              <div className="modalButton">
+                <div className="goButton" onClick={handleGoClick}>
+                  이어쓰기
+                </div>
+                <div className="delButton" onClick={handleDelClick}>
+                  삭제
+                </div>
+              </div>
+              <div className="modalInfo">
+                <span>*이미지는 불러올수 없습니다.</span>
+              </div>
+            </div>
+          </div>
+        ) : null}
+      </AdminWrapper>
+    </div>
   );
 };
 
