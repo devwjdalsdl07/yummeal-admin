@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImgUpload from "../components/ImgUpload";
 import { AdminWrapper } from "../style/AdminAddCss";
@@ -56,6 +56,8 @@ const AdminAddItem = () => {
   const [imgArr, setImgArr] = useState([null, null, null, null]);
   const [showModal, setShowModal] = useState(false);
   const [allegy, setAllegy] = useState([]);
+  const [commaQuant, setCommaQuant] = useState("");
+  const [quant, setQuant] = useState(0);
   let storage = {
     product,
     itemName,
@@ -64,6 +66,7 @@ const AdminAddItem = () => {
     selectedCateDetail,
     content,
     allegy,
+    quant,
   };
   const productRef = useRef(product);
   const handlePriceChange = e => {
@@ -71,6 +74,12 @@ const AdminAddItem = () => {
     const removedCommaValue = Number(value.replaceAll(/[^0-9]/g, ""));
     setCommaPrice(removedCommaValue.toLocaleString());
     setPrice(removedCommaValue);
+  };
+  const handleQuantChange = e => {
+    const value = e.target.value;
+    const removedCommaValue = Number(value.replaceAll(/[^0-9]/g, ""));
+    setCommaQuant(removedCommaValue.toLocaleString());
+    setQuant(removedCommaValue);
   };
   const handleCateChange = e => {
     setCate(e.target.value);
@@ -113,6 +122,26 @@ const AdminAddItem = () => {
     const result = await postImage(_product, _file);
     return result;
   };
+
+  var InlineBlot = Quill.import("blots/block");
+  class ImageBlot extends InlineBlot {
+    static create(data) {
+      console.log(data);
+      const node = super.create(data);
+      node.setAttribute("src", data.src);
+      node.setAttribute("pk", data.pk);
+      return node;
+    }
+    static value(domNode) {
+      const { src, pk } = domNode.dataset;
+      return { src, pk };
+    }
+  }
+  ImageBlot.blotName = "imageBlot";
+  ImageBlot.className = "image-blot";
+  ImageBlot.tagName = "img";
+  Quill.register({ "formats/imageBlot": ImageBlot });
+
   const imageHandler = () => {
     const input = document.createElement("input");
     input.setAttribute("type", "file");
@@ -125,12 +154,38 @@ const AdminAddItem = () => {
       try {
         const img = await imgUpload(productRef.current, file);
         console.log("받아오는 값", img);
-        editor.insertEmbed(range.index, "image", img);
+        editor.insertEmbed(
+          range.index,
+          "imageBlot",
+          { src: img.img, pk: img.pimgId },
+          "user",
+        );
         editor.setSelection(range.index + 1);
       } catch (error) {
         console.log(error);
       }
     });
+  };
+
+  const handleEditorChange = (content, delta, source, editor) => {
+    console.log(content);
+    // Delta 객체 분석
+    const isImageDeleted = delta.ops.some(
+      op =>
+        op.delete &&
+        typeof op.delete === "number" &&
+        op.insert &&
+        typeof op.insert !== "object",
+    );
+
+    if (isImageDeleted) {
+      // 이미지가 삭제된 경우에 실행되는 로직
+      console.log("이미지가 삭제되었습니다.");
+
+      // 추가적인 로직 구현
+    }
+
+    setContent(content);
   };
 
   const fetchProductId = async () => {
@@ -185,7 +240,9 @@ const AdminAddItem = () => {
     fetchCate();
     setItemName("");
     setPrice(0);
-    setCommaPrice(0);
+    setCommaPrice("");
+    setQuant(0);
+    setCommaQuant("");
     setCate("");
     setSelectedCateDetail([]);
     setContent("");
@@ -209,6 +266,8 @@ const AdminAddItem = () => {
       setSelectedCateDetail(storage.selectedCateDetail);
       setContent(storage.content);
       setAllegy(storage.allegy);
+      setQuant(storage.quant);
+      setCommaQuant(storage.quant?.toLocaleString());
       fetchCate();
       productRef.current = storage.product;
     } else {
@@ -275,6 +334,14 @@ const AdminAddItem = () => {
                 onChange={e => handlePriceChange(e)}
               ></input>
               <span>원</span>
+              <input
+                className="quantText"
+                type="text"
+                value={commaQuant}
+                placeholder="재고"
+                onChange={handleQuantChange}
+              />
+              <span>개</span>
             </div>
           </div>
           <div className="textContainer">
@@ -328,19 +395,24 @@ const AdminAddItem = () => {
           </div>
         </div>
         <div className="editorWrapper">
+          <h2>상품 상세 정보</h2>
           <ReactQuill
             className="editor"
-            style={{ width: "800px", height: "500px" }}
+            style={{ width: "1000px", height: "500px" }}
             placeholder="상세정보"
             theme="snow"
             ref={quillRef}
             value={content}
-            onChange={setContent}
+            onChange={handleEditorChange}
             modules={modules}
           />
           <div className="buttonWrap">
-            <button className="okButton" onClick={handleOkCliclk}>등록</button>
-            <button className="cancleButton" onClick={handleCancleClick}>취소</button>
+            <button className="okButton" onClick={handleOkCliclk}>
+              등록
+            </button>
+            <button className="cancleButton" onClick={handleCancleClick}>
+              취소
+            </button>
           </div>
         </div>
 

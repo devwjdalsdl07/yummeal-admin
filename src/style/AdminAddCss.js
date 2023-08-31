@@ -62,8 +62,17 @@ export const AdminWrapper = styled.div`
       border-radius: 5px;
       margin-right: 10px;
     }
+    .quantText {
+      height: 30px;
+      width: 20%;
+      font-size: 20px;
+      text-align: right;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
     span {
       font-size: 20px;
+      margin-right: 20px;
     }
   }
   .textContainer {
@@ -89,11 +98,14 @@ export const AdminWrapper = styled.div`
     }
   }
   .editorWrapper {
-    margin: 50px;
     border-top: 1px solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    h2 {
+
+        }
     .editor {
-      /* width: 800px;
-      height: 500px; */
       margin: 20px auto;
     }
     .ql-snow {
@@ -102,7 +114,7 @@ export const AdminWrapper = styled.div`
     .buttonWrap {
       display: flex;
       justify-content: center;
-      margin-top: 80px;
+      margin-top: 50px;
       gap: 30px;
       button {
         width: 100px;

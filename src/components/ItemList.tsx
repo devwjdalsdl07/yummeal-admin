@@ -1,12 +1,21 @@
 import React from "react";
-import { Iitem } from "../pages/AdminItem";
+import { Iitem, TAllergy } from "../pages/AdminItem";
 
-const ItemList = ({ item }: { item: Iitem }) => {
+const ItemList = ({
+  item,
+  allergyArr,
+}: {
+  item: Iitem;
+  allergyArr: Array<TAllergy>;
+}) => {
+  const allegy:Array<TAllergy|undefined> = item.allergy.map(cate => {
+    return allergyArr.find(allergy => allergy.value === cate);
+  });
+  const filterAllegy:Array<JSX.Element> = allegy.map((item,idx) => {
+    return <span key={idx}>{item?.label}</span>
+  })
   return (
     <div className="itemListWrap">
-      <div className="checkBox">
-        <input type="checkBox" />
-      </div>
       <div className="itemNum">
         <span>{item.id}</span>
       </div>
@@ -21,7 +30,11 @@ const ItemList = ({ item }: { item: Iitem }) => {
         <span>{item.cate} 단계</span>
       </div>
       <div className="itemSubCate">
-        <span>{item.subCate}</span>
+        {filterAllegy}
+      </div>
+      <div className="itemButton">
+        <span className="editButton">수정</span>
+        <span className="delButton">삭제</span>
       </div>
     </div>
   );

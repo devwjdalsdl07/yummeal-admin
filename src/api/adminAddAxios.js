@@ -130,7 +130,7 @@ export const postImage = async (_iproduct, img) => {
       formData,
       config,
     );
-    const result = res.data.img;
+    const result = res.data;
     console.log("이미지업로드 성공", result);
     return result;
   } catch (err) {

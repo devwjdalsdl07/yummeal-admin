@@ -7,7 +7,7 @@ export const ItemContainer = styled.div`
     background: white;
   }
   .bg-grey {
-    background: rgb(234,234,235);
+    background: rgb(234, 234, 235);
   }
 `;
 export const TotalInfoWrap = styled.div`
@@ -139,9 +139,6 @@ export const ItemListWrap = styled.div`
         justify-content: center;
       }
     }
-    .checkBox {
-      width: 5%;
-    }
     .itemNum {
       width: 5%;
     }
@@ -167,10 +164,30 @@ export const ItemListWrap = styled.div`
     }
     .itemSubCate {
       width: 20%;
-      border-right: none !important;
+      gap: 10px;
+      flex-wrap: wrap;
     }
     .itemList {
       height: 400px;
+    }
+    .itemButton {
+      width: 10%;
+      border-right: none !important;
+      gap: 5px;
+      span {
+        padding: 5px 10px;
+        border: 1px solid;
+        cursor: pointer;
+        border-radius: 10px;
+      }
+      .delButton {
+        background-color: red;
+        color: white;
+      }
+      .editButton {
+        background-color: green;
+        color: white;
+      }
     }
   }
 `;

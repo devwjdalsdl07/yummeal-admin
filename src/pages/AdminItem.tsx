@@ -18,12 +18,17 @@ export interface Iitem {
   price: number;
   cate: number;
   subCate: Array<number>;
+  allergy: Array<number>;
 }
 
-type TAllergy = {
+export type TAllergy = {
   value: number;
   label: string;
 };
+export type TSubCate = {
+  value: number;
+  label: string;
+}
 
 const AdminItem = () => {
   const navigate = useNavigate();
@@ -49,6 +54,13 @@ const AdminItem = () => {
     { value: 19, label: "아황산류" },
     { value: 20, label: "생선류" },
   ];
+  const subCateArr:Array<TSubCate> = [
+    {value:1,label:"곡물류"},
+    {value:2,label:"야채류"},
+    {value:3,label:"고기류"},
+    {value:4,label:"해산물류"},
+    {value:5,label:"과일류"},
+  ]
   const [selectAllergy, setSelectAllergy] = useState<Array<TAllergy>>([]);
   const animatedComponents = makeAnimated();
   const [itemList, setItemList] = useState<Array<Iitem>>([
@@ -59,6 +71,7 @@ const AdminItem = () => {
       price: 1000,
       cate: 1,
       subCate: [1, 3, 5],
+      allergy: [1,2,3,4]
     },
     {
       id: 1,
@@ -67,6 +80,7 @@ const AdminItem = () => {
       price: 1000,
       cate: 1,
       subCate: [1, 3, 5],
+      allergy: [1,2,3,4]
     },
   ]);
 
@@ -77,6 +91,7 @@ const AdminItem = () => {
   };
   const handleAllergy = (allergyArr: any) => {
     setSelectAllergy(allergyArr);
+    console.log(allergyArr)
   };
   const handleAddClick = () => {
     navigate("/adminadd");
@@ -85,7 +100,7 @@ const AdminItem = () => {
   // useEffect(() => setItemList(fetchItem()), []);
 
   const items: Array<JSX.Element> = itemList.map((item, idx) => {
-    return <ItemList key={idx} item={item} />;
+    return <ItemList key={idx} item={item} allergyArr={allergyArr}/>;
   });
   return (
     <div style={{background:"rgb(242,243,247)",height:"100vh"}}>
@@ -124,11 +139,11 @@ const AdminItem = () => {
             </div>
             <div className="saleCheck">
               <form>
-                <input type="radio" name="sale" />
+                <input type="radio" name="sale" value={1}/>
                 재고보유 중
-                <input type="radio" name="sale" />
+                <input type="radio" name="sale" value={2}/>
                 재고 없음
-                <input type="radio" name="sale" />
+                <input type="radio" name="sale" value={3}/>
                 전체
               </form>
             </div>
@@ -146,7 +161,7 @@ const AdminItem = () => {
                 value={selectAllergy}
                 isMulti
                 options={allergyArr}
-                placeholder="알러지를 선택하면 제외한 결과가 나타납니다"
+                placeholder="알러지 선택"
                 isSearchable={false}
               />
             </div>
@@ -157,10 +172,10 @@ const AdminItem = () => {
             </div>
             <div className="cateCheck">
               <form>
-                <input type="checkBox" /> 1단계
-                <input type="checkBox" /> 2단계
-                <input type="checkBox" /> 3단계
-                <input type="checkBox" /> 4단계
+                <input type="checkBox" value={1}/> 1단계
+                <input type="checkBox" value={2}/> 2단계
+                <input type="checkBox" value={3}/> 3단계
+                <input type="checkBox" value={4}/> 4단계
               </form>
             </div>
             <div className="subCateName bg-grey">
@@ -168,11 +183,11 @@ const AdminItem = () => {
             </div>
             <div className="subCateCheck">
               <form>
-                <input type="checkBox" /> 곡물류
-                <input type="checkBox" /> 야채류
-                <input type="checkBox" /> 고기류
-                <input type="checkBox" /> 해산물류
-                <input type="checkBox" /> 과일류
+                <input type="checkBox" value={1}/> 곡물류
+                <input type="checkBox" value={2}/> 야채류
+                <input type="checkBox" value={3}/> 고기류
+                <input type="checkBox" value={4}/> 해산물류
+                <input type="checkBox" value={5}/> 과일류
               </form>
             </div>
           </div>
@@ -185,9 +200,6 @@ const AdminItem = () => {
             검색된 상품 <strong>{itemList.length}</strong> 개
           </div>
           <div className="itemListTop bg-grey">
-            <div className="checkBox">
-              <input type="checkBox" />
-            </div>
             <div className="itemNum">
               <span>No</span>
             </div>
@@ -202,6 +214,9 @@ const AdminItem = () => {
             </div>
             <div className="itemSubCate">
               <span>카테고리</span>
+            </div>
+            <div className="itemButton">
+              <p>비고</p>
             </div>
           </div>
           <div
