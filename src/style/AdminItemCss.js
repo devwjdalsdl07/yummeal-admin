@@ -108,6 +108,11 @@ export const SearchFilterWrap = styled.div`
       padding: 10px;
     }
   }
+  .resetBt {
+    margin: 10px 0;
+    padding: 5px;
+    float: right;
+  }
 `;
 
 export const ItemListWrap = styled.div`
@@ -143,11 +148,11 @@ export const ItemListWrap = styled.div`
       width: 5%;
     }
     .itemName {
-      width: 50%;
+      width: 40%;
     }
     .itemName-item {
       display: flex;
-      width: 50%;
+      width: 40%;
       justify-content: flex-start !important;
       gap: 10px;
       img {
@@ -169,6 +174,11 @@ export const ItemListWrap = styled.div`
     }
     .itemList {
       height: 400px;
+    }
+    .itemAllergy {
+      width: 20%;
+      gap: 10px;
+      flex-wrap: wrap;
     }
     .itemButton {
       width: 10%;

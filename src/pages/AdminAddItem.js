@@ -167,26 +167,32 @@ const AdminAddItem = () => {
     });
   };
 
+
   const handleEditorChange = (content, delta, source, editor) => {
-    console.log(content);
-    // Delta 객체 분석
-    const isImageDeleted = delta.ops.some(
-      op =>
-        op.delete &&
-        typeof op.delete === "number" &&
-        op.insert &&
-        typeof op.insert !== "object",
-    );
-
-    if (isImageDeleted) {
-      // 이미지가 삭제된 경우에 실행되는 로직
-      console.log("이미지가 삭제되었습니다.");
-
-      // 추가적인 로직 구현
-    }
+    // 비교할 이전 상태의 delta
+    const oldDelta = editor.getContents();
+    console.log("콘텐트",content)
+    console.log("델타",delta)
+    console.log("올드델타",oldDelta)
+    console.log("에디터",editor)
 
     setContent(content);
+
+    // 이미지가 삭제되었는지 확인
+    if (delta.ops.length < oldDelta.ops.length) {
+      const deletedOps = oldDelta.ops.filter(
+        oldOp => !delta.ops.some(newOp => JSON.stringify(newOp) === JSON.stringify(oldOp))
+      );
+
+      for (const op of deletedOps) {
+        if (op.insert && typeof op.insert === "object" && op.insert.image) {
+          console.log("Image deleted:", op.insert.image);
+          // 이미지가 삭제된 경우에 수행할 작업 처리
+        }
+      }
+    }
   };
+
 
   const fetchProductId = async () => {
     const result = await getProductId();
@@ -403,7 +409,7 @@ const AdminAddItem = () => {
             theme="snow"
             ref={quillRef}
             value={content}
-            onChange={handleEditorChange}
+            onChange={(handleEditorChange)}
             modules={modules}
           />
           <div className="buttonWrap">

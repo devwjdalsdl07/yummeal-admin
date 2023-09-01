@@ -1,19 +1,27 @@
 import React from "react";
-import { Iitem, TAllergy } from "../pages/AdminItem";
+import { Iitem, TAllergy, TSubCate } from "../pages/AdminItem.js";
 
 const ItemList = ({
   item,
   allergyArr,
+  subCateArr,
 }: {
   item: Iitem;
   allergyArr: Array<TAllergy>;
+  subCateArr: Array<TSubCate>;
 }) => {
-  const allegy:Array<TAllergy|undefined> = item.allergy.map(cate => {
-    return allergyArr.find(allergy => allergy.value === cate);
+  const allergy: Array<TAllergy | undefined> = item.allergy.map(item => {
+    return allergyArr.find(allergy => allergy.value === item);
   });
-  const filterAllegy:Array<JSX.Element> = allegy.map((item,idx) => {
-    return <span key={idx}>{item?.label}</span>
-  })
+  const subCate: Array<TSubCate | undefined> = item.subCate.map(item => {
+    return subCateArr.find(subCate => subCate.value === item);
+  });
+  const filterAllergy: Array<JSX.Element> = allergy.map((item, idx) => {
+    return <span key={idx}>{item?.label}</span>;
+  });
+  const filterSubCate: Array<JSX.Element> = subCate.map((item, idx) => {
+    return <span key={idx}>{item?.label}</span>;
+  });
   return (
     <div className="itemListWrap">
       <div className="itemNum">
@@ -29,9 +37,8 @@ const ItemList = ({
       <div className="itemCate">
         <span>{item.cate} 단계</span>
       </div>
-      <div className="itemSubCate">
-        {filterAllegy}
-      </div>
+      <div className="itemSubCate">{filterSubCate}</div>
+      <div className="itemAllergy">{filterAllergy}</div>
       <div className="itemButton">
         <span className="editButton">수정</span>
         <span className="delButton">삭제</span>
