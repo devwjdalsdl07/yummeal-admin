@@ -11,6 +11,7 @@ a {
 }
 ul {
   list-style: none;
+
 }
 img {
   vertical-align: middle;
@@ -27,3 +28,15 @@ body {
   letter-spacing: -0.3px;
   word-break: keep-all;
 }
+html {
+  font-size: 10px;
+}
+body {
+  font-family: "Pretendard", "SUITE", sans-serif;
+  font-size: 10px;
+  color: #000;
+  line-height: 1.4;
+  letter-spacing: -0.3px;
+  word-break: keep-all;
+}
+
