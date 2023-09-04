@@ -32,7 +32,6 @@ export type TSubCate = {
 };
 
 const AdminItem = () => {
-  // test
   const navigate = useNavigate();
   const allergyArr: Array<TAllergy> = [
     { value: 1, label: "난류" },
