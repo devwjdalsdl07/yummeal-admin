@@ -10,10 +10,10 @@ const ItemList = ({
   allergyArr: Array<TAllergy>;
   subCateArr: Array<TSubCate>;
 }) => {
-  const allergy: Array<TAllergy | undefined> = item.allergy.map(item => {
+  const allergy: Array<TAllergy | undefined> = item.allergyName.map(item => {
     return allergyArr.find(allergy => allergy.value === item);
   });
-  const subCate: Array<TSubCate | undefined> = item.subCate.map(item => {
+  const subCate: Array<TSubCate | undefined> = item.cateDetail.map(item => {
     return subCateArr.find(subCate => subCate.value === item);
   });
   const filterAllergy: Array<JSX.Element> = allergy.map((item, idx) => {
@@ -25,7 +25,7 @@ const ItemList = ({
   return (
     <div className="itemListWrap">
       <div className="itemNum">
-        <span>{item.id}</span>
+        <span>{item.productId}</span>
       </div>
       <div className="itemName-item">
         <img src={item.thumnail} alt="썸네일" />

@@ -12,14 +12,14 @@ import { useNavigate } from "react-router";
 import { getItem } from "../api/adminItemAxios";
 
 export interface Iitem {
-  id: number;
+  productId: number;
   thumnail: string;
   name: string;
   price: number;
   cate: number;
   quainty: number;
-  subCate: Array<number>;
-  allergy: Array<number>;
+  cateDetail: Array<number>;
+  allergyName: Array<number>;
 }
 
 export type TAllergy = {
@@ -66,108 +66,140 @@ const AdminItem = () => {
   const animatedComponents = makeAnimated();
   const [subCate, setSubCate] = useState<Array<number>>([]);
   const [cate, setCate] = useState<Array<number>>([]);
-  const [radio, setRadio] = useState<number>();
-  const [name, setName] = useState<string>();
+  const [radio, setRadio] = useState<number | undefined>();
+  const [name, setName] = useState<string | undefined>();
   const [itemList, setItemList] = useState<Array<Iitem>>([
     {
-      id: 1,
+      productId: 1,
       thumnail: "title",
       name: "name",
       price: 1000,
       cate: 1,
       quainty: 20,
-      subCate: [1, 3, 5],
-      allergy: [1, 2, 3, 4],
-    },
-    {
-      id: 1,
-      thumnail: "title",
-      name: "name",
-      price: 1000,
-      cate: 1,
-      quainty: 30,
-      subCate: [1, 3, 5],
-      allergy: [5, 6, 7, 8],
-    },
+      cateDetail: [1, 3, 5],
+      allergyName: [1, 2, 3, 5],
+    }
   ]);
-  const [filter, setFilter] = useState([]);
-  interface test {
-    name:string|undefined,
-    subCate:Array<number>,
-    cate:Array<number>,
-    radio:number|undefined,
-    selecAllergy:Array<number>
-  }
-  let searchFilter:test = {
-    name,
-    subCate,
-    cate,
-    radio,
-    selecAllergy: selectAllergy.map(item => item.value),
-  };
+  const [filter, setFilter] = useState<Iitem[]>([]);
 
   const fetchItem = async () => {
     const result = await getItem();
     console.log(result);
-    return result;
+    setItemList(result);
+    setFilter(result)
   };
-  const handleNameChange = e => {
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
-  const handleAllergy = (allergyArr: any) => {
-    setSelectAllergy(allergyArr.value);
+  const handleAllergy = (allergyArr: TAllergy[]) => {
+    setSelectAllergy(allergyArr);
   };
   const handleAddClick = () => {
     navigate("/adminadd");
   };
-  const handleRadioChange = (e) => {
+  const handleRadioChange = (e: React.ChangeEvent<HTMLFormElement>) => {
     setRadio(e.target.value);
+    console.log("이벤트 핸들러",e.target.value)
   };
-  const handleCateChange = e => {
+  const handleCateChange = (e: React.ChangeEvent<HTMLFormElement>) => {
     const { value, checked } = e.target;
     if (checked) {
-      setCate([...cate, value]);
+      setCate([...cate, parseInt(value)]);
     } else {
-      setCate(cate.filter(item => item !== value));
+      setCate(cate.filter(item => item !== parseInt(value)));
     }
   };
 
-  const handleSubCateChange = e => {
+  const handleSubCateChange = (e: React.ChangeEvent<HTMLFormElement>) => {
     const { value, checked } = e.target;
 
     // 선택된 경우 배열에 추가, 선택 취소된 경우 배열에서 제거
     if (checked) {
-      setSubCate([...subCate, value]);
+      setSubCate([...subCate, parseInt(value)]);
     } else {
-      setSubCate(subCate.filter(item => item !== value));
+      setSubCate(subCate.filter(item => item !== parseInt(value)));
     }
   };
-  // useEffect(() => setItemList(fetchItem()), []);
 
-  const nameFilter = name
-    ? itemList.filter(item => item.name.includes(name))
-    : itemList;
-  const allergyFilter = selectAllergy
-    ? itemList.filter(item => item.allergy.includes(searchFilter.selecAllergy))
-    : itemList;
-  const cateFilter = cate
-    ? itemList.filter(item => cate.includes(item.cate))
-    : itemList;
-  const subCateFilter = subCate
-    ? itemList.filter(item => item.subCate.includes(subCate))
-    : itemList;
+  const nameFilter = (_item: Iitem[]) =>
+    name ? _item.filter(item => item.name.includes(name)) : _item;
+  /*
+  const allergyFilter = (_item: Iitem[]) =>
+    selectAllergy.length > 0
+      ? _item.filter(item =>
+          item.allergy.some(allergy =>
+            selectAllergy.some(
+              selectedAllergy => selectedAllergy.value === allergy,
+            ),
+          ),
+        )
+      : _item;
+*/
+  const allergyFilter = (_item: Iitem[]) => {
+    if (selectAllergy.length > 0) {
+      const selectedAllergyArr: number[] = selectAllergy.map(item => {
+        return item.value;
+      });
 
-  const filterList = [nameFilter, allergyFilter, cateFilter, subCateFilter];
+      const resultList = _item.filter(item => {
+        const list = item.allergyName.filter(subItem =>
+          selectedAllergyArr.includes(subItem),
+        );
+        return list.length === selectedAllergyArr.length;
+      });
+      return resultList;
+    }
+    return _item;
+  };
 
-  const filterItemList = filterList.reduce((filteredItems, filterFunction) => {
-    return filterFunction(filteredItems); // 필터 함수를 순차적으로 적용
-  }, itemList); // 초기값으로 itemList을 사용
+  const cateFilter = (_item: Iitem[]) =>
+    cate.length > 0 ? _item.filter(item => cate.includes(item.cate)) : _item;
+
+  const subCateFilter = (_item: Iitem[]) => {
+    if (subCate.length > 0) {
+      const resultList = _item.filter(item => {
+        const list = item.cateDetail.filter(subItem => subCate.includes(subItem));
+        return list.length === subCate.length;
+      });
+      return resultList;
+    }
+    return _item;
+  };
+  const quaintyFilter = (_item: Iitem[]) => {
+    if (radio == 1) {
+      console.log(1)
+      return _item.filter(item => item.quainty > 0);
+    } else if (radio == 2) {
+      console.log(2)
+      console.log(_item.filter(item => item.quainty >= 0))
+      return _item.filter(item => item.quainty <= 0);
+    }
+    return _item;
+  };
+  const filterList = [
+    nameFilter,
+    allergyFilter,
+    cateFilter,
+    subCateFilter,
+    quaintyFilter,
+  ];
+
+  const filterItemList = filterList.reduce(
+    (filteredItems: any, filterFunction) => {
+      return filterFunction(filteredItems);
+    }, // 각각의 필터링 함수를 실행합니다.
+    itemList, // 초기값으로 itemList을 사용합니다.
+  );
 
   useEffect(() => {
     setFilter(filterItemList);
-  }, [searchFilter]);
+  }, [name, cate, subCate, selectAllergy, radio]);
 
-  const items: Array<JSX.Element> = itemList.map((item, idx) => {
+  useEffect(() => {
+    fetchItem();
+  }, [])
+
+  const items: Array<JSX.Element> = filter.map((item, idx) => {
     return (
       <ItemList
         key={idx}
@@ -235,7 +267,7 @@ const AdminItem = () => {
                   className="allergy"
                   closeMenuOnSelect={false}
                   components={animatedComponents}
-                  onChange={allergyArr => {
+                  onChange={(allergyArr: any) => {
                     handleAllergy(allergyArr);
                   }}
                   value={selectAllergy}
@@ -278,7 +310,7 @@ const AdminItem = () => {
           <h2>상품 리스트</h2>
           <div className="itemListContainer">
             <div>
-              검색된 상품 <strong>{itemList.length}</strong> 개
+              검색된 상품 <strong>{filter.length}</strong> 개
             </div>
             <div className="itemListTop bg-grey">
               <div className="itemNum">
