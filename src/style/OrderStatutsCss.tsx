@@ -13,6 +13,7 @@ export const OrderStatusWrap = styled.div`
     grid-template-columns: 100px 150px 150px 100px 350px 150px 150px 150px;
     text-align: center;
     background: #e3eaf2;
+    border-top: 1px solid #aaa;
     border-bottom: 1px solid #aaa;
     & > div {
       padding: 10px;
@@ -29,6 +30,7 @@ export const OrderStatusWrap = styled.div`
       align-items: center;
       & > div {
         border-bottom: 1px solid #aaa;
+        height: 42px;
       }
       &:hover {
         background: #e3eaf2;

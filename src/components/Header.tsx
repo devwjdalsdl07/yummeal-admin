@@ -6,8 +6,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { HeaderCss } from "../style/SiderCss";
 import { Link } from "react-router-dom";
+import { HeaderCss } from "../style/SiderCss";
 
 const Header = () => {
   const [infoToggle, setInfoToggle] = useState<boolean>(false);
@@ -23,11 +23,11 @@ const Header = () => {
       </i>
       {infoToggle && (
         <div className="userinfo-wrap">
-          <div className="home">
+          <div className="home" onClick={() => navigate("/")}>
             <i>
               <FontAwesomeIcon icon={faHouseChimneyUser} />
             </i>
-            <div onClick={() => navigate("/")}>홈 가기</div>
+            <div>홈 가기</div>
           </div>
           <div className="shoppingmall">
             <Link to="http://192.168.0.144:5001" target="_blank">

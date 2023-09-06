@@ -33,6 +33,7 @@ const Sider: React.FC = () => {
   const [selectedSubMenu, setSelectedSubMenu] = useState<string[]>([]);
   const [iconToggle, setIconToggle] = useState<boolean>(false);
   const [iToggle, setIToggle] = useState<boolean>(false);
+  const [subActive, setSubActive] = useState<string|null>(null);
 
   const toggleSubMenu = (index: number) => {
     if (selectedSubMenu.includes(index.toString())) {
@@ -60,7 +61,7 @@ const Sider: React.FC = () => {
                       <Link to="/userlist">회원 관리</Link>
                     ) : item.name === "상품 관리" ? (
                       <div onClick={() => setIconToggle(!iconToggle)}>
-                        <Link to="/">상품 관리 </Link>
+                        <div>상품 관리 </div>
                         <i>
                           <FontAwesomeIcon
                             icon={iconToggle ? faAngleUp : faAngleDown}
@@ -69,7 +70,7 @@ const Sider: React.FC = () => {
                       </div>
                     ) : item.name === "주문 관리" ? (
                       <div onClick={() => setIToggle(!iToggle)}>
-                        <Link to="/">주문 관리 </Link>
+                        <div>주문 관리 </div>
                         <i>
                           <FontAwesomeIcon
                             icon={iToggle ? faAngleUp : faAngleDown}
@@ -88,7 +89,7 @@ const Sider: React.FC = () => {
             {item.subMenu && selectedSubMenu.includes(index.toString()) && (
               <ul className="sub-menu">
                 {item.subMenu.map((subItem, subIndex) => (
-                  <li key={subIndex} className="sub-menu-item">
+                  <li key={subIndex} className={`sub-menu-item ${subItem === subActive ? 'active' : ''}`} onClick={()=>setSubActive(subItem)}>
                     {subItem === "판매 현황" ? (
                       <Link to="/salestatus">판매 현황</Link>
                     ) : subItem === "베스트 상품" ? (

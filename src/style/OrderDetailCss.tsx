@@ -4,7 +4,7 @@ export const OrderDetailWrap = styled.div`
   max-width: 1400px;
   margin: 0 auto;
   font-size: 15px;
-  padding: 20px;
+  padding: 20px 30px;
   h3 {
     padding: 20px 0;
   }
@@ -18,11 +18,12 @@ export const OrderDetailWrap = styled.div`
     grid-template-columns: 150px 400px 100px 150px 150px 100px;
     text-align: center;
     background: #e3eaf2;
-    border: 1px solid black;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
     & > li {
       line-height: 25px;
       padding: 10px 0;
-      border-right: 1px solid black;
+      /* border-right: 1px solid #aaa; */
       &:last-of-type {
         border: none;
       }
@@ -32,9 +33,9 @@ export const OrderDetailWrap = styled.div`
     display: grid;
     width: 1050px;
     margin: 0 auto;
-    border-right: 1px solid black;
-    border-left: 1px solid black;
-    border-bottom: 1px solid black;
+    /* border-right: 1px solid black; */
+    /* border-left: 1px solid black; */
+    border-bottom: 1px solid #aaa;
     .content-grid {
       & > ul {
         display: flex;
@@ -43,7 +44,10 @@ export const OrderDetailWrap = styled.div`
           line-height: 25px;
           padding: 10px 0;
           text-align: center;
-          border-right: 1px solid black;
+          /* border-right: 1px solid #aaa; */
+          &:last-of-type {
+            border: none;
+          }
         }
         & > li:nth-of-type(1) {
           width: 150px;
@@ -61,7 +65,7 @@ export const OrderDetailWrap = styled.div`
           width: 150px;
         }
         & > li:nth-of-type(6) {
-          width: 99px;
+          width: 100px;
         }
       }
     }
@@ -92,7 +96,7 @@ export const OrderDetailWrap = styled.div`
       padding: 10px 20px;
       border-top: 1px solid #aaa;
     }
-    .orderinfo-menu:nth-of-type(9),
+    .orderinfo-menu:nth-of-type(5),
     .payment-menu:nth-of-type(7),
     .pointback-menu:nth-of-type(1),
     .userinfo-menu:nth-of-type(7) {

@@ -6,10 +6,6 @@ export const SaleStatusWrap = styled.div`
   margin: 0 auto;
   font-size: 15px;
   padding: 20px 30px;
-  .pie-chart {
-    height: 400px;
-    margin-bottom: 30px;
-  }
   .content-wrap {
     padding-top: 60px;
     width: 100%;
@@ -19,6 +15,7 @@ export const SaleStatusWrap = styled.div`
       text-align: center;
       width: 1100px;
       margin: 0 auto;
+      border-top: 1px solid #aaa;
       border-bottom: 1px solid #aaa;
       background: #e3eaf2;
       & > div {
@@ -59,8 +56,15 @@ export const SaleStatusWrap = styled.div`
       }
     }
   }
+  .select-wrap {
+    width: 90%;
+    padding-top: 20px;
+    display: flex;
+    justify-content: end;
+    gap: 20px;
+  }
   .ant-pagination {
-    padding: 50px 0;
+    padding: 30px 0;
     text-align: center;
   }
 `;

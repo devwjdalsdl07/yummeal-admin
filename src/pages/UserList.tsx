@@ -1,127 +1,121 @@
-import { Checkbox } from "antd";
-import { CheckboxChangeEvent } from "antd/es/checkbox";
-import { CheckboxValueType } from "antd/es/checkbox/Group";
-import { useState } from "react";
+import { ExclamationCircleFilled } from "@ant-design/icons";
+import { Modal } from "antd";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Paging from "../components/Paging";
 import { UserListWrap } from "../style/UserListCss";
 
-interface IUserData {
-  complete: boolean;
-  number: number;
-  userName: string;
-  userId: string;
-  mileage: number;
-  orderNm: number;
-  joinDate: string;
+interface User {
+  iuser: number;
+  password: string;
+  image: null | string;
+  name: string;
+  birthday: string;
+  mobile_nb: string;
+  createdAt: string;
+  uid: string;
+  providerType: string;
+  zipCode: null | string;
+  address: null | string;
+  addressDetail: null | string;
+  nickNm: string;
+  point: number;
+  delYn: null | string;
+}
+
+interface UserListResponse {
+  page: number;
+  count: number;
+  maxPage: number;
+  list: User[];
 }
 
 const UserList = () => {
-  const data: Array<IUserData> = [
-    {
-      complete: false,
-      number: 1,
-      userName: "홍길동",
-      userId: "test1@naver.com",
-      mileage: 1000,
-      orderNm: 5,
-      joinDate: "2023-02-13",
-    },
-    {
-      complete: false,
-      number: 2,
-      userName: "홍길동",
-      userId: "test2@naver.com",
-      mileage: 1000,
-      orderNm: 5,
-      joinDate: "2023-02-13",
-    },
-    {
-      complete: false,
-      number: 3,
-      userName: "홍길동",
-      userId: "test3@naver.com",
-      mileage: 1000,
-      orderNm: 5,
-      joinDate: "2023-02-13",
-    },
-    {
-      complete: false,
-      number: 4,
-      userName: "홍길동",
-      userId: "test4@naver.com",
-      mileage: 1000,
-      orderNm: 5,
-      joinDate: "2023-02-13",
-    },
-  ];
-  const plainOptions: CheckboxValueType[] = data.map(item => item.userId);
-  const [checkedList, setCheckedList] = useState<CheckboxValueType[]>([]);
+  // 회원정보 state
+  const [userData, setUserData] = useState<UserListResponse>({
+    page: 0,
+    count: 0,
+    maxPage: 0,
+    list: [],
+  });
+  // 페이징 state
+  const [pageNm, setPageNm] = useState<number>(1);
+  // ant modal
+  const { confirm } = Modal;
 
-  const checkAll = plainOptions.length === checkedList.length;
-
-  const onCheckChange = (userId: string, e: CheckboxChangeEvent) => {
-    const newCheckedList = e.target.checked
-      ? [...checkedList, userId]
-      : checkedList.filter(id => id !== userId);
-    setCheckedList(newCheckedList);
+  // 회원정보 불러오기
+  const userGet = async (page: number) => {
+    const res = await axios.get(
+      `/api/admin/search?page=${page - 1}&size=10&sort=createdAt`,
+    );
+    const result = res.data;
+    console.log("넘어와주세요", result);
+    setUserData(result);
   };
 
-  const onCheckAllChange = (e: CheckboxChangeEvent) => {
-    setCheckedList(e.target.checked ? plainOptions : []);
+  // 페이지에 따른 회원정보 요청
+  useEffect(() => {
+    userGet(pageNm);
+  }, [pageNm]);
+
+  // 회원탈퇴 모달
+  const showConfirm = (uid: string) => {
+    confirm({
+      title: "정말로 탈퇴시키겠습니까?",
+      icon: <ExclamationCircleFilled />,
+      content: "탈퇴된 회원정보는 복구되지 않습니다.",
+      async onOk() {
+        const result = await axios.delete(`/api/admin/uid?uid=${uid}`);
+        console.log(result);
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
   };
 
   return (
     <UserListWrap>
       <h2>UserList</h2>
       <div className="contents-wrap">
-        <div className="prod-info">
-          <ul className="prod-info-menu">
-            <li>
-              <Checkbox onChange={onCheckAllChange} checked={checkAll} />
-            </li>
-            <li>번호</li>
+        <div className="user-info">
+          <ul className="user-info-menu">
+            <li>유저번호</li>
             <li>이름</li>
             <li>아이디</li>
+            <li>닉네임</li>
             <li>마일리지</li>
-            <li>주문건수</li>
             <li>가입일</li>
             <li>회원탈퇴</li>
           </ul>
-          <ul className="prod-info-content">
-            {/* {data.map((item: IUserData, idx: number) => (
+          <ul className="user-info-content">
+            {userData?.list?.map((item: User, idx: number) => (
               <li key={idx} className="content-grid">
                 <ul>
-                  <li><input type="checkbox" />{item.complete}</li>
-                  <li>{item.number}</li>
-                  <li>{item.userName}</li>
-                  <li>{item.userId}</li>
-                  <li>{item.mileage}</li>
-                  <li>{item.orderNm}</li>
-                  <li>{item.joinDate}</li>
-                </ul>
-              </li>
-            ))} */}
-            {data.map((item: IUserData, idx: number) => (
-              <li key={idx} className="content-grid">
-                <ul>
+                  <li>{item.iuser}</li>
+                  <li>{item.name}</li>
+                  <li>{item.uid}</li>
+                  <li>{item.nickNm}</li>
+                  <li>{item.point}</li>
+                  <li>{item.createdAt}</li>
                   <li>
-                    <Checkbox
-                      value={item.userId}
-                      checked={checkedList.includes(item.userId)}
-                      onChange={e => onCheckChange(item.userId, e)}
-                    />
+                    {item.delYn == "0" || item.delYn == null ? (<button
+                      className="userdelete"
+                      onClick={() => showConfirm(item.uid)}
+                    >
+                      탈퇴
+                    </button>):(<button disabled>탈퇴처리</button>)}
                   </li>
-                  <li>{item.number}</li>
-                  <li>{item.userName}</li>
-                  <li>{item.userId}</li>
-                  <li>{item.mileage}</li>
-                  <li>{item.orderNm}</li>
-                  <li>{item.joinDate}</li>
-                  <li>탈퇴버튼</li>
                 </ul>
               </li>
             ))}
           </ul>
         </div>
+        <Paging
+          pageNm={pageNm}
+          setPageNm={setPageNm}
+          totalItem={userData.count}
+        />
       </div>
     </UserListWrap>
   );

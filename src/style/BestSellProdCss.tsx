@@ -6,11 +6,11 @@ export const BestProdWrap = styled.div`
   margin: 0 auto;
   font-size: 15px;
   padding: 20px 30px;
-  .bar-chart {
+  .pie-chart {
     height: 400px;
-    margin: 50px 0;
+    margin-bottom: 30px;
   }
-  .grid-wrap{
+  .grid-wrap {
     padding-bottom: 30px;
   }
   .menu {
@@ -19,6 +19,7 @@ export const BestProdWrap = styled.div`
     text-align: center;
     width: 1100px;
     background: #e3eaf2;
+    border-top: 1px solid #aaa;
     border-bottom: 1px solid #aaa;
     margin: 0 auto;
     & > div {

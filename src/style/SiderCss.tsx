@@ -16,7 +16,7 @@ export const SiderCss = styled.div`
       display: flex;
       flex-direction: column;
       cursor: pointer;
-      padding: 10px 0;
+      padding: 20px 0;
       .menu-wrap {
         display: flex;
         gap: 15px;
@@ -45,14 +45,24 @@ export const SiderCss = styled.div`
     padding-top: 10px;
     > li {
       list-style-type: none;
-      padding: 5px 20px;
+      /* padding: 5px 20px; */
+      line-height: 35px;
       &:hover {
+        width: 130px;
         background-color: #444;
+        transition: all 0.5s;
       }
     }
     a {
+      display: block;
+      width: 100%;
       color: #fff;
     }
+  }
+  .sub-menu .active {
+    width: 130px;
+    text-align: center;
+    background: #444;
   }
 `;
 export const LayoutCss = styled.div`
@@ -71,9 +81,9 @@ export const HeaderCss = styled.div`
     font-size: 30px;
     cursor: pointer;
   }
-  .userinfo-wrap{
+  .userinfo-wrap {
     position: absolute;
-    top:80px;
+    top: 80px;
     right: 10px;
     width: 250px;
     font-size: 20px;
@@ -82,21 +92,24 @@ export const HeaderCss = styled.div`
     border-radius: 6px;
     padding: 30px;
     z-index: 10;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-    .home,.shoppingmall>a{
+    box-shadow:
+      rgba(0, 0, 0, 0.16) 0px 3px 6px,
+      rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    .home,
+    .shoppingmall > a {
       display: flex;
       gap: 40px;
-      padding-bottom:30px;
+      padding-bottom: 30px;
       cursor: pointer;
     }
-    .logout{
+    .logout {
       padding: 10px 15px;
       border: 1px solid #aaa;
       border-radius: 5px;
       cursor: pointer;
       font-weight: 600;
       background: #fefefe;
-      &:hover{
+      &:hover {
         border: 1px solid #c3cbf3;
         background: #222;
         color: #fefefe;
