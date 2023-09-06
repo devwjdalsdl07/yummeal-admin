@@ -1,156 +1,108 @@
+import { Select } from "antd";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import Paging from "../components/Paging";
-import MyResponsivePie from "../components/SaleStatusChart";
-import { Wrap } from "../style/SalesStatusCss";
+import { SaleStatusWrap } from "../style/SalesStatusCss";
 
-export interface IPieData {
-  id: string;
-  label: string;
-  value: number;
-  color: string;
+interface IStatus {
+  productId: number;
+  count: number;
+  pname: string;
+  pprice: number;
 }
 
 const SalesStatus = () => {
-  interface IStatus {
-    rank: number;
-    category: string | number;
-    prodname: string;
-    volumn: number;
-    totalprice: string | number;
-  }
+  const [saleVolum, setSaleVolum] = useState<Array<IStatus>>([]);
+  const [pageNm, setPageNm] = useState(1);
+  const [year, setYear] = useState("2023");
+  const [month, setMonth] = useState("09");
 
-  const initialData: Array<IStatus> = [
-    {
-      rank: 1,
-      category: "체리",
-      prodname: "체리",
-      volumn: 123456789,
-      totalprice: 30,
-    },
-    {
-      rank: 2,
-      category: "딸기",
-      prodname: "딸기",
-      volumn: 234567891,
-      totalprice: 25,
-    },
-    {
-      rank: 3,
-      category: "메론",
-      prodname: "메론",
-      volumn: 345678912,
-      totalprice: 10,
-    },
-    {
-      rank: 4,
-      category: "수박",
-      prodname: "수박",
-      volumn: 456789123,
-      totalprice: 8,
-    },
-    {
-      rank: 5,
-      category: "복숭아",
-      prodname: "복숭아",
-      volumn: 567891234,
-      totalprice: 6,
-    },
-    {
-      rank: 6,
-      category: "사과",
-      prodname: "사과",
-      volumn: 678912345,
-      totalprice: 5,
-    },
-    {
-      rank: 7,
-      category: "바나나",
-      prodname: "바나나",
-      volumn: 789123456,
-      totalprice: 4,
-    },
-    {
-      rank: 8,
-      category: "포도",
-      prodname: "포도",
-      volumn: 891234567,
-      totalprice: 3,
-    },
-    {
-      rank: 9,
-      category: "참외",
-      prodname: "참외",
-      volumn: 912345678,
-      totalprice: 2,
-    },
-    {
-      rank: 10,
-      category: "배",
-      prodname: "배",
-      volumn: 1234567890,
-      totalprice: 1,
-    },
-  ];
+  const saleVolumData = async (year: string, month: string) => {
+    const res = await axios.get(
+      `/api/mypage/salevolum?year=${year}&month=${month}`,
+    );
+    const result = res.data;
+    console.log(result);
+    setSaleVolum(result);
+  };
 
-  const pieData: Array<IPieData> = [
-    {
-      id: "stylus",
-      label: "stylus",
-      value: 53,
-      color: "hsl(29, 70%, 50%)",
-    },
-    {
-      id: "python",
-      label: "python",
-      value: 431,
-      color: "hsl(25, 70%, 50%)",
-    },
-    {
-      id: "c",
-      label: "c",
-      value: 10,
-      color: "hsl(178, 70%, 50%)",
-    },
-    {
-      id: "lisp",
-      label: "lisp",
-      value: 351,
-      color: "hsl(275, 70%, 50%)",
-    },
-    {
-      id: "make",
-      label: "make",
-      value: 564,
-      color: "hsl(5, 70%, 50%)",
-    },
-  ];
+  const handleYearChange = (value: string) => {
+    setYear(value);
+  };
+
+  const handleMonthChange = (value: string) => {
+    setMonth(value);
+  };
+
+  const yearValue = new Date();
+
+  useEffect(() => {
+    saleVolumData(year, month);
+  }, [year, month]);
 
   return (
-    <Wrap>
-      {/* <div className="pie-chart">
-        <MyResponsivePie data={pieData} />
-      </div> */}
-      <div className="content-wrap">
-        <div className="menu">
-          <div>상품번호</div>
-          <div>상품분류</div>
-          <div>상품명</div>
-          <div>판매수량</div>
-          <div>매출액</div>
+    <SaleStatusWrap>
+      <h2>판매현황</h2>
+      <div className="contents-wrap">
+        <div className="content-wrap">
+          <div className="menu">
+            <div>상품번호</div>
+            <div>상품분류</div>
+            <div>상품명</div>
+            <div>판매수량</div>
+            <div>매출액</div>
+          </div>
+          <div className="table">
+            {saleVolum.map((item: IStatus, idx: number) => (
+              <div key={idx} className="table-content-wrap">
+                <div>{idx + 1}</div>
+                <div>{item.pname.slice(0, 6)}</div>
+                <div>{item.pname.slice(6)}</div>
+                <div>{item.count}</div>
+                <div>{item.pprice}</div>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="table">
-          {initialData.map((item: IStatus, idx: number) => (
-            <div key={idx} className="table-content-wrap">
-              <div>{item.rank}</div>
-              <div>{item.category}</div>
-              <div>{item.prodname}</div>
-              <div>{item.volumn}</div>
-              <div>{item.totalprice}</div>
-            </div>
-          ))}
+        <div className="select-wrap">
+          <Select
+            defaultValue="연도 선택"
+            style={{ width: 130 }}
+            onChange={handleYearChange}
+            options={[
+              {
+                value: `${yearValue.getFullYear() - 1}`,
+                label: `${yearValue.getFullYear() - 1}`,
+              },
+              {
+                value: `${yearValue.getFullYear()}`,
+                label: `${yearValue.getFullYear()}`,
+              },
+            ]}
+          />
+          <Select
+            defaultValue="월 선택"
+            style={{ width: 130 }}
+            onChange={handleMonthChange}
+            options={[
+              { value: "01", label: "1월" },
+              { value: "02", label: "2월" },
+              { value: "03", label: "3월" },
+              { value: "04", label: "4월" },
+              { value: "05", label: "5월" },
+              { value: "06", label: "6월" },
+              { value: "07", label: "7월" },
+              { value: "08", label: "8월" },
+              { value: "09", label: "9월" },
+              { value: "10", label: "10월" },
+              { value: "11", label: "11월" },
+              { value: "12", label: "12월" },
+            ]}
+          />
         </div>
+        <Paging pageNm={pageNm} setPageNm={setPageNm} totalItem={saleVolum.length} />
       </div>
-      <Paging/>
-    </Wrap>
+    </SaleStatusWrap>
   );
 };
 

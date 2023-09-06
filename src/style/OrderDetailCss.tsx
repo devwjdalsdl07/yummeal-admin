@@ -1,14 +1,15 @@
 import styled from "@emotion/styled";
 
-export const Wrap = styled.div`
+export const OrderDetailWrap = styled.div`
   max-width: 1400px;
   margin: 0 auto;
   font-size: 15px;
-  padding: 20px;
+  padding: 20px 30px;
+  h3 {
+    padding: 20px 0;
+  }
   .prod-info {
-    h3 {
-      padding: 20px 0;
-    }
+    padding: 30px 0;
   }
   .prod-info-menu {
     width: 1050px;
@@ -17,11 +18,12 @@ export const Wrap = styled.div`
     grid-template-columns: 150px 400px 100px 150px 150px 100px;
     text-align: center;
     background: #e3eaf2;
-    border: 1px solid black;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
     & > li {
       line-height: 25px;
       padding: 10px 0;
-      border-right: 1px solid black;
+      /* border-right: 1px solid #aaa; */
       &:last-of-type {
         border: none;
       }
@@ -31,21 +33,18 @@ export const Wrap = styled.div`
     display: grid;
     width: 1050px;
     margin: 0 auto;
-    border-right: 1px solid black;
-    border-left: 1px solid black;
-    border-bottom: 1px solid black;
+    /* border-right: 1px solid black; */
+    /* border-left: 1px solid black; */
+    border-bottom: 1px solid #aaa;
     .content-grid {
       & > ul {
         display: flex;
         margin: 0 auto;
-        &:hover {
-          background: #e3eaf2;
-        }
         & > li {
           line-height: 25px;
           padding: 10px 0;
           text-align: center;
-          border-right: 1px solid black;
+          /* border-right: 1px solid #aaa; */
           &:last-of-type {
             border: none;
           }
@@ -75,7 +74,8 @@ export const Wrap = styled.div`
     display: grid;
     grid-template-columns: repeat(2, auto);
     gap: 20px;
-    padding-top: 20px;
+    width: 1130px;
+    margin: 0 auto;
     h3 {
       padding: 10px 30px;
     }
@@ -96,7 +96,7 @@ export const Wrap = styled.div`
       padding: 10px 20px;
       border-top: 1px solid #aaa;
     }
-    .orderinfo-menu:nth-of-type(9),
+    .orderinfo-menu:nth-of-type(5),
     .payment-menu:nth-of-type(7),
     .pointback-menu:nth-of-type(1),
     .userinfo-menu:nth-of-type(7) {

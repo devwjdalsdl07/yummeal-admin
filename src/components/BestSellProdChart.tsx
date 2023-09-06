@@ -15,7 +15,7 @@ const MyResponsiveBar: React.FC<MyResponsiveBarProps> = ({ data }) => (
             'fries',
         ]}
         indexBy="country"
-        margin={{ top: 50, right: 60, bottom: 50, left: 60 }}
+        margin={{ top: 50, right: 80, bottom: 50, left: 80 }}
         padding={0.3}
         layout="horizontal"
         valueScale={{ type: 'linear' }}

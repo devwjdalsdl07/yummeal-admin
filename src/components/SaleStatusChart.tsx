@@ -1,6 +1,6 @@
 import { ResponsivePie } from '@nivo/pie';
 import { LegendAnchor, LegendDirection } from '@nivo/legends';
-import { IPieData } from '../pages/SalesStatus';
+import { IPieData } from '../pages/BestSellProd';
 
 interface MyResponsivePieProps {
     data: Array<IPieData>;
@@ -11,7 +11,7 @@ const MyResponsivePie: React.FC<MyResponsivePieProps> = ({ data }) => (
         data={data}
         margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
         sortByValue={true}
-        innerRadius={0.5}
+        innerRadius={0}
         padAngle={0.7}
         cornerRadius={3}
         activeOuterRadiusOffset={8}

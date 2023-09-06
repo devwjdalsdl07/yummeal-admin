@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const Wrap = styled.div`
+export const SearchBarWrap = styled.div`
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
@@ -9,7 +9,7 @@ export const Wrap = styled.div`
     display: flex;
     gap: 20px;
     justify-content: center;
-    padding: 20px;
+    padding: 25px 20px;
     .select-wrap {
       width: 150px;
       padding-top: 20px;

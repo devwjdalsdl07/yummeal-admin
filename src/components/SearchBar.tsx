@@ -1,7 +1,7 @@
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { Wrap } from "../style/SearchBarCss";
+import { SearchBarWrap } from "../style/SearchBarCss";
 import SelectBox from "./SelectBox";
 
 const searchMenu = ["통합검색", "아이디", "주문 번호", "상품 번호"];
@@ -35,7 +35,7 @@ const SearchBar = () => {
   };
 
   return (
-    <Wrap>
+    <SearchBarWrap>
       <div className="content-wrap">
         <div className="select-wrap">
           <SelectBox
@@ -60,7 +60,7 @@ const SearchBar = () => {
           </button>
         </form>
       </div>
-    </Wrap>
+    </SearchBarWrap>
   );
 };
 
