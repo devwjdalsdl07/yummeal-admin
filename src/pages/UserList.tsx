@@ -46,7 +46,7 @@ const UserList = () => {
   // 회원정보 불러오기
   const userGet = async (page: number) => {
     const res = await axios.get(
-      `/api/admin/search?page=${page - 1}&size=10&sort=createdAt`,
+      `/api/admin/search?page=${page - 1}&size=10&sort=iuser%2CDESC`,
     );
     const result = res.data;
     console.log("넘어와주세요", result);
@@ -99,12 +99,16 @@ const UserList = () => {
                   <li>{item.point}</li>
                   <li>{item.createdAt}</li>
                   <li>
-                    {item.delYn == "0" || item.delYn == null ? (<button
-                      className="userdelete"
-                      onClick={() => showConfirm(item.uid)}
-                    >
-                      탈퇴
-                    </button>):(<button disabled>탈퇴처리</button>)}
+                    {item.delYn == "0" || item.delYn == null ? (
+                      <button
+                        className="userdelete"
+                        onClick={() => showConfirm(item.uid)}
+                      >
+                        탈퇴
+                      </button>
+                    ) : (
+                      <button disabled>탈퇴처리</button>
+                    )}
                   </li>
                 </ul>
               </li>

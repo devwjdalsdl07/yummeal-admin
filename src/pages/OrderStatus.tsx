@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import { OrderStatusWrap } from "../style/OrderStatutsCss";
 import Paging from "../components/Paging";

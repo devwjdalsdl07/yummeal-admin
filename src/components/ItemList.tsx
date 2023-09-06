@@ -23,9 +23,11 @@ const ItemList = ({
     return <span key={idx}>{item?.label}</span>;
   });
   const handleEditClick = () => {
-
+    console.log()
   }
-  const handleDelClick = () => {}
+  const handleDelClick = () => {
+    console.log()
+  }
   return (
     <div className="itemListWrap">
       <div className="itemNum">

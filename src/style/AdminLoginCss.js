@@ -9,13 +9,14 @@ export const Container = styled.div`
 `;
 
 export const LoginForm = styled.form`
-  width: 300px;
+  width: 600px;
+  height: 400px;
   display: flex;
   flex-direction: column;
   border: 1px solid #dedede;
   background: white;
   border-radius: 4px;
-  padding: 20px;
+  padding: 70px 30px;
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.12),
     0 1px 2px rgba(0, 0, 0, 0.24);

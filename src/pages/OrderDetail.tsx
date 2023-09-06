@@ -1,7 +1,35 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router";
+import { useLocation } from "react-router-dom";
 import { OrderDetailWrap } from "../style/OrderDetailCss";
+
+interface IProdThumbnail {
+  thumbnailId: number;
+  productId: string;
+  img: string;
+}
+
+interface IProdInfo {
+  productId: number;
+  description: string;
+  isDelete: string;
+  createdAt: string;
+  updatedAt: string;
+  saleVolume: number;
+  pointRate: number;
+  productThumbnailEntityList: IProdThumbnail[];
+  pname: string;
+  pprice: number;
+  pquantity: number;
+}
+
+interface IBasket {
+  cartId: number;
+  productEntity: IProdInfo;
+  userEntity: string;
+  count: number;
+  createAt: string;
+}
 
 interface IUser {
   iuser: number;
@@ -20,14 +48,6 @@ interface IUser {
   point: number;
   delYn: null | string;
   orderBasketEntityList: IBasket[];
-}
-
-interface IBasket {
-  orderDetailId: number;
-  productId: number;
-  productName: string;
-  count: number;
-  totalPrice: number;
 }
 
 interface IOrder {
@@ -57,7 +77,7 @@ const OrderDetail = () => {
     const res = await axios.get(`/api/admin/order/${state.orderCode}`);
     const result = await res.data;
     setOrderInfo(result);
-    setUserInfo(result[0].iuser);
+    setUserInfo(result[0]?.iuser);
   };
 
   useEffect(() => {
@@ -84,7 +104,7 @@ console.log(orderInfo)
       <div className="contents-wrap">
         <div className="prod-info">
           <ul className="prod-info-menu">
-            <li>상품주문번호</li>
+            <li>상품번호</li>
             <li>상품명</li>
             <li>수량</li>
             <li>포인트 사용</li>
@@ -96,11 +116,11 @@ console.log(orderInfo)
               (item: IBasket, idx: number) => (
                 <li key={idx} className="content-grid">
                   <ul>
-                    <li>{item.orderDetailId}</li>
-                    <li>{item.productName}</li>
+                    <li>{item.productEntity.productId}</li>
+                    <li>{item.productEntity.pname}</li>
                     <li>{item.count}</li>
                     <li>{orderInfo[0]?.usepoint?.toLocaleString()}</li>
-                    <li>{item.totalPrice?.toLocaleString()}</li>
+                    <li>{item.productEntity.pprice?.toLocaleString()}</li>
                     <li>{shipmentStatus(orderInfo[0].shipment)}</li>
                   </ul>
                 </li>
@@ -124,7 +144,7 @@ console.log(orderInfo)
             <h3>결제수단</h3>
             <ul className="payment">
               <li className="payment-menu">결제방법</li>
-              <li className="data">데이터자리</li>
+              <li className="data">카카오페이</li>
               <li className="payment-menu">결제상세</li>
               <li className="data">데이터자리</li>
               <li className="payment-menu">주문일시</li>

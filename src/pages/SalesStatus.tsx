@@ -11,15 +11,18 @@ interface IStatus {
   pprice: number;
 }
 
+const thisYear = new Date().getFullYear()
+const thisMonth = ("00"+(new Date().getMonth() + 2).toString()).slice(-2)
+
 const SalesStatus = () => {
   const [saleVolum, setSaleVolum] = useState<Array<IStatus>>([]);
   const [pageNm, setPageNm] = useState(1);
-  const [year, setYear] = useState("2023");
-  const [month, setMonth] = useState("09");
+  const [year, setYear] = useState(thisYear.toString());
+  const [month, setMonth] = useState(thisMonth);
 
-  const saleVolumData = async (year: string, month: string) => {
+  const saleVolumData = async (page:number, year: string, month: string) => {
     const res = await axios.get(
-      `/api/mypage/salevolum?year=${year}&month=${month}`,
+      `/api/mypage/salevolum?page=${page - 1}&row=10&year=${year}&month=${month}`,
     );
     const result = res.data;
     console.log(result);
@@ -34,11 +37,9 @@ const SalesStatus = () => {
     setMonth(value);
   };
 
-  const yearValue = new Date();
-
   useEffect(() => {
-    saleVolumData(year, month);
-  }, [year, month]);
+    saleVolumData(pageNm, year, month);
+  }, [pageNm, year, month]);
 
   return (
     <SaleStatusWrap>
@@ -71,12 +72,12 @@ const SalesStatus = () => {
             onChange={handleYearChange}
             options={[
               {
-                value: `${yearValue.getFullYear() - 1}`,
-                label: `${yearValue.getFullYear() - 1}`,
+                value: `${thisYear - 1}`,
+                label: `${thisYear - 1}`,
               },
               {
-                value: `${yearValue.getFullYear()}`,
-                label: `${yearValue.getFullYear()}`,
+                value: `${thisYear}`,
+                label: `${thisYear}`,
               },
             ]}
           />

@@ -188,7 +188,7 @@ const AdminItemEdit = () => {
     const itemResult = await itemAdd(data);
     navigate("/admin");
   };
-  useEffect(() => {}, []);
+  // useEffect(() => {}, []);
   const modules = useMemo(() => {
     return {
       toolbar: {

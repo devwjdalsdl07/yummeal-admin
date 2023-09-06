@@ -4,18 +4,25 @@ import {
   faStore,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HeaderCss } from "../style/SiderCss";
 
-const Header = () => {
+const Header = ({setIsLogin}:{setIsLogin:React.Dispatch<React.SetStateAction<string | null>>}) => {
   const [infoToggle, setInfoToggle] = useState<boolean>(false);
   const navigate = useNavigate();
   const handleUserMenu = () => {
     setInfoToggle(!infoToggle);
   };
-  console.log(infoToggle);
+
+  const handleLogOut = async () => {
+    const res = await axios.get("/api/user/sign-out");
+    localStorage.removeItem("accessToken");
+    navigate("/");
+    setIsLogin(null)
+  };
+
   return (
     <HeaderCss>
       <i onClick={handleUserMenu}>
@@ -23,7 +30,7 @@ const Header = () => {
       </i>
       {infoToggle && (
         <div className="userinfo-wrap">
-          <div className="home" onClick={() => navigate("/")}>
+          <div className="home" onClick={() => navigate("/main")}>
             <i>
               <FontAwesomeIcon icon={faHouseChimneyUser} />
             </i>
@@ -37,7 +44,9 @@ const Header = () => {
               <div>쇼핑몰 가기</div>
             </Link>
           </div>
-          <button className="logout">로그아웃</button>
+          <button className="logout" onClick={handleLogOut}>
+            로그아웃
+          </button>
         </div>
       )}
     </HeaderCss>
