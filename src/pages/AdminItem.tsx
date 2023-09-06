@@ -84,9 +84,9 @@ const AdminItem = () => {
 
   const fetchItem = async () => {
     const result = await getItem();
-    console.log(result);
     setItemList(result);
     setFilter(result)
+    console.log(result.map ((item:any) => console.log(item.allergyName)))
   };
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -142,10 +142,10 @@ const AdminItem = () => {
       });
 
       const resultList = _item.filter(item => {
-        const list = item.allergyName.filter(subItem =>
-          selectedAllergyArr.includes(subItem),
+        const list = item.allergyName?.filter(subItem =>
+          selectedAllergyArr?.includes(subItem),
         );
-        return list.length === selectedAllergyArr.length;
+        return list?.length === selectedAllergyArr?.length;
       });
       return resultList;
     }

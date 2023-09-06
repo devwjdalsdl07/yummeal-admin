@@ -85,10 +85,10 @@ const AdminAddItem = () => {
     setCate(e.target.value);
     setSelectedCateDetail([]);
     const selectedCate = cateList.find(
-      item => item.cateId === Number(e.target.value),
+      item => item.category.cateId === Number(e.target.value),
     );
-    if (selectedCate && selectedCate.list) {
-      setSubCateList(selectedCate.list);
+    if (selectedCate && selectedCate.cateDetail) {
+      setSubCateList(selectedCate.cateDetail);
     } else {
       setSubCateList([]);
     }
@@ -231,10 +231,10 @@ const AdminAddItem = () => {
   const handleGoClick = () => {
     setShowModal(false);
     const selectedCate = cateList.find(
-      item => item.cateId === Number(storage.cate),
+      item => item.category.cateId === Number(storage.cate),
     );
-    if (selectedCate && selectedCate.list) {
-      setSubCateList(selectedCate.list);
+    if (selectedCate && selectedCate.cateDetail) {
+      setSubCateList(selectedCate.cateDetail);
     } else {
       setSubCateList([]);
     }
@@ -359,10 +359,10 @@ const AdminAddItem = () => {
                 {cateList.map((item, idx) => (
                   <option
                     key={idx}
-                    value={item.cateId}
-                    selected={cate == item.cateId}
+                    value={item.category.cateId}
+                    selected={cate == item.category.cateId}
                   >
-                    {item.cateName}
+                    {item.category.cateName}
                   </option>
                 ))}
               </select>
@@ -370,13 +370,13 @@ const AdminAddItem = () => {
                 <React.Fragment key={idx}>
                   <input
                     type="checkbox"
-                    value={item.cateDetailId}
-                    id={`checkbox-${item.cateDetailId}`}
+                    value={item.cateDetailEntity.cateDetailId}
+                    id={`checkbox-${item.cateDetailEntity.cateDetailId}`}
                     onChange={e => handleCheckboxChange(e)}
-                    checked={selectedCateDetail.includes(item.cateDetailId)}
+                    checked={selectedCateDetail.includes(item.cateDetailEntity.cateDetailId)}
                   />
-                  <label htmlFor={`checkbox-${item.cateDetailId}`}>
-                    {item.cateName}
+                  <label htmlFor={`checkbox-${item.cateDetailEntity.cateDetailId}`}>
+                    {item.cateDetailEntity.cateDetailName}
                   </label>
                 </React.Fragment>
               ))}

@@ -2,9 +2,7 @@ import axios from "axios";
 
 export const getProductId = async () => {
   try {
-    const res = await axios.post("/api/admin/product", {
-      ProductId: 0,
-    });
+    const res = await axios.post("/api/admin/webeditor/product");
     const result = res.data;
     console.log("Product ID 임", result);
     return result;
@@ -141,7 +139,7 @@ export const postImage = async (_iproduct, img) => {
 export const deleteProduct = async _iproduct => {
   try {
     const res = axios.delete(
-      `/api/admin/product/cancelation?product=${_iproduct}`,
+      `api/admin/webeditor/product/cancelation?product=${_iproduct}`,
     );
     return res.data;
   } catch (err) {

@@ -22,6 +22,10 @@ const ItemList = ({
   const filterSubCate: Array<JSX.Element> = subCate.map((item, idx) => {
     return <span key={idx}>{item?.label}</span>;
   });
+  const handleEditClick = () => {
+
+  }
+  const handleDelClick = () => {}
   return (
     <div className="itemListWrap">
       <div className="itemNum">
@@ -40,8 +44,8 @@ const ItemList = ({
       <div className="itemSubCate">{filterSubCate}</div>
       <div className="itemAllergy">{filterAllergy}</div>
       <div className="itemButton">
-        <span className="editButton">수정</span>
-        <span className="delButton">삭제</span>
+        <span className="editButton" onClick={handleEditClick}>수정</span>
+        <span className="delButton" onClick={handleDelClick}>삭제</span>
       </div>
     </div>
   );
