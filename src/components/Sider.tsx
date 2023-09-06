@@ -33,6 +33,7 @@ const Sider: React.FC = () => {
   const [selectedSubMenu, setSelectedSubMenu] = useState<string[]>([]);
   const [iconToggle, setIconToggle] = useState<boolean>(false);
   const [iToggle, setIToggle] = useState<boolean>(false);
+  const [subActive, setSubActive] = useState<string|null>(null);
 
   const toggleSubMenu = (index: number) => {
     if (selectedSubMenu.includes(index.toString())) {
@@ -57,10 +58,10 @@ const Sider: React.FC = () => {
                   <span className="icon">{item.icon}</span>
                   <span className="name">
                     {item.name === "회원 관리" ? (
-                      <Link to="/">회원 관리</Link>
+                      <Link to="/userlist">회원 관리</Link>
                     ) : item.name === "상품 관리" ? (
                       <div onClick={() => setIconToggle(!iconToggle)}>
-                        <Link to="/">상품 관리 </Link>
+                        <div>상품 관리 </div>
                         <i>
                           <FontAwesomeIcon
                             icon={iconToggle ? faAngleUp : faAngleDown}
@@ -69,7 +70,7 @@ const Sider: React.FC = () => {
                       </div>
                     ) : item.name === "주문 관리" ? (
                       <div onClick={() => setIToggle(!iToggle)}>
-                        <Link to="/">주문 관리 </Link>
+                        <div>주문 관리 </div>
                         <i>
                           <FontAwesomeIcon
                             icon={iToggle ? faAngleUp : faAngleDown}
@@ -88,15 +89,15 @@ const Sider: React.FC = () => {
             {item.subMenu && selectedSubMenu.includes(index.toString()) && (
               <ul className="sub-menu">
                 {item.subMenu.map((subItem, subIndex) => (
-                  <li key={subIndex} className="sub-menu-item">
+                  <li key={subIndex} className={`sub-menu-item ${subItem === subActive ? 'active' : ''}`} onClick={()=>setSubActive(subItem)}>
                     {subItem === "판매 현황" ? (
-                      <Link to="/">판매 현황</Link>
+                      <Link to="/salestatus">판매 현황</Link>
                     ) : subItem === "베스트 상품" ? (
-                      <Link to="/">베스트 상품</Link>
+                      <Link to="/bestsale">베스트 상품</Link>
                     ) : subItem === "배송 관리" ? (
-                      <Link to="/delivery">배송 관리</Link>
+                      <Link to="/delivery">배송 관리</Link> 
                     ) : subItem === "주문 현황" ? (
-                      <Link to="/">주문 현황</Link>
+                      <Link to="/orderstatus">주문 현황</Link>
                     ) : (
                       subItem
                     )}

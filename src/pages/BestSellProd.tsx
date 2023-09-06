@@ -1,7 +1,46 @@
-import { BarDatum } from "@nivo/bar";
 import MyResponsiveBar from "../components/BestSellProdChart";
-import { Wrap } from "../style/BestSellProdCss";
-import Paging from "../components/Paging";
+import MyResponsivePie from "../components/SaleStatusChart";
+import { BestProdWrap } from "../style/BestSellProdCss";
+
+export interface IPieData {
+  id: string;
+  label: string;
+  value: number;
+  color: string;
+}
+
+const pieData: Array<IPieData> = [
+  {
+    id: "stylus",
+    label: "stylus",
+    value: 53,
+    color: "hsl(29, 70%, 50%)",
+  },
+  {
+    id: "python",
+    label: "python",
+    value: 431,
+    color: "hsl(25, 70%, 50%)",
+  },
+  {
+    id: "c",
+    label: "c",
+    value: 10,
+    color: "hsl(178, 70%, 50%)",
+  },
+  {
+    id: "lisp",
+    label: "lisp",
+    value: 351,
+    color: "hsl(275, 70%, 50%)",
+  },
+  {
+    id: "make",
+    label: "make",
+    value: 564,
+    color: "hsl(5, 70%, 50%)",
+  },
+];
 
 const BestSellProd = () => {
   type IData = {
@@ -20,100 +59,35 @@ const BestSellProd = () => {
     { rank: 5, fruit: "복숭아", price: "복숭아", prodNum: 567891234, ea: 6 },
   ];
 
-  const barData: Array<BarDatum> = [
-    {
-      country: "4",
-      hotdog: 12,
-      hotdogColor: "hsl(153, 70%, 50%)",
-      burger: 34,
-      burgerColor: "hsl(194, 70%, 50%)",
-      sandwich: 50,
-      sandwichColor: "hsl(354, 70%, 50%)",
-      kebab: 14,
-      kebabColor: "hsl(80, 70%, 50%)",
-      fries: 25,
-      friesColor: "hsl(13, 70%, 50%)",
-    },
-    {
-      country: "5",
-      hotdog: 152,
-      hotdogColor: "hsl(213, 70%, 50%)",
-      burger: 101,
-      burgerColor: "hsl(185, 70%, 50%)",
-      sandwich: 108,
-      sandwichColor: "hsl(113, 70%, 50%)",
-      kebab: 194,
-      kebabColor: "hsl(322, 70%, 50%)",
-      fries: 166,
-      friesColor: "hsl(45, 70%, 50%)",
-    },
-    {
-      country: "6",
-      hotdog: 18,
-      hotdogColor: "hsl(291, 70%, 50%)",
-      burger: 44,
-      burgerColor: "hsl(33, 70%, 50%)",
-      sandwich: 81,
-      sandwichColor: "hsl(147, 70%, 50%)",
-      kebab: 181,
-      kebabColor: "hsl(332, 70%, 50%)",
-      fries: 131,
-      friesColor: "hsl(243, 70%, 50%)",
-    },
-    {
-      country: "7",
-      hotdog: 178,
-      hotdogColor: "hsl(152, 70%, 50%)",
-      burger: 80,
-      burgerColor: "hsl(227, 70%, 50%)",
-      sandwich: 56,
-      sandwichColor: "hsl(294, 70%, 50%)",
-      kebab: 83,
-      kebabColor: "hsl(243, 70%, 50%)",
-      fries: 193,
-      friesColor: "hsl(147, 70%, 50%)",
-    },
-    {
-      country: "8",
-      hotdog: 178,
-      hotdogColor: "hsl(88, 70%, 50%)",
-      burger: 80,
-      burgerColor: "hsl(5, 70%, 50%)",
-      sandwich: 56,
-      sandwichColor: "hsl(188, 70%, 50%)",
-      kebab: 83,
-      kebabColor: "hsl(301, 70%, 50%)",
-      fries: 193,
-      friesColor: "hsl(204, 70%, 50%)",
-    },
-  ];
   return (
-    <Wrap>
-      <div className="bar-chart">
-        <MyResponsiveBar data={barData} />
+    <BestProdWrap>
+      <h2>베스트 상품</h2>
+      <div className="contents-wrap">
+      <div className="pie-chart">
+        <MyResponsivePie data={pieData} />
       </div>
-      <div>
-        <div className="menu">
-          <div>순위</div>
-          <div>이미지</div>
-          <div>상품명</div>
-          <div>상품번호</div>
-          <div>판매수량</div>
-        </div>
-        <div className="table">
-          {data.map((item: IData, idx: number) => (
-            <div key={idx} className="table-content-wrap">
-              <div>{item.rank}</div>
-              <div>{item.fruit}</div>
-              <div>{item.price}</div>
-              <div>{item.prodNum}</div>
-              <div>{item.ea}</div>
-            </div>
-          ))}
+        <div className="grid-wrap">
+          <div className="menu">
+            <div>순위</div>
+            <div>이미지</div>
+            <div>상품명</div>
+            <div>상품번호</div>
+            <div>판매수량</div>
+          </div>
+          <div className="table">
+            {data.map((item: IData, idx: number) => (
+              <div key={idx} className="table-content-wrap">
+                <div>{item.rank}</div>
+                <div>{item.fruit}</div>
+                <div>{item.price}</div>
+                <div>{item.prodNum}</div>
+                <div>{item.ea}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-      <Paging/>
-    </Wrap>
+    </BestProdWrap>
   );
 };
 
