@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import ReactQuill, { Quill } from "react-quill";
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImgUpload from "../components/ImgUpload";
 import { AdminWrapper } from "../style/AdminAddCss";
@@ -18,9 +18,24 @@ import {
   postImage,
 } from "../api/adminAddAxios";
 import { useNavigate } from "react-router-dom";
+import { TAllergy } from "./AdminItem";
+
+interface ICateList {
+  category: {
+    cateId: number;
+    cateName: string;
+  };
+  cateDetail: Array<ISubCateList>;
+}
+interface ISubCateList {
+  cateDetailEntity: {
+    cateDetailId: number;
+    cateDetailName: string;
+  };
+}
 
 const AdminItemEdit = () => {
-  const allergyArr = [
+  const allergyArr: Array<TAllergy> = [
     { value: 1, label: "난류" },
     { value: 2, label: "우유" },
     { value: 3, label: "메밀" },
@@ -43,47 +58,54 @@ const AdminItemEdit = () => {
     { value: 20, label: "생선류" },
   ];
   const navigate = useNavigate();
-  const quillRef = useRef();
-  const [cateList, setCateList] = useState([]);
-  const [subCateList, setSubCateList] = useState([]);
-  const [content, setContent] = useState();
-  const [itemName, setItemName] = useState();
-  const [price, setPrice] = useState(0);
-  const [commaPrice, setCommaPrice] = useState(0);
-  const [cate, setCate] = useState();
-  const [selectedCateDetail, setSelectedCateDetail] = useState([]);
-  const [product, setProduct] = useState();
-  const [imgArr, setImgArr] = useState([null, null, null, null]);
+  const quillRef = useRef<any>();
+  const [cateList, setCateList] = useState<Array<ICateList>>([]);
+  const [subCateList, setSubCateList] = useState<Array<ISubCateList>>([]);
+  const [content, setContent] = useState<string>();
+  const [itemName, setItemName] = useState<string>();
+  const [price, setPrice] = useState<number>(0);
+  const [commaPrice, setCommaPrice] = useState<string>("0");
+  const [cate, setCate] = useState<string | number>();
+  const [selectedCateDetail, setSelectedCateDetail] = useState<Array<number>>(
+    [],
+  );
+  const [product, setProduct] = useState<number | string>();
+  const [imgArr, setImgArr] = useState<Array<File | null>>([
+    null,
+    null,
+    null,
+    null,
+  ]);
   const [showModal, setShowModal] = useState(false);
-  const [allegy, setAllegy] = useState([]);
-  const [commaQuant, setCommaQuant] = useState("");
-  const [quant, setQuant] = useState(0);
-  const productRef = useRef(product);
-  const handlePriceChange = e => {
+  const [allegy, setAllegy] = useState<Array<number>>([]);
+  const [commaQuant, setCommaQuant] = useState<string>("");
+  const [quant, setQuant] = useState<number>(0);
+  const productRef = useRef<any>(product);
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const removedCommaValue = Number(value.replaceAll(/[^0-9]/g, ""));
     setCommaPrice(removedCommaValue.toLocaleString());
     setPrice(removedCommaValue);
   };
-  const handleQuantChange = e => {
+  const handleQuantChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const removedCommaValue = Number(value.replaceAll(/[^0-9]/g, ""));
     setCommaQuant(removedCommaValue.toLocaleString());
     setQuant(removedCommaValue);
   };
-  const handleCateChange = e => {
+  const handleCateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCate(e.target.value);
     setSelectedCateDetail([]);
     const selectedCate = cateList.find(
-      item => item.cateId === Number(e.target.value),
+      item => item.category.cateId === Number(e.target.value),
     );
-    if (selectedCate && selectedCate.list) {
-      setSubCateList(selectedCate.list);
+    if (selectedCate && selectedCate.cateDetail) {
+      setSubCateList(selectedCate.cateDetail);
     } else {
       setSubCateList([]);
     }
   };
-  const handleCheckboxChange = e => {
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const cateDetailId = Number(e.target.value);
     if (e.target.checked) {
       // 체크 박스가 체크되었을 때
@@ -95,7 +117,7 @@ const AdminItemEdit = () => {
       );
     }
   };
-  const handleAllegyChange = e => {
+  const handleAllegyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const allegyId = Number(e.target.value);
     if (e.target.checked) {
       setAllegy(prevSelected => [...prevSelected, allegyId]);
@@ -108,19 +130,19 @@ const AdminItemEdit = () => {
     localStorage.removeItem("adminStorage");
     navigate("/admin");
   };
-  const imgUpload = async (_product, _file) => {
+  const imgUpload = async (_product: number, _file: File | null) => {
     const result = await postImage(_product, _file);
     return result;
   };
 
   const imageHandler = () => {
-    const input = document.createElement("input");
+    const input: any = document.createElement("input");
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
     input.click();
     input.addEventListener("change", async () => {
       const editor = quillRef.current.getEditor();
-      const file = input.files[0];
+      const file: File | null = input.files[0];
       const range = editor.getSelection(true);
       try {
         const img = await imgUpload(productRef.current, file);
@@ -166,9 +188,7 @@ const AdminItemEdit = () => {
     const itemResult = await itemAdd(data);
     navigate("/admin");
   };
-  useEffect(() => {
-   
-  }, []);
+  useEffect(() => {}, []);
   const modules = useMemo(() => {
     return {
       toolbar: {
@@ -242,10 +262,10 @@ const AdminItemEdit = () => {
                 {cateList.map((item, idx) => (
                   <option
                     key={idx}
-                    value={item.cateId}
-                    selected={cate == item.cateId}
+                    value={item.category.cateId}
+                    selected={cate == item.category.cateId}
                   >
-                    {item.cateName}
+                    {item.category.cateName}
                   </option>
                 ))}
               </select>
@@ -253,13 +273,17 @@ const AdminItemEdit = () => {
                 <React.Fragment key={idx}>
                   <input
                     type="checkbox"
-                    value={item.cateDetailId}
-                    id={`checkbox-${item.cateDetailId}`}
+                    value={item.cateDetailEntity.cateDetailId}
+                    id={`checkbox-${item.cateDetailEntity.cateDetailId}`}
                     onChange={e => handleCheckboxChange(e)}
-                    checked={selectedCateDetail.includes(item.cateDetailId)}
+                    checked={selectedCateDetail.includes(
+                      item.cateDetailEntity.cateDetailId,
+                    )}
                   />
-                  <label htmlFor={`checkbox-${item.cateDetailId}`}>
-                    {item.cateName}
+                  <label
+                    htmlFor={`checkbox-${item.cateDetailEntity.cateDetailId}`}
+                  >
+                    {item.cateDetailEntity.cateDetailName}
                   </label>
                 </React.Fragment>
               ))}

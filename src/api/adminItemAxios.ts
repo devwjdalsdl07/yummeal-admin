@@ -4,6 +4,7 @@ export const getItem = async () => {
   try {
     const res = await axios.get("/api/admin/product?page=0&size=1000&sort=productId")
     const result = res.data.content
+    console.log(result)
     return result
   } catch (err) {
     console.log(err);
