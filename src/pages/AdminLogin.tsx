@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Button, Container, Input, LoginForm, Title } from '../style/AdminLoginCss';
+import { postLogin } from '../api/adminLoginAxios';
 
 const AdminLogin: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -7,7 +8,11 @@ const AdminLogin: React.FC = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log('Email:', email, 'Password:', password);
+    const user = {
+      uid:email,
+      upw:password
+    }
+    postLogin(user)
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {

@@ -19,7 +19,7 @@ import {
 } from "../api/adminAddAxios";
 import { useNavigate } from "react-router-dom";
 
-const AdminAddItem = () => {
+const AdminItemEdit = () => {
   const allergyArr = [
     { value: 1, label: "난류" },
     { value: 2, label: "우유" },
@@ -58,16 +58,6 @@ const AdminAddItem = () => {
   const [allegy, setAllegy] = useState([]);
   const [commaQuant, setCommaQuant] = useState("");
   const [quant, setQuant] = useState(0);
-  let storage = {
-    product,
-    itemName,
-    price,
-    cate,
-    selectedCateDetail,
-    content,
-    allegy,
-    quant,
-  };
   const productRef = useRef(product);
   const handlePriceChange = e => {
     const value = e.target.value;
@@ -123,25 +113,6 @@ const AdminAddItem = () => {
     return result;
   };
 
-  var InlineBlot = Quill.import("blots/block");
-  class ImageBlot extends InlineBlot {
-    static create(data) {
-      console.log(data);
-      const node = super.create(data);
-      node.setAttribute("src", data.src);
-      node.setAttribute("pk", data.pk);
-      return node;
-    }
-    static value(domNode) {
-      const { src, pk } = domNode.dataset;
-      return { src, pk };
-    }
-  }
-  ImageBlot.blotName = "imageBlot";
-  ImageBlot.className = "image-blot";
-  ImageBlot.tagName = "img";
-  Quill.register({ "formats/imageBlot": ImageBlot });
-
   const imageHandler = () => {
     const input = document.createElement("input");
     input.setAttribute("type", "file");
@@ -166,33 +137,6 @@ const AdminAddItem = () => {
       }
     });
   };
-
-
-  const handleEditorChange = (content, delta, source, editor) => {
-    // 비교할 이전 상태의 delta
-    const oldDelta = editor.getContents();
-    console.log("콘텐트",content)
-    console.log("델타",delta)
-    console.log("올드델타",oldDelta)
-    console.log("에디터",editor)
-
-    setContent(content);
-
-    // 이미지가 삭제되었는지 확인
-    if (delta.ops.length < oldDelta.ops.length) {
-      const deletedOps = oldDelta.ops.filter(
-        oldOp => !delta.ops.some(newOp => JSON.stringify(newOp) === JSON.stringify(oldOp))
-      );
-
-      for (const op of deletedOps) {
-        if (op.insert && typeof op.insert === "object" && op.insert.image) {
-          console.log("Image deleted:", op.insert.image);
-          // 이미지가 삭제된 경우에 수행할 작업 처리
-        }
-      }
-    }
-  };
-
 
   const fetchProductId = async () => {
     const result = await getProductId();
@@ -222,70 +166,9 @@ const AdminAddItem = () => {
     const itemResult = await itemAdd(data);
     navigate("/admin");
   };
-  const adminStorage = () => {
-    const storedStorage = localStorage.getItem("adminStorage");
-    const parsedStorage = JSON.parse(storedStorage);
-    console.log("파스한 스토레이지", parsedStorage);
-    return parsedStorage;
-  };
-  const handleGoClick = () => {
-    setShowModal(false);
-    const selectedCate = cateList.find(
-      item => item.cateId === Number(storage.cate),
-    );
-    if (selectedCate && selectedCate.list) {
-      setSubCateList(selectedCate.list);
-    } else {
-      setSubCateList([]);
-    }
-  };
-  const handleDelClick = async () => {
-    localStorage.removeItem("adminStorage");
-    deleteProduct(product);
-    fetchProductId();
-    fetchCate();
-    setItemName("");
-    setPrice(0);
-    setCommaPrice("");
-    setQuant(0);
-    setCommaQuant("");
-    setCate("");
-    setSelectedCateDetail([]);
-    setContent("");
-    setShowModal(false);
-    setAllegy([]);
-  };
-
-  useLayoutEffect(() => {
-    storage = adminStorage();
-    console.log("레이아웃 스토레이지", storage);
-  }, []);
-
   useEffect(() => {
-    if (storage && storage.product) {
-      setShowModal(true);
-      setProduct(storage.product);
-      setItemName(storage.itemName);
-      setPrice(storage.price);
-      setCommaPrice(storage.price?.toLocaleString());
-      setCate(storage.cate);
-      setSelectedCateDetail(storage.selectedCateDetail);
-      setContent(storage.content);
-      setAllegy(storage.allegy);
-      setQuant(storage.quant);
-      setCommaQuant(storage.quant?.toLocaleString());
-      fetchCate();
-      productRef.current = storage.product;
-    } else {
-      fetchProductId();
-      fetchCate();
-    }
+   
   }, []);
-  useEffect(() => {
-    // storage 값이 변경될 때마다 값을 로컬스토리지에 저장
-    localStorage.setItem("adminStorage", JSON.stringify(storage));
-    console.log(storage);
-  }, [storage]); // storage 값이 변경될 때만 이펙트 실행
   const modules = useMemo(() => {
     return {
       toolbar: {
@@ -409,7 +292,6 @@ const AdminAddItem = () => {
             theme="snow"
             ref={quillRef}
             value={content}
-            onChange={(handleEditorChange)}
             modules={modules}
           />
           <div className="buttonWrap">
@@ -421,28 +303,9 @@ const AdminAddItem = () => {
             </button>
           </div>
         </div>
-
-        {showModal ? (
-          <div className="modalWrap">
-            <div className="modalBody">
-              <span>이어서 작성 하시겠습니까 ?</span>
-              <div className="modalButton">
-                <div className="goButton" onClick={handleGoClick}>
-                  이어쓰기
-                </div>
-                <div className="delButton" onClick={handleDelClick}>
-                  삭제
-                </div>
-              </div>
-              <div className="modalInfo">
-                <span>*이미지는 불러올수 없습니다.</span>
-              </div>
-            </div>
-          </div>
-        ) : null}
       </AdminWrapper>
     </div>
   );
 };
 
-export default AdminAddItem;
+export default AdminItemEdit;
