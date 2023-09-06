@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 export const ItemContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
+  font-size: 16px;
   .bg-white {
     background: white;
   }
@@ -72,7 +73,7 @@ export const SearchFilterWrap = styled.div`
       border-right: 1px solid;
     }
     .allergyName {
-      width: 10%;
+      width: 10% !important;
       padding: 10px;
       border-right: 1px solid;
     }
@@ -108,10 +109,13 @@ export const SearchFilterWrap = styled.div`
       padding: 10px;
     }
   }
+  .resetBtWrap {
+    display: flex;
+    flex-direction: row-reverse;
+  }
   .resetBt {
     margin: 10px 0;
     padding: 5px;
-    float: right;
   }
 `;
 

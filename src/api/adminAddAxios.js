@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getProductId = async () => {
   try {
-    const res = await axios.post("/api/admin/webeditor/product");
+    const res = await axios.post("/api/admin/product/webeditor");
     const result = res.data;
     console.log("Product ID 임", result);
     return result;
@@ -13,97 +13,137 @@ export const getProductId = async () => {
 
 export const getCate = async () => {
   try {
-    const res = await axios.get("/api/cate/all");
+    const res = await axios.get("/api/cate/list");
     const result = res.data;
     return result;
   } catch (err) {
     console.log(err);
     return [
       {
-        cateId: 1,
-        cateName: "초기",
-        list: [
+        category: {
+          cateId: 1,
+          cateName: "초기",
+        },
+        cateDetail: [
           {
-            cateDetailId: 1,
-            cateName: "곡물류",
+            cateDetailEntity: {
+              cateDetailId: 1,
+              cateDetailName: "곡물류",
+            },
           },
           {
-            cateDetailId: 2,
-            cateName: "야채류",
-          },
-        ],
-      },
-      {
-        cateId: 2,
-        cateName: "중기",
-        list: [
-          {
-            cateDetailId: 1,
-            cateName: "곡물류",
-          },
-          {
-            cateDetailId: 2,
-            cateName: "야채류",
-          },
-          {
-            cateDetailId: 3,
-            cateName: "고기류",
-          },
-          {
-            cateDetailId: 5,
-            cateName: "과일류",
+            cateDetailEntity: {
+              cateDetailId: 2,
+              cateDetailName: "야채류",
+            },
           },
         ],
       },
       {
-        cateId: 3,
-        cateName: "후기",
-        list: [
+        category: {
+          cateId: 2,
+          cateName: "중기",
+        },
+        cateDetail: [
           {
-            cateDetailId: 1,
-            cateName: "곡물류",
+            cateDetailEntity: {
+              cateDetailId: 1,
+              cateDetailName: "곡물류",
+            },
           },
           {
-            cateDetailId: 2,
-            cateName: "야채류",
+            cateDetailEntity: {
+              cateDetailId: 2,
+              cateDetailName: "야채류",
+            },
           },
           {
-            cateDetailId: 3,
-            cateName: "고기류",
+            cateDetailEntity: {
+              cateDetailId: 3,
+              cateDetailName: "고기류",
+            },
           },
           {
-            cateDetailId: 4,
-            cateName: "해산물류",
-          },
-          {
-            cateDetailId: 5,
-            cateName: "과일류",
+            cateDetailEntity: {
+              cateDetailId: 5,
+              cateDetailName: "과일류",
+            },
           },
         ],
       },
       {
-        cateId: 4,
-        cateName: "완료기",
-        list: [
+        category: {
+          cateId: 3,
+          cateName: "후기",
+        },
+        cateDetail: [
           {
-            cateDetailId: 1,
-            cateName: "곡물류",
+            cateDetailEntity: {
+              cateDetailId: 1,
+              cateDetailName: "곡물류",
+            },
           },
           {
-            cateDetailId: 2,
-            cateName: "야채류",
+            cateDetailEntity: {
+              cateDetailId: 2,
+              cateDetailName: "야채류",
+            },
           },
           {
-            cateDetailId: 3,
-            cateName: "고기류",
+            cateDetailEntity: {
+              cateDetailId: 3,
+              cateDetailName: "고기류",
+            },
           },
           {
-            cateDetailId: 4,
-            cateName: "해산물류",
+            cateDetailEntity: {
+              cateDetailId: 4,
+              cateDetailName: "해산물류",
+            },
           },
           {
-            cateDetailId: 5,
-            cateName: "과일류",
+            cateDetailEntity: {
+              cateDetailId: 5,
+              cateDetailName: "과일류",
+            },
+          },
+        ],
+      },
+      {
+        category: {
+          cateId: 4,
+          cateName: "완료기",
+        },
+        cateDetail: [
+          {
+            cateDetailEntity: {
+              cateDetailId: 1,
+              cateDetailName: "곡물류",
+            },
+          },
+          {
+            cateDetailEntity: {
+              cateDetailId: 2,
+              cateDetailName: "야채류",
+            },
+          },
+          {
+            cateDetailEntity: {
+              cateDetailId: 3,
+              cateDetailName: "고기류",
+            },
+          },
+          {
+            cateDetailEntity: {
+              cateDetailId: 4,
+              cateDetailName: "해산물류",
+            },
+          },
+          {
+            cateDetailEntity: {
+              cateDetailId: 5,
+              cateDetailName: "과일류",
+            },
           },
         ],
       },
@@ -124,9 +164,9 @@ export const postImage = async (_iproduct, img) => {
   try {
     console.log("폼데이타", formData);
     const res = await axios.post(
-      `/api/admin/product/img?productId=${_iproduct}`,
+      `/api/admin/${_iproduct}/img`,
       formData,
-      config,
+      // config,
     );
     const result = res.data;
     console.log("이미지업로드 성공", result);
@@ -138,9 +178,7 @@ export const postImage = async (_iproduct, img) => {
 
 export const deleteProduct = async _iproduct => {
   try {
-    const res = axios.delete(
-      `api/admin/webeditor/product/cancelation?product=${_iproduct}`,
-    );
+    const res = axios.delete(`/api/admin/${_iproduct}`);
     return res.data;
   } catch (err) {
     console.log(_iproduct);
@@ -164,7 +202,7 @@ export const imgAdd = async (_iproduct, imgArr) => {
   }
   try {
     const res = await axios.post(
-      `/api/admin/product/imglist/thumbnail?productId=${_iproduct}`,
+      `/api/admin/webeditor/product/imglist/thumbnail?productId=${_iproduct}`,
       formData,
       config,
     );
@@ -175,3 +213,14 @@ export const imgAdd = async (_iproduct, imgArr) => {
     console.log(err);
   }
 };
+
+export const deleteImage = async (_imgpk) => {
+  try{
+    const res = await axios.delete(`/api/admin/${_imgpk}/webeditor`)
+    const result = await res.data
+    console.log("이미지 삭제",result)
+    return result
+  }catch(err){
+    console.log(err)
+  }
+}

@@ -12,13 +12,13 @@ import { AdminWrapper } from "../style/AdminAddCss";
 import {
   deleteProduct,
   getCate,
-  getProductId,
   imgAdd,
   itemAdd,
   postImage,
 } from "../api/adminAddAxios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { TAllergy } from "./AdminItem";
+import { getItemInfo } from "../api/adminItemEditAxios";
 
 interface ICateList {
   category: {
@@ -35,6 +35,7 @@ interface ISubCateList {
 }
 
 const AdminItemEdit = () => {
+  const { state } = useLocation();
   const allergyArr: Array<TAllergy> = [
     { value: 1, label: "난류" },
     { value: 2, label: "우유" },
@@ -126,9 +127,7 @@ const AdminItemEdit = () => {
     }
   };
   const handleCancleClick = () => {
-    deleteProduct(product);
-    localStorage.removeItem("adminStorage");
-    navigate("/admin");
+    navigate("/adminitem");
   };
   const imgUpload = async (_product: number, _file: File | null) => {
     const result = await postImage(_product, _file);
@@ -136,6 +135,7 @@ const AdminItemEdit = () => {
   };
 
   const imageHandler = () => {
+    const { id } = useParams();
     const input: any = document.createElement("input");
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
@@ -159,11 +159,21 @@ const AdminItemEdit = () => {
       }
     });
   };
-
-  const fetchProductId = async () => {
-    const result = await getProductId();
-    setProduct(result);
-    productRef.current = result;
+  const fetchItem = async () => {
+    const result = await getItemInfo(state);
+    console.log(result)
+    setProduct(state);
+    setItemName(result.name);
+    setPrice(result.price);
+    setCommaPrice(result.price?.toLocaleString());
+    setCate(result.cate);
+    setSelectedCateDetail(result.selectedCateDetail);
+    setContent(result.description);
+    setAllegy(result.allegyId);
+    setQuant(result.quantity);
+    setCommaQuant(result.quantity?.toLocaleString());
+    fetchCate();
+    productRef.current = result.product;
   };
   const fetchCate = async () => {
     const result = await getCate();
@@ -188,7 +198,10 @@ const AdminItemEdit = () => {
     const itemResult = await itemAdd(data);
     navigate("/admin");
   };
-  useEffect(() => {}, []);
+  useEffect(() => {
+    fetchItem();
+    fetchCate();
+  }, []);
   const modules = useMemo(() => {
     return {
       toolbar: {
