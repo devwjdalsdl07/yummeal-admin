@@ -69,6 +69,7 @@ const AdminAddItem = () => {
     content,
     allegy,
     quant,
+    uploadImg,
   };
   const productRef = useRef(product);
   const handlePriceChange = e => {
@@ -162,10 +163,13 @@ const AdminAddItem = () => {
           { src: `http://192.168.0.144:5001${img.img}`, pk: img.pimgId },
           "user",
         );
-        setUploadImg([...uploadImg, {
-          src: `http://192.168.0.144:5001${img.img}`,
-          pk: img.pimgId,
-      }]);
+        setUploadImg([
+          ...uploadImg,
+          {
+            src: `http://192.168.0.144:5001${img.img}`,
+            pk: img.pimgId,
+          },
+        ]);
         editor.setSelection(range.index + 1);
       } catch (error) {
         console.log(error);
@@ -206,20 +210,23 @@ const AdminAddItem = () => {
     console.log(imgArr);
     const data = {
       productId: product,
-      title: "",
       name: itemName,
       price: price,
-      quantity: 0,
+      quantity: quant,
       description: content,
       saleVolume: 0,
       allergy: allegy,
       category: cate,
       cateDetail: selectedCateDetail,
+      pointRate: 0,
     };
     const result = imgArr.filter(item => item !== null);
     const imgResult = await imgAdd(product, result);
     const itemResult = await itemAdd(data);
-    navigate("/admin");
+    if (imgResult === itemResult) {
+      localStorage.removeItem("adminStorage");
+      navigate("/adminitem");
+    }
   };
   const adminStorage = () => {
     const storedStorage = localStorage.getItem("adminStorage");
@@ -257,13 +264,7 @@ const AdminAddItem = () => {
 
   useLayoutEffect(() => {
     storage = adminStorage();
-    console.log("레이아웃 스토레이지", storage);
   }, []);
-
-  useEffect(() => {
-    console.log(quillRef.current);
-    console.log("업로드이미지",uploadImg);
-  }, [uploadImg, content]);
 
   useEffect(() => {
     if (storage && storage.product) {
@@ -278,6 +279,7 @@ const AdminAddItem = () => {
       setAllegy(storage.allegy);
       setQuant(storage.quant);
       setCommaQuant(storage.quant?.toLocaleString());
+      setUploadImg(storage.uploadImg);
       fetchCate();
       productRef.current = storage.product;
     } else {

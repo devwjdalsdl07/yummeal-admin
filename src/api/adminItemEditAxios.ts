@@ -11,3 +11,21 @@ export const getItemInfo = async (_id: number) => {
     console.log(err);
   }
 };
+export const deleteThumb = async (_item: any) => {
+  try {
+    const res = await axios.delete("/api/admin/webeditor/thumbnail", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: {
+        productId: _item.productId,
+        thumbnailFullName: _item.thumbnailFullName,
+      },
+    });
+    const result = await res.data;
+    return result;
+  } catch (err) {
+    console.log(_item);
+    console.log(err);
+  }
+};

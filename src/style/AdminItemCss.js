@@ -49,11 +49,22 @@ export const SearchFilterWrap = styled.div`
     }
     .textFiled {
       padding: 10px;
-      width: 80%;
+      width: 50%;
       input {
         width: 70%;
         font-size: 20px;
       }
+      border-right: 1px solid;
+    }
+    .test1 {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      width: 10%;
+      border-right: 1px solid;
+    }
+    .test2 {
+      padding: 10px;
     }
   }
   .selectFilter {
@@ -160,8 +171,8 @@ export const ItemListWrap = styled.div`
       justify-content: flex-start !important;
       gap: 10px;
       img {
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
         margin-left: 10px;
       }
     }

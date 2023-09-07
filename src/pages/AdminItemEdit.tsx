@@ -1,24 +1,12 @@
-import React, {
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import ImgUpload from "../components/ImgUpload";
 import { AdminWrapper } from "../style/AdminAddCss";
-import {
-  deleteProduct,
-  getCate,
-  imgAdd,
-  itemAdd,
-  postImage,
-} from "../api/adminAddAxios";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { getCate, imgAdd, itemAdd, postImage } from "../api/adminAddAxios";
+import { useLocation, useNavigate } from "react-router-dom";
 import { TAllergy } from "./AdminItem";
 import { getItemInfo } from "../api/adminItemEditAxios";
+import ImgEdit from "../components/ImgEdit";
 
 interface ICateList {
   category: {
@@ -62,8 +50,8 @@ const AdminItemEdit = () => {
   const quillRef = useRef<any>();
   const [cateList, setCateList] = useState<Array<ICateList>>([]);
   const [subCateList, setSubCateList] = useState<Array<ISubCateList>>([]);
-  const [content, setContent] = useState<string>();
-  const [itemName, setItemName] = useState<string>();
+  const [content, setContent] = useState<string>("");
+  const [itemName, setItemName] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
   const [commaPrice, setCommaPrice] = useState<string>("0");
   const [cate, setCate] = useState<string | number>();
@@ -71,13 +59,12 @@ const AdminItemEdit = () => {
     [],
   );
   const [product, setProduct] = useState<number | string>();
-  const [imgArr, setImgArr] = useState<Array<File | null>>([
+  const [imgArr, setImgArr] = useState<Array<File | null | string>>([
     null,
     null,
     null,
     null,
   ]);
-  const [showModal, setShowModal] = useState(false);
   const [allegy, setAllegy] = useState<Array<number>>([]);
   const [commaQuant, setCommaQuant] = useState<string>("");
   const [quant, setQuant] = useState<number>(0);
@@ -135,7 +122,6 @@ const AdminItemEdit = () => {
   };
 
   const imageHandler = () => {
-    const { id } = useParams();
     const input: any = document.createElement("input");
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
@@ -161,47 +147,61 @@ const AdminItemEdit = () => {
   };
   const fetchItem = async () => {
     const result = await getItemInfo(state);
-    console.log(result)
+    const cateResult = await getCate();
+    setCateList(cateResult);
     setProduct(state);
     setItemName(result.name);
     setPrice(result.price);
     setCommaPrice(result.price?.toLocaleString());
     setCate(result.cate);
-    setSelectedCateDetail(result.selectedCateDetail);
+    setSelectedCateDetail(result.cateDetail);
     setContent(result.description);
-    setAllegy(result.allegyId);
+    setAllegy(result.allergyId);
     setQuant(result.quantity);
     setCommaQuant(result.quantity?.toLocaleString());
-    fetchCate();
+    setImgArr(
+      imgArr.map((item: any, idx: number) => (item = result.thumbnail[idx])),
+    );
     productRef.current = result.product;
-  };
-  const fetchCate = async () => {
-    const result = await getCate();
-    setCateList(result);
+    console.log(result);
+    const selectedCate = cateResult.find(
+      (item: any) => item.category.cateId === Number(result.cate),
+    );
+    if (selectedCate && selectedCate.cateDetail) {
+      setSubCateList(selectedCate.cateDetail);
+    } else {
+      setSubCateList([]);
+    }
   };
   const handleOkCliclk = async () => {
     console.log(imgArr);
     const data = {
       productId: product,
-      title: "",
       name: itemName,
       price: price,
-      quantity: 0,
+      quantity: quant,
       description: content,
       saleVolume: 0,
       allergy: allegy,
       category: cate,
       cateDetail: selectedCateDetail,
+      poinRate: 0,
     };
     const result = imgArr.filter(item => item !== null);
     const imgResult = await imgAdd(product, result);
     const itemResult = await itemAdd(data);
-    navigate("/admin");
+    if (imgResult === itemResult) {
+      localStorage.removeItem("adminStorage");
+      navigate("/adminitem");
+    }
   };
   useEffect(() => {
     fetchItem();
-    fetchCate();
   }, []);
+  useEffect(() => {
+    console.log(content);
+  }, [content]);
+
   const modules = useMemo(() => {
     return {
       toolbar: {
@@ -231,11 +231,12 @@ const AdminItemEdit = () => {
             <div className="uploadContainer">
               {/* {elements} */}
               {imgArr.map((item, idx) => (
-                <ImgUpload
+                <ImgEdit
                   key={idx}
                   imgArr={imgArr}
                   setImgArr={setImgArr}
                   idx={idx}
+                  product={product}
                 />
               ))}
             </div>
@@ -329,6 +330,7 @@ const AdminItemEdit = () => {
             theme="snow"
             ref={quillRef}
             value={content}
+            onChange={setContent}
             modules={modules}
           />
           <div className="buttonWrap">
