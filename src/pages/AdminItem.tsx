@@ -17,9 +17,9 @@ export interface Iitem {
   name: string;
   price: number;
   cate: number;
-  quainty: number;
+  quantity: number;
   cateDetail: Array<number>;
-  allergyName: Array<number>;
+  allegyName: Array<number>;
 }
 
 export type TAllergy = {
@@ -75,9 +75,9 @@ const AdminItem = () => {
       name: "name",
       price: 1000,
       cate: 1,
-      quainty: 20,
+      quantity: 20,
       cateDetail: [1, 3, 5],
-      allergyName: [1, 2, 3, 5],
+      allegyName: [1, 2, 3, 5],
     }
   ]);
   const [filter, setFilter] = useState<Iitem[]>([]);
@@ -85,8 +85,7 @@ const AdminItem = () => {
   const fetchItem = async () => {
     const result = await getItem();
     setItemList(result);
-    setFilter(result)
-    console.log(result.map ((item:any) => console.log(item.allergyName)))
+    setFilter(result);
   };
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -142,7 +141,7 @@ const AdminItem = () => {
       });
 
       const resultList = _item.filter(item => {
-        const list = item.allergyName?.filter(subItem =>
+        const list = item.allegyName?.filter(subItem =>
           selectedAllergyArr?.includes(subItem),
         );
         return list?.length === selectedAllergyArr?.length;
@@ -168,11 +167,11 @@ const AdminItem = () => {
   const quaintyFilter = (_item: Iitem[]) => {
     if (radio == 1) {
       console.log(1)
-      return _item.filter(item => item.quainty > 0);
+      return _item.filter(item => item.quantity > 0);
     } else if (radio == 2) {
       console.log(2)
-      console.log(_item.filter(item => item.quainty >= 0))
-      return _item.filter(item => item.quainty <= 0);
+      console.log(_item.filter(item => item.quantity >= 0))
+      return _item.filter(item => item.quantity <= 0);
     }
     return _item;
   };
@@ -303,7 +302,9 @@ const AdminItem = () => {
                 </form>
               </div>
             </div>
+            <div className="resetBtWrap">
             <button className="resetBt">검색 초기화</button>
+            </div>
           </div>
         </SearchFilterWrap>
         <ItemListWrap>

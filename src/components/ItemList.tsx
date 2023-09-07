@@ -1,5 +1,6 @@
 import React from "react";
 import { Iitem, TAllergy, TSubCate } from "../pages/AdminItem.js";
+import { useNavigate } from "react-router-dom";
 
 const ItemList = ({
   item,
@@ -10,22 +11,26 @@ const ItemList = ({
   allergyArr: Array<TAllergy>;
   subCateArr: Array<TSubCate>;
 }) => {
-  const allergy: Array<TAllergy | undefined> = item.allergyName.map(item => {
+  console.log(item)
+  const navigate = useNavigate()
+  const allergy: Array<TAllergy | undefined> = item.allegyName?.map(item => {
     return allergyArr.find(allergy => allergy.value === item);
   });
-  const subCate: Array<TSubCate | undefined> = item.cateDetail.map(item => {
+  const subCate: Array<TSubCate | undefined> = item.cateDetail?.map(item => {
     return subCateArr.find(subCate => subCate.value === item);
   });
-  const filterAllergy: Array<JSX.Element> = allergy.map((item, idx) => {
+  const filterAllergy: Array<JSX.Element> = allergy?.map((item, idx) => {
     return <span key={idx}>{item?.label}</span>;
   });
-  const filterSubCate: Array<JSX.Element> = subCate.map((item, idx) => {
+  const filterSubCate: Array<JSX.Element> = subCate?.map((item, idx) => {
     return <span key={idx}>{item?.label}</span>;
   });
   const handleEditClick = () => {
-
+    navigate('/adminitemedit',{state:item.productId})
   }
-  const handleDelClick = () => {}
+  const handleDelClick = () => {
+    console.log("hi")
+  }
   return (
     <div className="itemListWrap">
       <div className="itemNum">
