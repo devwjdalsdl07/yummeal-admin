@@ -166,7 +166,7 @@ export const postImage = async (_iproduct, img) => {
     const res = await axios.post(
       `/api/admin/${_iproduct}/img`,
       formData,
-      // config,
+      config,
     );
     const result = res.data;
     console.log("이미지업로드 성공", result);
@@ -188,10 +188,13 @@ export const deleteProduct = async _iproduct => {
 
 export const itemAdd = async _data => {
   try {
-    const res = await axios.patch("/api/admin/product/registration", _data);
+    const res = await axios.patch("/api/admin/webeditor/product/modification", _data);
+    console.log("아이템등록",_data)
+    console.log("아이템등록 후",res.data)
     return res.data;
   } catch (err) {
     console.log("아이템 등록 실패");
+    console.log(_data)
     console.log(err);
   }
 };
