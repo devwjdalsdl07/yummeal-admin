@@ -59,6 +59,13 @@ export const BestProdWrap = styled.div`
       }
     }
   }
+  .select-wrap {
+    width: 90%;
+    padding-top: 20px;
+    display: flex;
+    justify-content: end;
+    gap: 20px;
+  }
   .ant-pagination {
     padding: 20px 0;
     text-align: center;

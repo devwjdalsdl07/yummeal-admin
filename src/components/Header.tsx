@@ -12,10 +12,13 @@ import { HeaderCss } from "../style/SiderCss";
 const Header = ({setIsLogin}:{setIsLogin:React.Dispatch<React.SetStateAction<string | null>>}) => {
   const [infoToggle, setInfoToggle] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  // 유저메뉴 토글
   const handleUserMenu = () => {
     setInfoToggle(!infoToggle);
   };
 
+  // 로그아웃
   const handleLogOut = async () => {
     const res = await axios.get("/api/user/sign-out");
     localStorage.removeItem("accessToken");

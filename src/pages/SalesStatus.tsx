@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Paging from "../components/Paging";
 import { SaleStatusWrap } from "../style/SalesStatusCss";
 
+// 판매량 데이터 타입
 interface IStatus {
   productId: number;
   count: number;
@@ -11,6 +12,7 @@ interface IStatus {
   pprice: number;
 }
 
+// 올해연도, 월 구하기
 const thisYear = new Date().getFullYear()
 const thisMonth = ("00"+(new Date().getMonth() + 2).toString()).slice(-2)
 
@@ -20,6 +22,7 @@ const SalesStatus = () => {
   const [year, setYear] = useState(thisYear.toString());
   const [month, setMonth] = useState(thisMonth);
 
+  // 판매량 데이터
   const saleVolumData = async (page:number, year: string, month: string) => {
     const res = await axios.get(
       `/api/mypage/salevolum?page=${page - 1}&row=10&year=${year}&month=${month}`,
@@ -29,10 +32,12 @@ const SalesStatus = () => {
     setSaleVolum(result);
   };
 
+  // 셀렉트박스 연도 업데이트
   const handleYearChange = (value: string) => {
     setYear(value);
   };
 
+  // 셀렉트박스 월 업데이트
   const handleMonthChange = (value: string) => {
     setMonth(value);
   };

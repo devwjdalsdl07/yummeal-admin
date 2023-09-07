@@ -5,6 +5,9 @@ export const MainWrap = styled.div`
   margin: 0 auto;
   font-size: 15px;
   padding: 20px 30px;
+  h3{
+    text-align: center;
+  }
 .grid-wrap{
     display: grid;
     grid-template-columns:repeat(2, 1fr);
@@ -15,5 +18,8 @@ export const MainWrap = styled.div`
     }
     width: 100%;
     height: 100%;
+    .pie-chart{
+      height: 300px;
+    }
 }
 `;

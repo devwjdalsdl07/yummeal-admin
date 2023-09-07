@@ -2,7 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import MyResponsivePie from "../components/BestSellProdChart";
 import { BestProdWrap } from "../style/BestSellProdCss";
+import { Select } from "antd";
 
+// 파이차트 데이터 타입
 export interface IPieData {
   productId: number;
   id: string;
@@ -11,44 +13,7 @@ export interface IPieData {
   color: string;
 }
 
-const pieData: Array<IPieData> = [
-  {
-    productId: 5,
-    id: "[2단계] 곤드레단호박진밥",
-    label: "[2단계] 곤드레단호박진밥",
-    value: 20,
-    color: "hsl(340, 70%, 50%)",
-  },
-  {
-    productId: 1,
-    id: "[1단계] 고구마두부진밥",
-    label: "[1단계] 고구마두부진밥",
-    value: 10,
-    color: "hsl(298, 70%, 50%)",
-  },
-  {
-    productId: 8,
-    id: "[3단계] 한우옥수수묽은죽",
-    label: "[3단계] 한우옥수수묽은죽",
-    value: 5,
-    color: "hsl(280, 70%, 50%)",
-  },
-  {
-    productId: 7,
-    id: "[3단계] 한우양송이묽은죽",
-    label: "[3단계] 한우양송이묽은죽",
-    value: 5,
-    color: "hsl(38, 70%, 50%)",
-  },
-  {
-    productId: 3,
-    id: "[4단계] 토마토치킨리조또",
-    label: "[4단계] 토마토치킨리조또",
-    value: 5,
-    color: "hsl(321, 70%, 50%)",
-  },
-];
-
+// 베스트판매량 데이터 타입
 interface ISalesData {
   productId: number;
   count: number;
@@ -57,14 +22,16 @@ interface ISalesData {
   pprice: number;
 }
 
-const thisYear = new Date().getFullYear().toString();
+const thisYear = new Date().getFullYear()
 const thisMonth = ("00" + (new Date().getMonth() + 2).toString()).slice(-2);
 
 const BestSellProd = () => {
-  const [year, setYear] = useState(thisYear);
+  const [year, setYear] = useState(thisYear.toString());
   const [month, setMonth] = useState(thisMonth);
   const [salesData, setSalesData] = useState<Array<ISalesData>>([]);
+  const [pieChart, setPieChart]=useState<Array<IPieData>>([])
 
+  // 베스트판매량 데이터
   const bestSalesData = async (year: string, month: string) => {
     const res = await axios.get(
       `/api/mypage/salevolum?page=0&row=5&year=${year}&month=${month}`,
@@ -73,16 +40,35 @@ const BestSellProd = () => {
     setSalesData(result);
   };
 
+  // 차트 데이터
+  const chartData = async (year: string, month: string)=>{
+    const res = await axios.get(`/api/mypage/salevolum/color?year=${year}&month=${month}`)
+    const result = await res.data;
+    setPieChart(result);
+  }
+
   useEffect(()=>{
     bestSalesData(year, month)
+    chartData(year, month)
   },[year, month])
+
+  // 셀렉트박스 연도 업데이트
+  const handleYearChange = (value: string) => {
+    setYear(value);
+  };
+
+  // 셀렉트박스 월 업데이트
+  const handleMonthChange = (value: string) => {
+    setMonth(value);
+  };
+
 
   return (
     <BestProdWrap>
       <h2>베스트 상품</h2>
       <div className="contents-wrap">
         <div className="pie-chart">
-          <MyResponsivePie data={pieData} />
+          <MyResponsivePie data={pieChart} />
         </div>
         <div className="grid-wrap">
           <div className="menu">
@@ -103,6 +89,42 @@ const BestSellProd = () => {
               </div>
             ))}
           </div>
+          <div className="select-wrap">
+          <Select
+            defaultValue="연도 선택"
+            style={{ width: 130 }}
+            onChange={handleYearChange}
+            options={[
+              {
+                value: `${thisYear - 1}`,
+                label: `${thisYear - 1}`,
+              },
+              {
+                value: `${thisYear}`,
+                label: `${thisYear}`,
+              },
+            ]}
+          />
+          <Select
+            defaultValue="월 선택"
+            style={{ width: 130 }}
+            onChange={handleMonthChange}
+            options={[
+              { value: "01", label: "1월" },
+              { value: "02", label: "2월" },
+              { value: "03", label: "3월" },
+              { value: "04", label: "4월" },
+              { value: "05", label: "5월" },
+              { value: "06", label: "6월" },
+              { value: "07", label: "7월" },
+              { value: "08", label: "8월" },
+              { value: "09", label: "9월" },
+              { value: "10", label: "10월" },
+              { value: "11", label: "11월" },
+              { value: "12", label: "12월" },
+            ]}
+          />
+        </div>
         </div>
       </div>
     </BestProdWrap>

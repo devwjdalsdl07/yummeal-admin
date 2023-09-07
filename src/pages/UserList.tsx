@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Paging from "../components/Paging";
 import { UserListWrap } from "../style/UserListCss";
 
+// 유저정보(리스트) 데이터 타입
 interface User {
   iuser: number;
   password: string;
@@ -23,6 +24,7 @@ interface User {
   delYn: null | string;
 }
 
+// 유저정보 데이터 타입
 interface UserListResponse {
   page: number;
   count: number;
