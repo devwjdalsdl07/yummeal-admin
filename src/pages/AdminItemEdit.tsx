@@ -187,7 +187,9 @@ const AdminItemEdit = () => {
       cateDetail: selectedCateDetail,
       poinRate: 0,
     };
-    const result = imgArr.filter(item => item !== null);
+    const result = imgArr.filter(
+      item => item !== null || typeof item !== "string",
+    );
     const imgResult = await imgAdd(product, result);
     const itemResult = await itemAdd(data);
     if (imgResult === itemResult) {
