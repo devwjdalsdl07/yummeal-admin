@@ -20,3 +20,11 @@ export const getItem = async () => {
     }]
   }
 };
+export const deleteItem = async (_Iproduct:number) => {
+  try{
+    const res = await axios.delete(`/api/admin/product/productId?productId=${_Iproduct}`)
+    const result = await res.data
+    console.log(result)
+    return result
+  }catch(err){console.log(err)}
+}

@@ -4,6 +4,8 @@ export const AdminWrapper = styled.div`
   max-width: 1200px;
   height: 100vh;
   margin: 0 auto;
+  margin-bottom: 70px;
+  font-size: 16px;
   .titleArea {
     padding: 20px 0;
     display: flex;
@@ -103,8 +105,7 @@ export const AdminWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     h2 {
-
-        }
+    }
     .editor {
       margin: 20px auto;
     }
@@ -141,7 +142,7 @@ export const AdminWrapper = styled.div`
     .modalBody {
       position: absolute;
       width: 300px;
-      height: 100px;
+      height: 200px;
       padding: 40px;
       text-align: center;
       background: rgb(255, 255, 255);

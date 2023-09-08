@@ -71,6 +71,7 @@ export const LayoutCss = styled.div`
 `;
 export const HeaderCss = styled.div`
   position: relative;
+  display: block;
   height: 70px;
   width: 100%;
   background-color: #fefefe;
@@ -118,7 +119,8 @@ export const HeaderCss = styled.div`
   }
 `;
 export const FooterCss = styled.div`
-  position: absolute;
+  position: fixed;
+  display: block;
   bottom: 0;
   height: 50px;
   width: 100%;

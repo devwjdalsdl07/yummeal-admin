@@ -10,6 +10,7 @@ import "react-quill/dist/quill.snow.css";
 import ImgUpload from "../components/ImgUpload";
 import { AdminWrapper } from "../style/AdminAddCss";
 import {
+  deleteImage,
   deleteProduct,
   getCate,
   getProductId,
@@ -58,6 +59,7 @@ const AdminAddItem = () => {
   const [allegy, setAllegy] = useState([]);
   const [commaQuant, setCommaQuant] = useState("");
   const [quant, setQuant] = useState(0);
+  const [uploadImg, setUploadImg] = useState([]);
   let storage = {
     product,
     itemName,
@@ -67,6 +69,7 @@ const AdminAddItem = () => {
     content,
     allegy,
     quant,
+    uploadImg,
   };
   const productRef = useRef(product);
   const handlePriceChange = e => {
@@ -157,9 +160,16 @@ const AdminAddItem = () => {
         editor.insertEmbed(
           range.index,
           "imageBlot",
-          { src: img.img, pk: img.pimgId },
+          { src: `http://192.168.0.144:5001${img.img}`, pk: img.pimgId },
           "user",
         );
+        setUploadImg([
+          ...uploadImg,
+          {
+            src: `http://192.168.0.144:5001${img.img}`,
+            pk: img.pimgId,
+          },
+        ]);
         editor.setSelection(range.index + 1);
       } catch (error) {
         console.log(error);
@@ -167,32 +177,25 @@ const AdminAddItem = () => {
     });
   };
 
-
   const handleEditorChange = (content, delta, source, editor) => {
-    // 비교할 이전 상태의 delta
-    const oldDelta = editor.getContents();
-    console.log("콘텐트",content)
-    console.log("델타",delta)
-    console.log("올드델타",oldDelta)
-    console.log("에디터",editor)
-
-    setContent(content);
-
-    // 이미지가 삭제되었는지 확인
-    if (delta.ops.length < oldDelta.ops.length) {
-      const deletedOps = oldDelta.ops.filter(
-        oldOp => !delta.ops.some(newOp => JSON.stringify(newOp) === JSON.stringify(oldOp))
-      );
-
-      for (const op of deletedOps) {
-        if (op.insert && typeof op.insert === "object" && op.insert.image) {
-          console.log("Image deleted:", op.insert.image);
-          // 이미지가 삭제된 경우에 수행할 작업 처리
+    console.log("콘텐트", content);
+    console.log("델타", delta);
+    console.log("에디터", editor);
+    if (delta.filter(item => item.delete) && uploadImg.length > 0) {
+      for (let i = 0; i < uploadImg.length; i++) {
+        if (!quillRef.current?.value.includes(uploadImg[i].src)) {
+          const tempImgFiles = structuredClone(uploadImg);
+          const filterdImgFiles = tempImgFiles.filter(
+            img => img.id !== uploadImg[i].pk,
+          );
+          deleteImage(uploadImg[i].pk);
+          setUploadImg(filterdImgFiles);
         }
       }
     }
-  };
 
+    setContent(content);
+  };
 
   const fetchProductId = async () => {
     const result = await getProductId();
@@ -207,20 +210,25 @@ const AdminAddItem = () => {
     console.log(imgArr);
     const data = {
       productId: product,
-      title: "",
       name: itemName,
       price: price,
-      quantity: 0,
+      quantity: quant,
       description: content,
       saleVolume: 0,
-      allergy: allegy,
+      allergyId: allegy,
       category: cate,
       cateDetail: selectedCateDetail,
+      pointRate: 0,
     };
     const result = imgArr.filter(item => item !== null);
-    const imgResult = await imgAdd(product, result);
     const itemResult = await itemAdd(data);
-    navigate("/admin");
+    const imgResult = await imgAdd(product, result);
+    if (1 == itemResult) {
+      if (imgResult.length > 0) {
+        localStorage.removeItem("adminStorage");
+        navigate("/adminitem");
+      }
+    }
   };
   const adminStorage = () => {
     const storedStorage = localStorage.getItem("adminStorage");
@@ -258,7 +266,6 @@ const AdminAddItem = () => {
 
   useLayoutEffect(() => {
     storage = adminStorage();
-    console.log("레이아웃 스토레이지", storage);
   }, []);
 
   useEffect(() => {
@@ -274,6 +281,7 @@ const AdminAddItem = () => {
       setAllegy(storage.allegy);
       setQuant(storage.quant);
       setCommaQuant(storage.quant?.toLocaleString());
+      setUploadImg(storage.uploadImg);
       fetchCate();
       productRef.current = storage.product;
     } else {
@@ -373,9 +381,13 @@ const AdminAddItem = () => {
                     value={item.cateDetailEntity.cateDetailId}
                     id={`checkbox-${item.cateDetailEntity.cateDetailId}`}
                     onChange={e => handleCheckboxChange(e)}
-                    checked={selectedCateDetail.includes(item.cateDetailEntity.cateDetailId)}
+                    checked={selectedCateDetail.includes(
+                      item.cateDetailEntity.cateDetailId,
+                    )}
                   />
-                  <label htmlFor={`checkbox-${item.cateDetailEntity.cateDetailId}`}>
+                  <label
+                    htmlFor={`checkbox-${item.cateDetailEntity.cateDetailId}`}
+                  >
                     {item.cateDetailEntity.cateDetailName}
                   </label>
                 </React.Fragment>
@@ -409,7 +421,7 @@ const AdminAddItem = () => {
             theme="snow"
             ref={quillRef}
             value={content}
-            onChange={(handleEditorChange)}
+            onChange={handleEditorChange}
             modules={modules}
           />
           <div className="buttonWrap">

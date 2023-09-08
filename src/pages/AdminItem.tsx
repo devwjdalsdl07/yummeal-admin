@@ -13,13 +13,14 @@ import { getItem } from "../api/adminItemAxios";
 
 export interface Iitem {
   productId: number;
-  thumnail: string;
+  thumbnail: Array<string>;
   name: string;
   price: number;
   cate: number;
-  quainty: number;
+  quantity: number;
   cateDetail: Array<number>;
-  allergyName: Array<number>;
+  allegyName: Array<number>;
+  delYn?: 1 | 0;
 }
 
 export type TAllergy = {
@@ -67,26 +68,27 @@ const AdminItem = () => {
   const [subCate, setSubCate] = useState<Array<number>>([]);
   const [cate, setCate] = useState<Array<number>>([]);
   const [radio, setRadio] = useState<number | undefined>();
+  const [sale, setSale] = useState<number | undefined>();
   const [name, setName] = useState<string | undefined>();
   const [itemList, setItemList] = useState<Array<Iitem>>([
     {
       productId: 1,
-      thumnail: "title",
+      thumbnail: ["title"],
       name: "name",
       price: 1000,
       cate: 1,
-      quainty: 20,
+      quantity: 20,
       cateDetail: [1, 3, 5],
-      allergyName: [1, 2, 3, 5],
-    }
+      allegyName: [1, 2, 3, 5],
+      delYn: 1,
+    },
   ]);
   const [filter, setFilter] = useState<Iitem[]>([]);
 
   const fetchItem = async () => {
     const result = await getItem();
     setItemList(result);
-    setFilter(result)
-    console.log(result.map ((item:any) => console.log(item.allergyName)))
+    setFilter(result);
   };
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -99,7 +101,6 @@ const AdminItem = () => {
   };
   const handleRadioChange = (e: React.ChangeEvent<HTMLFormElement>) => {
     setRadio(e.target.value);
-    console.log("이벤트 핸들러",e.target.value)
   };
   const handleCateChange = (e: React.ChangeEvent<HTMLFormElement>) => {
     const { value, checked } = e.target;
@@ -112,29 +113,40 @@ const AdminItem = () => {
 
   const handleSubCateChange = (e: React.ChangeEvent<HTMLFormElement>) => {
     const { value, checked } = e.target;
-
-    // 선택된 경우 배열에 추가, 선택 취소된 경우 배열에서 제거
     if (checked) {
       setSubCate([...subCate, parseInt(value)]);
     } else {
       setSubCate(subCate.filter(item => item !== parseInt(value)));
     }
   };
-
+  const handleSaleChange = (e: React.ChangeEvent<HTMLFormElement>) => {
+    setSale(e.target.value);
+  };
+  const handleResetClick = () => {
+    setSelectAllergy([]);
+    setSubCate([]);
+    setRadio(undefined);
+    setName("");
+    setCate([]);
+    const checkboxes = document.querySelectorAll("input");
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = false;
+    });
+  };
   const nameFilter = (_item: Iitem[]) =>
     name ? _item.filter(item => item.name.includes(name)) : _item;
-  /*
-  const allergyFilter = (_item: Iitem[]) =>
-    selectAllergy.length > 0
-      ? _item.filter(item =>
-          item.allergy.some(allergy =>
-            selectAllergy.some(
-              selectedAllergy => selectedAllergy.value === allergy,
-            ),
-          ),
-        )
-      : _item;
-*/
+
+  // const allergyFilter = (_item: Iitem[]) =>
+  //   selectAllergy.length > 0
+  //     ? _item.filter(item =>
+  //         item.allergy.some(allergy =>
+  //           selectAllergy.some(
+  //             selectedAllergy => selectedAllergy.value === allergy,
+  //           ),
+  //         ),
+  //       )
+  //     : _item;
+
   const allergyFilter = (_item: Iitem[]) => {
     if (selectAllergy.length > 0) {
       const selectedAllergyArr: number[] = selectAllergy.map(item => {
@@ -142,8 +154,8 @@ const AdminItem = () => {
       });
 
       const resultList = _item.filter(item => {
-        const list = item.allergyName?.filter(subItem =>
-          selectedAllergyArr?.includes(subItem),
+        const list = item.allegyName?.filter(
+          subItem => selectedAllergyArr?.includes(subItem),
         );
         return list?.length === selectedAllergyArr?.length;
       });
@@ -158,8 +170,12 @@ const AdminItem = () => {
   const subCateFilter = (_item: Iitem[]) => {
     if (subCate.length > 0) {
       const resultList = _item.filter(item => {
-        const list = item.cateDetail.filter(subItem => subCate.includes(subItem));
-        return list.length === subCate.length;
+        if (item.cateDetail?.length > 0) {
+          const list = item.cateDetail.filter(subItem =>
+            subCate.includes(subItem),
+          );
+          return list.length === subCate.length;
+        }
       });
       return resultList;
     }
@@ -167,12 +183,17 @@ const AdminItem = () => {
   };
   const quaintyFilter = (_item: Iitem[]) => {
     if (radio == 1) {
-      console.log(1)
-      return _item.filter(item => item.quainty > 0);
+      return _item.filter(item => item.quantity > 0);
     } else if (radio == 2) {
-      console.log(2)
-      console.log(_item.filter(item => item.quainty >= 0))
-      return _item.filter(item => item.quainty <= 0);
+      return _item.filter(item => item.quantity <= 0);
+    }
+    return _item;
+  };
+  const deleteFilter = (_item: Iitem[]) => {
+    if (sale == 1) {
+      return _item.filter(item => item.delYn === 0);
+    } else if (sale == 2) {
+      return _item.filter(item => item.delYn === 1);
     }
     return _item;
   };
@@ -182,6 +203,7 @@ const AdminItem = () => {
     cateFilter,
     subCateFilter,
     quaintyFilter,
+    deleteFilter,
   ];
 
   const filterItemList = filterList.reduce(
@@ -193,11 +215,11 @@ const AdminItem = () => {
 
   useEffect(() => {
     setFilter(filterItemList);
-  }, [name, cate, subCate, selectAllergy, radio]);
+  }, [name, cate, subCate, selectAllergy, radio, sale]);
 
   useEffect(() => {
     fetchItem();
-  }, [])
+  }, []);
 
   const items: Array<JSX.Element> = filter.map((item, idx) => {
     return (
@@ -206,11 +228,13 @@ const AdminItem = () => {
         item={item}
         allergyArr={allergyArr}
         subCateArr={subCateArr}
+        filter={filter}
+        setFilter={setFilter}
       />
     );
   });
   return (
-    <div style={{ background: "rgb(242,243,247)", height: "100vh" }}>
+    <div style={{ background: "rgb(242,243,247)", height: "100%" }}>
       <ItemContainer>
         <h1>상품 목록</h1>
         <TotalInfoWrap>
@@ -218,10 +242,21 @@ const AdminItem = () => {
             전체 상품<strong>{itemList.length}</strong>개
           </span>
           <span className="itemCount">
-            재고보유 상품 <strong>{}</strong>개
+            재고보유 상품{" "}
+            <strong>{itemList.filter(item => item.quantity > 0).length}</strong>
+            개
           </span>
           <span className="itemCount">
-            재고없는 상품 <strong>{}</strong>개
+            재고없는 상품{" "}
+            <strong>
+              {itemList.filter(item => item.quantity <= 0).length}
+            </strong>
+            개
+          </span>
+          <span className="itemCount">
+            판매중지 상품{" "}
+            <strong>{itemList.filter(item => item.delYn === 1).length}</strong>
+            개
           </span>
           <span className="itemAdd" onClick={handleAddClick}>
             상품추가
@@ -244,6 +279,19 @@ const AdminItem = () => {
                   onChange={handleNameChange}
                 />
               </div>
+              <div className="test1 bg-grey">
+                <span>판매 상태</span>
+              </div>
+              <div className="test2">
+                <form onChange={handleSaleChange}>
+                  <input type="radio" name="sale" value={1} />
+                  판매 중
+                  <input type="radio" name="sale" value={2} />
+                  판매 중지
+                  <input type="radio" name="sale" value={3} />
+                  전체
+                </form>
+              </div>
             </div>
             <div className="selectFilter bg-white">
               <div className="saleName bg-grey">
@@ -251,11 +299,11 @@ const AdminItem = () => {
               </div>
               <div className="saleCheck">
                 <form onChange={handleRadioChange}>
-                  <input type="radio" name="sale" value={1} />
+                  <input type="radio" name="quant" value={1} />
                   재고보유 중
-                  <input type="radio" name="sale" value={2} />
+                  <input type="radio" name="quant" value={2} />
                   재고 없음
-                  <input type="radio" name="sale" value={3} />
+                  <input type="radio" name="quant" value={3} />
                   전체
                 </form>
               </div>
@@ -303,7 +351,11 @@ const AdminItem = () => {
                 </form>
               </div>
             </div>
-            <button className="resetBt">검색 초기화</button>
+            <div className="resetBtWrap">
+              <button className="resetBt" onClick={handleResetClick}>
+                검색 초기화
+              </button>
+            </div>
           </div>
         </SearchFilterWrap>
         <ItemListWrap>
