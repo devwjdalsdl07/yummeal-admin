@@ -135,18 +135,18 @@ const AdminItem = () => {
   };
   const nameFilter = (_item: Iitem[]) =>
     name ? _item.filter(item => item.name.includes(name)) : _item;
-  /*
-  const allergyFilter = (_item: Iitem[]) =>
-    selectAllergy.length > 0
-      ? _item.filter(item =>
-          item.allergy.some(allergy =>
-            selectAllergy.some(
-              selectedAllergy => selectedAllergy.value === allergy,
-            ),
-          ),
-        )
-      : _item;
-*/
+
+  // const allergyFilter = (_item: Iitem[]) =>
+  //   selectAllergy.length > 0
+  //     ? _item.filter(item =>
+  //         item.allergy.some(allergy =>
+  //           selectAllergy.some(
+  //             selectedAllergy => selectedAllergy.value === allergy,
+  //           ),
+  //         ),
+  //       )
+  //     : _item;
+
   const allergyFilter = (_item: Iitem[]) => {
     if (selectAllergy.length > 0) {
       const selectedAllergyArr: number[] = selectAllergy.map(item => {
@@ -203,7 +203,7 @@ const AdminItem = () => {
     cateFilter,
     subCateFilter,
     quaintyFilter,
-    // deleteFilter,
+    deleteFilter,
   ];
 
   const filterItemList = filterList.reduce(
