@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { AdminWrapper } from "../style/AdminAddCss";
 import { getCate, imgAdd, itemAdd, postImage } from "../api/adminAddAxios";
@@ -133,12 +133,7 @@ const AdminItemEdit = () => {
       try {
         const img = await imgUpload(productRef.current, file);
         console.log("받아오는 값", img);
-        editor.insertEmbed(
-          range.index,
-          "imageBlot",
-          { src: img.img, pk: img.pimgId },
-          "user",
-        );
+        editor.insertEmbed(range.index, "image", `http://192.168.0.144:5001${img.img}`);
         editor.setSelection(range.index + 1);
       } catch (error) {
         console.log(error);
@@ -162,7 +157,7 @@ const AdminItemEdit = () => {
     setImgArr(
       imgArr.map((item: any, idx: number) => (item = result.thumbnail[idx])),
     );
-    productRef.current = result.product;
+    productRef.current = result.productId;
     console.log(result);
     const selectedCate = cateResult.find(
       (item: any) => item.category.cateId === Number(result.cate),
@@ -182,17 +177,17 @@ const AdminItemEdit = () => {
       quantity: quant,
       description: content,
       saleVolume: 0,
-      allergy: allegy,
+      allergyId: allegy,
       category: cate,
       cateDetail: selectedCateDetail,
-      poinRate: 0,
+      pointRate: 0,
     };
     const result = imgArr.filter(
       item => item !== null || typeof item !== "string",
     );
-    const imgResult = await imgAdd(product, result);
     const itemResult = await itemAdd(data);
-    if (imgResult === itemResult) {
+    if (itemResult === 1) {
+      const imgResult = await imgAdd(product, result);
       localStorage.removeItem("adminStorage");
       navigate("/adminitem");
     }
@@ -200,9 +195,6 @@ const AdminItemEdit = () => {
   useEffect(() => {
     fetchItem();
   }, []);
-  useEffect(() => {
-    console.log(content);
-  }, [content]);
 
   const modules = useMemo(() => {
     return {

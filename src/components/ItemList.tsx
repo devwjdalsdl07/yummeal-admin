@@ -43,7 +43,7 @@ const ItemList = ({
     <div
       className="itemListWrap"
       style={
-        item.isDelete === 1
+        item.delYn === 1
           ? { background: "rgba(249,146,146,0.5)" }
           : undefined || item.quantity <= 0
           ? { background: "rgba(247,205,122,0.4)" }

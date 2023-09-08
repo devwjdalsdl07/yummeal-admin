@@ -215,17 +215,19 @@ const AdminAddItem = () => {
       quantity: quant,
       description: content,
       saleVolume: 0,
-      allergy: allegy,
+      allergyId: allegy,
       category: cate,
       cateDetail: selectedCateDetail,
       pointRate: 0,
     };
     const result = imgArr.filter(item => item !== null);
-    const imgResult = await imgAdd(product, result);
     const itemResult = await itemAdd(data);
-    if (imgResult === itemResult) {
-      localStorage.removeItem("adminStorage");
-      navigate("/adminitem");
+    const imgResult = await imgAdd(product, result);
+    if (1 == itemResult) {
+      if (imgResult.length > 0) {
+        localStorage.removeItem("adminStorage");
+        navigate("/adminitem");
+      }
     }
   };
   const adminStorage = () => {

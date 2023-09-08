@@ -166,7 +166,7 @@ export const postImage = async (_iproduct, img) => {
     const res = await axios.post(
       `/api/admin/${_iproduct}/img`,
       formData,
-      config,
+      // config,
     );
     const result = res.data;
     console.log("이미지업로드 성공", result);
@@ -210,6 +210,7 @@ export const imgAdd = async (_iproduct, imgArr) => {
       config,
     );
     const result = res.data;
+    console.log("이미지 등록",result)
     return result;
   } catch (err) {
     console.log("이미지 등록 실패");
