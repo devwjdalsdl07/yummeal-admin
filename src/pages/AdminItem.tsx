@@ -189,14 +189,14 @@ const AdminItem = () => {
     }
     return _item;
   };
-  const deleteFilter = (_item:Iitem[]) => {
+  const deleteFilter = (_item: Iitem[]) => {
     if (sale == 1) {
       return _item.filter(item => item.delYn === 0);
     } else if (sale == 2) {
       return _item.filter(item => item.delYn === 1);
     }
     return _item;
-  }
+  };
   const filterList = [
     nameFilter,
     allergyFilter,
@@ -255,11 +255,7 @@ const AdminItem = () => {
           </span>
           <span className="itemCount">
             판매중지 상품{" "}
-            <strong>
-              {
-                // itemList.filter(item => itemdelYn === 1).length
-              }
-            </strong>
+            <strong>{itemList.filter(item => item.delYn === 1).length}</strong>
             개
           </span>
           <span className="itemAdd" onClick={handleAddClick}>
