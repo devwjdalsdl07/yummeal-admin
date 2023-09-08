@@ -4,6 +4,7 @@ export const AdminWrapper = styled.div`
   max-width: 1200px;
   height: 100vh;
   margin: 0 auto;
+  margin-bottom: 70px;
   font-size: 16px;
   .titleArea {
     padding: 20px 0;
@@ -104,8 +105,7 @@ export const AdminWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     h2 {
-
-        }
+    }
     .editor {
       margin: 20px auto;
     }

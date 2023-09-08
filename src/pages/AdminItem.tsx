@@ -20,7 +20,7 @@ export interface Iitem {
   quantity: number;
   cateDetail: Array<number>;
   allegyName: Array<number>;
-  isDelete?: 1 | 0;
+  delYn?: 1 | 0;
 }
 
 export type TAllergy = {
@@ -80,7 +80,7 @@ const AdminItem = () => {
       quantity: 20,
       cateDetail: [1, 3, 5],
       allegyName: [1, 2, 3, 5],
-      isDelete: 1,
+      delYn: 1,
     },
   ]);
   const [filter, setFilter] = useState<Iitem[]>([]);
@@ -189,14 +189,14 @@ const AdminItem = () => {
     }
     return _item;
   };
-  // const deleteFilter = (_item:Iitem[]) => {
-  //   if (sale == 1) {
-  //     return _item.filter(item => item.isDelete === 0);
-  //   } else if (sale == 2) {
-  //     return _item.filter(item => item.isDelete === 1);
-  //   }
-  //   return _item;
-  // }
+  const deleteFilter = (_item:Iitem[]) => {
+    if (sale == 1) {
+      return _item.filter(item => item.delYn === 0);
+    } else if (sale == 2) {
+      return _item.filter(item => item.delYn === 1);
+    }
+    return _item;
+  }
   const filterList = [
     nameFilter,
     allergyFilter,
@@ -234,7 +234,7 @@ const AdminItem = () => {
     );
   });
   return (
-    <div style={{ background: "rgb(242,243,247)", height: "100vh" }}>
+    <div style={{ background: "rgb(242,243,247)", height: "100%" }}>
       <ItemContainer>
         <h1>상품 목록</h1>
         <TotalInfoWrap>
@@ -257,7 +257,7 @@ const AdminItem = () => {
             판매중지 상품{" "}
             <strong>
               {
-                // itemList.filter(item => itemisDelete === 1).length
+                // itemList.filter(item => itemdelYn === 1).length
               }
             </strong>
             개

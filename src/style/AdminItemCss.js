@@ -133,6 +133,7 @@ export const SearchFilterWrap = styled.div`
 export const ItemListWrap = styled.div`
   .itemListContainer {
     border: 1px solid;
+    margin-bottom: 70px;
     .itemListTop {
       display: flex;
       border-top: 1px solid;
