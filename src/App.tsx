@@ -43,6 +43,7 @@ const App = () => {
               <Route path="/adminadd" element={<AdminAddItem />} />
               <Route path="/adminitem" element={<AdminItem />} />
               <Route path="/adminitemedit" element={<AdminItemEdit />} />
+              <Route path="/*" element={<NotFound />} />
             </>
           ) : (
             <Route path="/*" element={<AdminLogin setIsLogin={setIsLogin}/>} />

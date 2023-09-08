@@ -8,7 +8,7 @@ interface MyResponsivePieProps {
 const MyResponsivePie: React.FC<MyResponsivePieProps> = ({ data }) => (
     <ResponsivePie
         data={data}
-        margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+        margin={{ top: 40, right: 80, bottom: 30, left: 80 }}
         padAngle={0}
         cornerRadius={0}
         activeOuterRadiusOffset={8}
@@ -17,7 +17,7 @@ const MyResponsivePie: React.FC<MyResponsivePieProps> = ({ data }) => (
             from: 'color',
             modifiers: [['darker', 0.2]],
         }}
-        enableArcLinkLabels={false}
+        // enableArcLinkLabels={false}
         arcLinkLabelsSkipAngle={10}
         arcLinkLabelsTextColor="#333333"
         arcLinkLabelsThickness={2}
@@ -48,31 +48,31 @@ const MyResponsivePie: React.FC<MyResponsivePieProps> = ({ data }) => (
                 spacing: 10,
             },
         ]}
-        legends={[
-            {
-                anchor: 'bottom',
-                direction: 'row',
-                justify: false,
-                translateX: 0,
-                translateY: 56,
-                itemsSpacing: 60,
-                itemWidth: 130,
-                itemHeight: 18,
-                itemTextColor: '#999',
-                itemDirection: 'left-to-right',
-                itemOpacity: 1,
-                symbolSize: 18,
-                symbolShape: 'circle',
-                effects: [
-                    {
-                        on: 'hover',
-                        style: {
-                            itemTextColor: '#000',
-                        },
-                    },
-                ],
-            },
-        ]}
+        // legends={[
+        //     {
+        //         anchor: 'bottom',
+        //         direction: 'row',
+        //         justify: false,
+        //         translateX: 0,
+        //         translateY: 56,
+        //         itemsSpacing: 20,
+        //         itemWidth: 150,
+        //         itemHeight: 18,
+        //         itemTextColor: '#999',
+        //         itemDirection: 'left-to-right',
+        //         itemOpacity: 1,
+        //         symbolSize: 18,
+        //         symbolShape: 'circle',
+        //         effects: [
+        //             {
+        //                 on: 'hover',
+        //                 style: {
+        //                     itemTextColor: '#000',
+        //                 },
+        //             },
+        //         ],
+        //     },
+        // ]}
     />
 );
 

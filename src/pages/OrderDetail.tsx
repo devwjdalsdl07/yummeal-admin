@@ -1,83 +1,54 @@
+import { Spin } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { OrderDetailWrap } from "../style/OrderDetailCss";
 
-interface IProdThumbnail {
-  thumbnailId: number;
-  productId: string;
-  img: string;
-}
-
-interface IProdInfo {
+interface OrderDetail {
   productId: number;
-  description: string;
-  isDelete: string;
+  img: string;
   createdAt: string;
-  updatedAt: string;
-  saleVolume: number;
-  pointRate: number;
-  productThumbnailEntityList: IProdThumbnail[];
-  pname: string;
-  pprice: number;
-  pquantity: number;
-}
-
-interface IBasket {
-  cartId: number;
-  productEntity: IProdInfo;
-  userEntity: string;
+  price: number;
   count: number;
-  createAt: string;
+  totalPrice: number;
+  pname: string;
 }
 
-interface IUser {
-  iuser: number;
-  password: string;
-  image: null | string;
-  name: string;
-  birthday: string;
-  mobile_nb: string;
-  createdAt: string;
-  uid: string;
-  providerType: string;
-  zipCode: null | string;
-  address: null | string;
-  addressDetail: null | string;
-  nickNm: string;
-  point: number;
-  delYn: null | string;
-  orderBasketEntityList: IBasket[];
-}
-
-interface IOrder {
-  orderId: number;
-  orderCode: number;
-  iuser: IUser;
-  payment: number;
+interface Order {
+  orderDetailId: number;
+  productId: number;
+  productName: string;
+  count: number;
+  totalPrice: number;
   shipment: number;
-  cancel: number;
-  createdAt: string;
-  phoneNm: string;
-  request: string;
-  receiver: string;
-  address: string;
-  addressDetail: string;
-  delYn: number;
-  usepoint: number;
+  orderDetailVo: OrderDetail[];
+  usePoint: number;
+  givePoint: number;
 }
 
 const OrderDetail = () => {
   const location = useLocation();
   const { state } = location;
-  const [orderInfo, setOrderInfo] = useState<Array<IOrder>>([]);
-  const [userInfo, setUserInfo] = useState<IUser | null>(null);
+  const [orderInfo, setOrderInfo] = useState<Order>({
+    orderDetailId: 0,
+    productId: 0,
+    productName: "",
+    count: 0,
+    totalPrice: 0,
+    shipment: 0,
+    orderDetailVo: [],
+    usePoint: 0,
+    givePoint: 0,
+  });
+  const [prodInfo, setProdInfo] = useState<Array<OrderDetail>>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const detailProd = async () => {
     const res = await axios.get(`/api/admin/order/${state.orderCode}`);
     const result = await res.data;
     setOrderInfo(result);
-    setUserInfo(result[0]?.iuser);
+    setProdInfo(result.orderDetailVo);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -96,11 +67,11 @@ const OrderDetail = () => {
         return "";
     }
   };
-console.log(orderInfo)
+  console.log(orderInfo);
   return (
     <OrderDetailWrap>
       <h2>주문상품 정보</h2>
-      <h3>주문번호 : {orderInfo[0]?.orderCode}</h3>
+      <h3>주문번호 : {state.orderCode}</h3>
       <div className="contents-wrap">
         <div className="prod-info">
           <ul className="prod-info-menu">
@@ -112,20 +83,19 @@ console.log(orderInfo)
             <li>주문상태</li>
           </ul>
           <ul className="prod-info-content">
-            {userInfo?.orderBasketEntityList?.map(
-              (item: IBasket, idx: number) => (
-                <li key={idx} className="content-grid">
-                  <ul>
-                    <li>{item.productEntity.productId}</li>
-                    <li>{item.productEntity.pname}</li>
-                    <li>{item.count}</li>
-                    <li>{orderInfo[0]?.usepoint?.toLocaleString()}</li>
-                    <li>{item.productEntity.pprice?.toLocaleString()}</li>
-                    <li>{shipmentStatus(orderInfo[0].shipment)}</li>
-                  </ul>
-                </li>
-              ),
-            )}
+            {isLoading && <Spin size="large" />}
+            {prodInfo?.map((item: OrderDetail, idx: number) => (
+              <li key={idx} className="content-grid">
+                <ul>
+                  <li>{item.productId}</li>
+                  <li>{item.pname}</li>
+                  <li>{item.count}</li>
+                  <li>{orderInfo?.usePoint?.toLocaleString()}</li>
+                  <li>{item.totalPrice?.toLocaleString()}</li>
+                  <li>{shipmentStatus(orderInfo?.shipment)}</li>
+                </ul>
+              </li>
+            ))}
           </ul>
         </div>
         <div className="order-info-wrap">
@@ -133,11 +103,15 @@ console.log(orderInfo)
             <h3>결제정보</h3>
             <ul className="orderinfo">
               <li className="orderinfo-menu">판매금액</li>
-              <li className="data">데이터자리</li>
+              <li className="data">
+                {orderInfo?.totalPrice?.toLocaleString()}
+              </li>
               <li className="orderinfo-menu">적립금 사용</li>
-              <li className="data">{orderInfo[0]?.usepoint?.toLocaleString()}원</li>
+              <li className="data">{orderInfo?.usePoint?.toLocaleString()}</li>
               <li className="orderinfo-menu">실 결제금액</li>
-              <li className="data">데이터자리</li>
+              <li className="data">
+                {(orderInfo.totalPrice - orderInfo.usePoint).toLocaleString()}
+              </li>
             </ul>
           </div>
           <div>
@@ -145,32 +119,28 @@ console.log(orderInfo)
             <ul className="payment">
               <li className="payment-menu">결제방법</li>
               <li className="data">카카오페이</li>
-              <li className="payment-menu">결제상세</li>
-              <li className="data">데이터자리</li>
               <li className="payment-menu">주문일시</li>
-              <li className="data">데이터자리</li>
-              <li className="payment-menu">결제일시</li>
-              <li className="data">데이터자리</li>
+              <li className="data">{orderInfo?.orderDetailVo[0]?.createdAt}</li>
             </ul>
           </div>
           <div>
             <h3>혜택지급내역</h3>
             <ul className="pointback">
               <li className="pointback-menu">적립혜택</li>
-              <li className="data">데이터자리</li>
+              <li className="data">{orderInfo?.givePoint?.toLocaleString()}</li>
             </ul>
           </div>
           <div>
             <h3>주문자 정보</h3>
             <ul className="userinfo">
               <li className="userinfo-menu">주문자명</li>
-              <li className="data">{userInfo?.name}</li>
+              <li className="data">데이터자리</li>
               <li className="userinfo-menu">휴대폰번호</li>
-              <li className="data">{userInfo?.mobile_nb}</li>
+              <li className="data">데이터자리</li>
               <li className="userinfo-menu">이메일</li>
-              <li className="data">{userInfo?.uid}</li>
+              <li className="data">데이터자리</li>
               <li className="userinfo-menu">주문메모</li>
-              <li className="data">{orderInfo[0]?.request}</li>
+              <li className="data">데이터자리</li>
             </ul>
           </div>
         </div>

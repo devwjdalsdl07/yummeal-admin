@@ -8,8 +8,9 @@ import {
 } from "../style/AdminLoginCss";
 import { postLogin } from "../api/adminLoginAxios";
 import { useNavigate } from "react-router-dom";
+import { ILoginProps } from "../components/Header";
 
-const AdminLogin = ({setIsLogin}:{setIsLogin: React.Dispatch<React.SetStateAction<string | null>>}) => {
+const AdminLogin = ({setIsLogin}:ILoginProps) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();

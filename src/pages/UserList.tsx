@@ -1,5 +1,5 @@
 import { ExclamationCircleFilled } from "@ant-design/icons";
-import { Modal } from "antd";
+import { Modal, Spin } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Paging from "../components/Paging";
@@ -33,15 +33,14 @@ interface UserListResponse {
 }
 
 const UserList = () => {
-  // 회원정보 state
   const [userData, setUserData] = useState<UserListResponse>({
     page: 0,
     count: 0,
     maxPage: 0,
     list: [],
   });
-  // 페이징 state
   const [pageNm, setPageNm] = useState<number>(1);
+  const [isLoading, setIsLoading]=useState<boolean>(true);
   // ant modal
   const { confirm } = Modal;
 
@@ -53,6 +52,7 @@ const UserList = () => {
     const result = res.data;
     console.log("넘어와주세요", result);
     setUserData(result);
+    setIsLoading(false);
   };
 
   // 페이지에 따른 회원정보 요청
@@ -91,6 +91,7 @@ const UserList = () => {
             <li>회원탈퇴</li>
           </ul>
           <ul className="user-info-content">
+            {isLoading && <Spin size="large"/>}
             {userData?.list?.map((item: User, idx: number) => (
               <li key={idx} className="content-grid">
                 <ul>
@@ -99,7 +100,7 @@ const UserList = () => {
                   <li>{item.uid}</li>
                   <li>{item.nickNm}</li>
                   <li>{item.point}</li>
-                  <li>{item.createdAt}</li>
+                  <li>{item.createdAt.slice(0, 10)}</li>
                   <li>
                     {item.delYn == "0" || item.delYn == null ? (
                       <button
@@ -115,6 +116,9 @@ const UserList = () => {
                 </ul>
               </li>
             ))}
+            {userData?.count < 1 && (
+              <li className="no-data">데이터가 없습니다</li>
+            )}
           </ul>
         </div>
         <Paging

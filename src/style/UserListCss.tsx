@@ -5,33 +5,6 @@ export const UserListWrap = styled.div`
   margin: 0 auto;
   font-size: 15px;
   padding: 20px 30px;
-
-  .ant-checkbox .ant-checkbox-inner {
-    width: 20px;
-    height: 20px;
-  }
-
-  .ant-checkbox-checked .ant-checkbox-inner {
-    background-color: #65ad65;
-    border-color: #65ad65;
-  }
-  .ant-checkbox .ant-checkbox-inner:after {
-    inset-inline-start: 25.5%;
-  }
-  /* .ant-checkbox-indeterminate .ant-checkbox-inner:after {
-    background-color: #65ad65;
-  } */
-
-  .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
-    .ant-checkbox-inner {
-    border-color: #65ad65;
-  }
-  /* .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
-    .ant-checkbox-checked:not(.ant-checkbox-disabled)
-    .ant-checkbox-inner {
-    background-color: ;
-    border-color: ;
-  } */
   .user-info {
     padding: 25px 20px;
   }
@@ -58,6 +31,12 @@ export const UserListWrap = styled.div`
     width: 1180px;
     margin: 0 auto;
     /* border-left: 1px solid #aaa; */
+    .no-data {
+      width: 1180px;
+      margin: 0 auto;
+      text-align: center;
+      border-bottom: 1px solid #aaa;
+    }
     .content-grid {
       & > ul {
         display: flex;
@@ -80,6 +59,9 @@ export const UserListWrap = styled.div`
         }
         & > li:nth-of-type(3) {
           width: 270px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         & > li:nth-of-type(4) {
           width: 170px;
@@ -103,7 +85,7 @@ export const UserListWrap = styled.div`
     }
   }
   .ant-pagination {
-    padding: 30px 0;
+    padding-bottom: 10px;
     text-align: center;
   }
 `;

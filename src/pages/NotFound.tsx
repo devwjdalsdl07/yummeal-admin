@@ -1,9 +1,11 @@
-import React from 'react'
+import { NotFoudWrap } from "../style/NotFoundCss";
 
 const NotFound = () => {
   return (
-    <div>NotFound</div>
-  )
-}
+    <NotFoudWrap>
+      <div className="contents-wrap">NotFound</div>
+    </NotFoudWrap>
+  );
+};
 
-export default NotFound
+export default NotFound;

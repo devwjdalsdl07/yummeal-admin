@@ -1,35 +1,52 @@
-import { Select } from "antd";
+import { Select, Spin } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Paging from "../components/Paging";
 import { SaleStatusWrap } from "../style/SalesStatusCss";
 
 // 판매량 데이터 타입
-interface IStatus {
+export interface IProdInfo {
   productId: number;
   count: number;
+  img: string;
   pname: string;
   pprice: number;
 }
 
+export interface ISaleStatus {
+  count: number;
+  totalprice: number;
+  vo: IProdInfo[];
+}
+
 // 올해연도, 월 구하기
-const thisYear = new Date().getFullYear()
-const thisMonth = ("00"+(new Date().getMonth() + 2).toString()).slice(-2)
+const thisYear = new Date().getFullYear();
+const thisMonth = ("00" + (new Date().getMonth() + 1).toString()).slice(-2);
 
 const SalesStatus = () => {
-  const [saleVolum, setSaleVolum] = useState<Array<IStatus>>([]);
+  const [saleVolum, setSaleVolum] = useState<ISaleStatus>({
+    count: 0,
+    totalprice: 0,
+    vo: [],
+  });
   const [pageNm, setPageNm] = useState(1);
   const [year, setYear] = useState(thisYear.toString());
   const [month, setMonth] = useState(thisMonth);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // 판매량 데이터
-  const saleVolumData = async (page:number, year: string, month: string) => {
+  console.log(year);
+  console.log(month);
+
+  // 전체 판매량 데이터
+  const saleVolumData = async (page: number, year: string, month: string) => {
     const res = await axios.get(
-      `/api/mypage/salevolum?page=${page - 1}&row=10&year=${year}&month=${month}`,
+      `/api/admin/salevolum?page=${
+        page - 1
+      }&row=10&year=${year}&month=${month}`,
     );
     const result = res.data;
-    console.log(result);
     setSaleVolum(result);
+    setIsLoading(false);
   };
 
   // 셀렉트박스 연도 업데이트
@@ -58,8 +75,9 @@ const SalesStatus = () => {
             <div>판매수량</div>
             <div>매출액</div>
           </div>
+          {isLoading && <Spin size="large" />}
           <div className="table">
-            {saleVolum.map((item: IStatus, idx: number) => (
+            {saleVolum?.vo?.map((item: IProdInfo, idx: number) => (
               <div key={idx} className="table-content-wrap">
                 <div>{idx + 1}</div>
                 <div>{item.pname.slice(0, 6)}</div>
@@ -68,6 +86,9 @@ const SalesStatus = () => {
                 <div>{item.pprice}</div>
               </div>
             ))}
+            {saleVolum.count < 1 && (
+              <div className="no-data">데이터가 없습니다</div>
+            )}
           </div>
         </div>
         <div className="select-wrap">
@@ -106,7 +127,11 @@ const SalesStatus = () => {
             ]}
           />
         </div>
-        <Paging pageNm={pageNm} setPageNm={setPageNm} totalItem={saleVolum.length} />
+        <Paging
+          pageNm={pageNm}
+          setPageNm={setPageNm}
+          totalItem={saleVolum.count}
+        />
       </div>
     </SaleStatusWrap>
   );

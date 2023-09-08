@@ -1,9 +1,10 @@
+import { Spin } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Paging from "../components/Paging";
 import SearchBar from "../components/SearchBar";
 import { OrderStatusWrap } from "../style/OrderStatutsCss";
-import Paging from "../components/Paging";
 
 interface OrderDetail {
   orderDetailId: number;
@@ -46,6 +47,7 @@ interface OrderData {
   addressDetail: string;
   delYn: number;
   usepoint: number;
+  productName: string;
   orderDetailVo: OrderDetail[];
   userVo: UserVo;
 }
@@ -69,8 +71,9 @@ interface OrdersResponse {
 }
 
 const OrderStatus = () => {
-  const [orderList, setOrderList] = useState<OrdersResponse|null>(null);
+  const [orderList, setOrderList] = useState<OrdersResponse | null>(null);
   const [pageNm, setPageNm] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
   const orderListGet = async (page: number) => {
@@ -79,24 +82,15 @@ const OrderStatus = () => {
     );
     const result = res.data;
     setOrderList(result);
+    setIsLoading(false);
   };
 
   useEffect(() => {
     orderListGet(pageNm);
   }, [pageNm]);
 
-  // const handleCheckChange = (idx: number) => {
-  //   const updatedData = orderList.content.map((item, index) => {
-  //     if (idx === index) {
-  //       return { ...item, complete: !item.complete };
-  //     }
-  //     return item;
-  //   });
-  //   setOrderList(updatedData);
-  // };
-
-  const handleDetailMove = (ordercode:number) => {
-    navigate("/orderdetail", {state: {orderCode: ordercode}});
+  const handleDetailMove = (ordercode: number) => {
+    navigate("/orderdetail", { state: { orderCode: ordercode } });
   };
 
   const handleTotalPPrice = (item: OrderData) => {
@@ -127,7 +121,6 @@ const OrderStatus = () => {
       <div className="contents-wrap">
         <SearchBar />
         <div className="menu">
-          {/* <div>체크</div> */}
           <div>번호</div>
           <div>주문일시</div>
           <div>주문번호</div>
@@ -138,30 +131,35 @@ const OrderStatus = () => {
           <div>총주문금액</div>
         </div>
         <div className="table">
-          {orderList?.content.map((item: OrderData, idx: number) => (
+          {isLoading && <Spin size="large" />}
+          {orderList?.content.map((item: OrderData) => (
             <div key={item.ordercode} className="table-content-wrap">
-              {/* <div>
-                <input
-                  type="checkbox"
-                  className="checkbox"
-                  checked={item.complete}
-                  onChange={() => handleCheckChange(idx)}
-                />
-              </div> */}
               <div>{item.orderId}</div>
-              <div>{item.createdAt == null ? "2023-09-04":item.createdAt}</div>
-              <div className="order-div" onClick={()=>handleDetailMove(item.ordercode)}>
+              <div>{item.createdAt}</div>
+              <div
+                className="order-div"
+                onClick={() => handleDetailMove(item.ordercode)}
+              >
                 {item.ordercode}
               </div>
-              <div>{item.userName == null ? "홍길동":item.userName}</div>
-              <div>{"상품명 없음"}</div>
+              <div>{item.userName}</div>
+              <div>
+                {item.productName}{" "}
+                {item.orderDetailVo.length > 1
+                  ? `외 ${item.orderDetailVo.length - 1}건`
+                  : null}
+              </div>
               <div>{handleTotalPPrice(item)}</div>
               <div>{item.usepoint}</div>
               <div>{handleTotalOPrice(item)}</div>
             </div>
           ))}
         </div>
-        <Paging pageNm={pageNm} setPageNm={setPageNm} totalItem={orderList?.totalElements}/>
+        <Paging
+          pageNm={pageNm}
+          setPageNm={setPageNm}
+          totalItem={orderList?.totalElements}
+        />
       </div>
     </OrderStatusWrap>
   );
