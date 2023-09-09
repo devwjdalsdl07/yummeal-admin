@@ -1,10 +1,14 @@
-import { Spin } from "antd";
+import { DatePicker, Spin } from "antd";
+import { RangePickerProps } from "antd/es/date-picker";
 import axios from "axios";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Paging from "../components/Paging";
-import SearchBar from "../components/SearchBar";
+import Search from "../components/Search";
 import { OrderStatusWrap } from "../style/OrderStatutsCss";
+
+const { RangePicker } = DatePicker;
 
 interface OrderDetail {
   orderDetailId: number;
@@ -34,12 +38,12 @@ interface Pageable {
 interface OrderData {
   orderId: number;
   ordercode: number;
-  iuser: number | null;
-  userName: string | null;
+  iuser: number;
+  userName: string;
   payment: number;
   shipment: number;
   cancel: number;
-  createdAt: string | null;
+  createdAt: string;
   phoneNm: string;
   request: string;
   reciever: string;
@@ -76,9 +80,17 @@ const OrderStatus = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
-  const orderListGet = async (page: number) => {
+  const orderListGet = async (page: number, query: string) => {
+    const sendQuery = query;
+    console.log(
+      `/api/admin/order?${sendQuery}page=${
+        page - 1
+      }&size=10&sort=createdAt,asc`,
+    );
     const res = await axios.get(
-      `/api/admin/order?page=${page - 1}&size=10&sort=createdAt,asc`,
+      `/api/admin/order?${sendQuery}page=${
+        page - 1
+      }&size=10&sort=createdAt,asc`,
     );
     const result = res.data;
     setOrderList(result);
@@ -86,7 +98,7 @@ const OrderStatus = () => {
   };
 
   useEffect(() => {
-    orderListGet(pageNm);
+    orderListGet(pageNm, "");
   }, [pageNm]);
 
   const handleDetailMove = (ordercode: number) => {
@@ -115,11 +127,70 @@ const OrderStatus = () => {
     return 0;
   };
 
+  // 사용자가 검색에서 선택한 항목에 대한 state
+  const [orderCodeCheckIndex, setOrderCodeCheckIndex] = useState<number>(0);
+  const [orderCodeCheckWord, setOrderCodeCheckWord] = useState<string>("");
+
+  // RangePicker의 onChange 이벤트 핸들러
+  // 시작, 끝 날짜
+  const [stDay, setStDay] = useState<string>("");
+  const [edDay, setEdDay] = useState<string>("");
+  const onChange: RangePickerProps["onChange"] = (date, dateString) => {
+    const startDate = dayjs(dateString[0]);
+    const endDate = dayjs(dateString[1]);
+    const formattedStartDate = startDate.format("YYYY-MM-DD");
+    const formattedEndDate = endDate.format("YYYY-MM-DD");
+    setStDay(formattedStartDate);
+    setEdDay(formattedEndDate);
+  };
+
+  const handleSearch = () => {
+    let sendQuery = "";
+    if (stDay === "" || edDay === "") {
+      sendQuery = `filter${orderCodeCheckIndex}=${orderCodeCheckWord}&`;
+    } else if (stDay !== "" || edDay !== "") {
+      sendQuery = `startDate=${stDay}&endDate=${edDay}&`;
+    } else {
+      sendQuery = `filter${orderCodeCheckIndex}=${orderCodeCheckWord}&`;
+    }
+    orderListGet(pageNm, sendQuery);
+  };
+
+  const handleReset = () => {
+    setStDay("");
+    setEdDay("");
+    setOrderCodeCheckWord("");
+    setOrderCodeCheckIndex(0);
+    const send = `filter0=0&`;
+    orderListGet(pageNm, send);
+  };
+
   return (
     <OrderStatusWrap>
       <h2>주문 현황</h2>
+      <div className="search-wrap">
+        <h3>검색어</h3>
+        <Search
+          orderCodeCheckIndex={orderCodeCheckIndex}
+          setOrderCodeCheckIndex={setOrderCodeCheckIndex}
+          orderCodeCheckWord={orderCodeCheckWord}
+          setOrderCodeCheckWord={setOrderCodeCheckWord}
+        />
+      </div>
+      <div className="search-wrap">
+        <h3>조회 검색</h3>
+        <div className="search-check">
+          {/* <button onClick={handleSearchDay}>어제</button>
+          <button onClick={handleSearch}>1주일</button>
+          <button onClick={handleSearchmonth}>1개월</button> */}
+        </div>
+        <RangePicker onChange={onChange} />
+        <div className="search-bt">
+          <button onClick={handleSearch}>검색</button>
+          <button onClick={handleReset}>초기화</button>
+        </div>
+      </div>
       <div className="contents-wrap">
-        <SearchBar />
         <div className="menu">
           <div>번호</div>
           <div>주문일시</div>

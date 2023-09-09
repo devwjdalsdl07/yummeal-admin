@@ -40,7 +40,7 @@ const UserList = () => {
     list: [],
   });
   const [pageNm, setPageNm] = useState<number>(1);
-  const [isLoading, setIsLoading]=useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   // ant modal
   const { confirm } = Modal;
 
@@ -91,14 +91,14 @@ const UserList = () => {
             <li>회원탈퇴</li>
           </ul>
           <ul className="user-info-content">
-            {isLoading && <Spin size="large"/>}
+            {isLoading && <Spin size="large" />}
             {userData?.list?.map((item: User, idx: number) => (
               <li key={idx} className="content-grid">
                 <ul>
                   <li>{item.iuser}</li>
                   <li>{item.name}</li>
                   <li>{item.uid}</li>
-                  <li>{item.nickNm}</li>
+                  <li>{!item.nickNm ? `임시닉네임` : item.nickNm}</li>
                   <li>{item.point}</li>
                   <li>{item.createdAt.slice(0, 10)}</li>
                   <li>

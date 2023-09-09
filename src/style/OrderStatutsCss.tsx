@@ -6,6 +6,85 @@ export const OrderStatusWrap = styled.div`
   margin: 0 auto;
   font-size: 15px;
   padding: 20px 30px;
+  .search-wrap {
+    display: flex;
+    gap: 30px;
+    padding-top: 15px;
+    margin-left: 40px;
+    margin-top: 15px;
+
+    h3 {
+      font-size: 22px;
+      margin-right: 25px;
+      width: 95px;
+      color: #152941;
+    }
+    .search-check {
+      display: flex;
+      gap: 27px;
+      > button {
+        width: 60px;
+        border-radius: 35px;
+        border: 1px solid #d9d9d9;
+        background-color: #fff;
+        padding: 6px;
+        color: #152941;
+        :hover {
+          background: #61a1f3;
+          border: 1px solid #61a1f3;
+          color: #fff;
+        }
+      }
+    }
+    .search-bt {
+      /* margin-left: auto; */
+      margin-left: 100px;
+      > button {
+        width: 150px;
+        height: 35px;
+        margin-right: 35px;
+        font-size: 15px;
+        border-radius: 8px;
+        border: 1px solid #d9d9d9;
+        background: #fff;
+        :hover {
+          background: #ff5d5c;
+          border: 1px solid #ff5d5c;
+          color: #fff;
+        }
+      }
+    }
+    .search-bar {
+      width: 400px;
+      height: 32px;
+      padding-right: 20px;
+      border-radius: 5px;
+      border: solid 1px #d9d9d9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+      opacity: 1;
+      font-size: 15px;
+      background: #fff;
+      i {
+        color: #969696;
+      }
+      input {
+        width: 300px;
+        border: none;
+        text-align: center;
+        overflow: auto;
+        font-size: 15px;
+
+        &:focus {
+          outline: none;
+          width: 220px;
+          text-align: left;
+        }
+      }
+    }
+  }
   .menu {
     width: 1300px;
     margin: 0 auto;
