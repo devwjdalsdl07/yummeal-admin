@@ -7,9 +7,10 @@ import {
   Title,
 } from "../style/AdminLoginCss";
 import { postLogin } from "../api/adminLoginAxios";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
+import { ILoginProps } from "../components/Header";
 
-const AdminLogin: React.FC = () => {
+const AdminLogin = ({setIsLogin}:ILoginProps) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
@@ -23,7 +24,8 @@ const AdminLogin: React.FC = () => {
     const login = await postLogin(user);
     console.log(login);
     if (login == "success") {
-      navigate("/");
+      navigate("/main");
+      setIsLogin(localStorage.getItem("accessToken"))
     } else if (login?.response.data.message) {
       alert(login.response.data.message);
     }

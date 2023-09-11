@@ -22,10 +22,15 @@ export const SaleStatusWrap = styled.div`
         padding: 10px;
       }
     }
+    .ant-spin-spinning {
+      width: 100%;
+    }
     .table {
       display: grid;
       text-align: center;
       & > div {
+        margin: 0 auto;
+        width: 1100px;
         border-bottom: 1px solid #aaa;
       }
       .table-content-wrap {
@@ -52,6 +57,9 @@ export const SaleStatusWrap = styled.div`
         }
         & > div:nth-of-type(5) {
           width: 199px;
+        }
+        .no-data {
+          text-align: center;
         }
       }
     }

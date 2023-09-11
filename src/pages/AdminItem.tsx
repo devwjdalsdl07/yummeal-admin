@@ -8,7 +8,7 @@ import {
 import ItemList from "../components/ItemList";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { getItem } from "../api/adminItemAxios";
 
 export interface Iitem {

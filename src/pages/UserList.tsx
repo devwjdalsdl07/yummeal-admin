@@ -1,10 +1,11 @@
 import { ExclamationCircleFilled } from "@ant-design/icons";
-import { Modal } from "antd";
+import { Modal, Spin } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Paging from "../components/Paging";
 import { UserListWrap } from "../style/UserListCss";
 
+// 유저정보(리스트) 데이터 타입
 interface User {
   iuser: number;
   password: string;
@@ -23,6 +24,7 @@ interface User {
   delYn: null | string;
 }
 
+// 유저정보 데이터 타입
 interface UserListResponse {
   page: number;
   count: number;
@@ -31,26 +33,26 @@ interface UserListResponse {
 }
 
 const UserList = () => {
-  // 회원정보 state
   const [userData, setUserData] = useState<UserListResponse>({
     page: 0,
     count: 0,
     maxPage: 0,
     list: [],
   });
-  // 페이징 state
   const [pageNm, setPageNm] = useState<number>(1);
+  const [isLoading, setIsLoading]=useState<boolean>(true);
   // ant modal
   const { confirm } = Modal;
 
   // 회원정보 불러오기
   const userGet = async (page: number) => {
     const res = await axios.get(
-      `/api/admin/search?page=${page - 1}&size=10&sort=createdAt`,
+      `/api/admin/search?page=${page - 1}&size=10&sort=iuser%2CDESC`,
     );
     const result = res.data;
     console.log("넘어와주세요", result);
     setUserData(result);
+    setIsLoading(false);
   };
 
   // 페이지에 따른 회원정보 요청
@@ -89,6 +91,7 @@ const UserList = () => {
             <li>회원탈퇴</li>
           </ul>
           <ul className="user-info-content">
+            {isLoading && <Spin size="large"/>}
             {userData?.list?.map((item: User, idx: number) => (
               <li key={idx} className="content-grid">
                 <ul>
@@ -97,18 +100,25 @@ const UserList = () => {
                   <li>{item.uid}</li>
                   <li>{item.nickNm}</li>
                   <li>{item.point}</li>
-                  <li>{item.createdAt}</li>
+                  <li>{item.createdAt.slice(0, 10)}</li>
                   <li>
-                    {item.delYn == "0" || item.delYn == null ? (<button
-                      className="userdelete"
-                      onClick={() => showConfirm(item.uid)}
-                    >
-                      탈퇴
-                    </button>):(<button disabled>탈퇴처리</button>)}
+                    {item.delYn == "0" || item.delYn == null ? (
+                      <button
+                        className="userdelete"
+                        onClick={() => showConfirm(item.uid)}
+                      >
+                        탈퇴
+                      </button>
+                    ) : (
+                      <button disabled>탈퇴처리</button>
+                    )}
                   </li>
                 </ul>
               </li>
             ))}
+            {userData?.count < 1 && (
+              <li className="no-data">데이터가 없습니다</li>
+            )}
           </ul>
         </div>
         <Paging
