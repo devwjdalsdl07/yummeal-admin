@@ -22,7 +22,7 @@ const Sider: React.FC = () => {
     {
       name: "상품 관리",
       icon: <FontAwesomeIcon icon={faBox} />,
-      subMenu: ["판매 현황", "베스트 상품"],
+      subMenu: ["판매 현황", "베스트 상품", "상품 관리"],
     },
     {
       name: "주문 관리",
@@ -33,7 +33,7 @@ const Sider: React.FC = () => {
   const [selectedSubMenu, setSelectedSubMenu] = useState<string[]>([]);
   const [iconToggle, setIconToggle] = useState<boolean>(false);
   const [iToggle, setIToggle] = useState<boolean>(false);
-  const [subActive, setSubActive] = useState<string|null>(null);
+  const [subActive, setSubActive] = useState<string | null>(null);
 
   const toggleSubMenu = (index: number) => {
     if (selectedSubMenu.includes(index.toString())) {
@@ -89,15 +89,23 @@ const Sider: React.FC = () => {
             {item.subMenu && selectedSubMenu.includes(index.toString()) && (
               <ul className="sub-menu">
                 {item.subMenu.map((subItem, subIndex) => (
-                  <li key={subIndex} className={`sub-menu-item ${subItem === subActive ? 'active' : ''}`} onClick={()=>setSubActive(subItem)}>
+                  <li
+                    key={subIndex}
+                    className={`sub-menu-item ${
+                      subItem === subActive ? "active" : ""
+                    }`}
+                    onClick={() => setSubActive(subItem)}
+                  >
                     {subItem === "판매 현황" ? (
                       <Link to="/salestatus">판매 현황</Link>
                     ) : subItem === "베스트 상품" ? (
                       <Link to="/bestsale">베스트 상품</Link>
                     ) : subItem === "배송 관리" ? (
-                      <Link to="/delivery">배송 관리</Link> 
+                      <Link to="/delivery">배송 관리</Link>
                     ) : subItem === "주문 현황" ? (
                       <Link to="/orderstatus">주문 현황</Link>
+                    ) : subItem === "상품 관리" ? (
+                      <Link to="/adminitem">상품관리</Link>
                     ) : (
                       subItem
                     )}

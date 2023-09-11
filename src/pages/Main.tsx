@@ -5,6 +5,7 @@ import { MainWrap } from "../style/MainCss";
 import { IPieData } from "./BestSellProd";
 import { ISaleStatus } from "./SalesStatus";
 
+
 const Main = () => {
   const thisYear = new Date().getFullYear().toString();
   const thisMonth = ("00" + (new Date().getMonth() + 1).toString()).slice(-2);
