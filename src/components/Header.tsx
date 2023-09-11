@@ -42,6 +42,10 @@ const Header = ({ setIsLogin }: ILoginProps) => {
 
   return (
     <HeaderCss>
+      <div className="title">
+        <h1>YUMMEAL</h1>
+        <h2>Admin</h2>
+      </div>
       <i onClick={handleUserMenu}>
         <FontAwesomeIcon icon={faCircleUser} />
       </i>

@@ -2,10 +2,7 @@ import { Select, Spin } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Paging from "../components/Paging";
-import Search from "../components/Search";
 import { SaleStatusWrap } from "../style/SalesStatusCss";
-import { getOrder } from "../api/DeliveryFatch";
-import { Order } from "./Delivery";
 
 // 판매량 데이터 타입
 export interface IProdInfo {
@@ -36,11 +33,6 @@ const SalesStatus = () => {
   const [year, setYear] = useState(thisYear.toString());
   const [month, setMonth] = useState(thisMonth);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [orderSearch, setOrderSearch] = useState<Array<Order>>([]);
-
-  // 사용자가 검색에서 선택한 항목에 대한 state
-  const [orderCodeCheckIndex, setOrderCodeCheckIndex] = useState<number>(0);
-  const [orderCodeCheckWord, setOrderCodeCheckWord] = useState<string>("");
 
   // 전체 판매량 데이터
   const saleVolumData = async (page: number, year: string, month: string) => {
@@ -98,7 +90,7 @@ const SalesStatus = () => {
         </div>
         <div className="select-wrap">
           <Select
-            defaultValue="연도 선택"
+            defaultValue={(thisYear).toString()}
             style={{ width: 130 }}
             onChange={handleYearChange}
             options={[
@@ -113,7 +105,7 @@ const SalesStatus = () => {
             ]}
           />
           <Select
-            defaultValue="월 선택"
+            defaultValue={thisMonth}
             style={{ width: 130 }}
             onChange={handleMonthChange}
             options={[

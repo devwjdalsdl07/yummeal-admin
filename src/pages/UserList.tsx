@@ -68,7 +68,7 @@ const UserList = () => {
       content: "탈퇴된 회원정보는 복구되지 않습니다.",
       async onOk() {
         const result = await axios.delete(`/api/admin/uid?uid=${uid}`);
-        console.log(result);
+        userGet(pageNm);
       },
       onCancel() {
         console.log("Cancel");

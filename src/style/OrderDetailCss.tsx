@@ -76,6 +76,7 @@ export const OrderDetailWrap = styled.div`
     gap: 20px;
     width: 1130px;
     margin: 0 auto;
+    padding-bottom: 30px;
     h3 {
       padding: 10px 30px;
     }

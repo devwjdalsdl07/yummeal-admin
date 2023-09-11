@@ -70,13 +70,20 @@ export const LayoutCss = styled.div`
   position: relative;
 `;
 export const HeaderCss = styled.div`
+  display: flex;
+  justify-content: space-between;
   position: relative;
   height: 70px;
   width: 100%;
   background-color: #fefefe;
-  text-align: end;
   padding-top: 10px;
   padding-right: 40px;
+  .title{
+    padding-left: 30px;
+    h2{
+      text-align: center;
+    }
+  }
   & > i {
     font-size: 30px;
     cursor: pointer;

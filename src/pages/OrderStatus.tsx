@@ -1,6 +1,6 @@
 import { DatePicker, Spin } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -81,20 +81,31 @@ const OrderStatus = () => {
   const navigate = useNavigate();
 
   const orderListGet = async (page: number, query: string) => {
-    const sendQuery = query;
-    console.log(
-      `/api/admin/order?${sendQuery}page=${
-        page - 1
-      }&size=10&sort=createdAt,asc`,
-    );
-    const res = await axios.get(
-      `/api/admin/order?${sendQuery}page=${
-        page - 1
-      }&size=10&sort=createdAt,asc`,
-    );
-    const result = res.data;
-    setOrderList(result);
-    setIsLoading(false);
+    try {
+      const sendQuery = query;
+      console.log(
+        `/api/admin/order?${sendQuery}page=${
+          page - 1
+        }&size=10&sort=createdAt,asc`,
+      );
+      const res = await axios.get(
+        `/api/admin/order?${sendQuery}page=${
+          page - 1
+        }&size=10&sort=createdAt,asc`,
+      );
+      const result = res.data;
+      setOrderList(result);
+      setIsLoading(false);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response) {
+          // 서버 응답이 있는 경우
+          const errorMessage = axiosError.response.data as any;
+          alert(errorMessage.message);
+        }
+      }
+    }
   };
 
   useEffect(() => {
@@ -128,7 +139,9 @@ const OrderStatus = () => {
   };
 
   // 사용자가 검색에서 선택한 항목에 대한 state
-  const [orderCodeCheckIndex, setOrderCodeCheckIndex] = useState<number>(0);
+  const [orderCodeCheckIndex, setOrderCodeCheckIndex] = useState<
+    number | string
+  >(0);
   const [orderCodeCheckWord, setOrderCodeCheckWord] = useState<string>("");
 
   // RangePicker의 onChange 이벤트 핸들러
@@ -145,24 +158,32 @@ const OrderStatus = () => {
   };
 
   const handleSearch = () => {
-    let sendQuery = "";
-    if (stDay === "" || edDay === "") {
-      sendQuery = `filter${orderCodeCheckIndex}=${orderCodeCheckWord}&`;
-    } else if (stDay !== "" || edDay !== "") {
-      sendQuery = `startDate=${stDay}&endDate=${edDay}&`;
-    } else {
-      sendQuery = `filter${orderCodeCheckIndex}=${orderCodeCheckWord}&`;
+    try {
+      let sendQuery = "";
+      if (stDay === "" || edDay === "") {
+        sendQuery = `filter${orderCodeCheckIndex}=${orderCodeCheckWord}&`;
+      } else if (stDay !== "" || edDay !== "") {
+        sendQuery = `startDate=${stDay}&endDate=${edDay}&`;
+      } else {
+        sendQuery = `filter${orderCodeCheckIndex}=${orderCodeCheckWord}&`;
+      }
+      orderListGet(pageNm, sendQuery);
+    } catch (error) {
+      alert(error);
     }
-    orderListGet(pageNm, sendQuery);
   };
 
   const handleReset = () => {
-    setStDay("");
-    setEdDay("");
-    setOrderCodeCheckWord("");
-    setOrderCodeCheckIndex(0);
-    const send = `filter0=0&`;
-    orderListGet(pageNm, send);
+    try {
+      setStDay("");
+      setEdDay("");
+      setOrderCodeCheckWord("");
+      setOrderCodeCheckIndex(0);
+      const send = `filter0=0&`;
+      orderListGet(pageNm, send);
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (
@@ -177,14 +198,21 @@ const OrderStatus = () => {
           setOrderCodeCheckWord={setOrderCodeCheckWord}
         />
       </div>
-      <div className="search-wrap">
-        <h3>조회 검색</h3>
-        <div className="search-check">
-          {/* <button onClick={handleSearchDay}>어제</button>
+      <div className="date-search-wrap">
+        <div className="date-picker">
+          <h3>조회 검색</h3>
+          {/* <div className="search-check">
+          <button onClick={handleSearchDay}>어제</button>
           <button onClick={handleSearch}>1주일</button>
-          <button onClick={handleSearchmonth}>1개월</button> */}
+          <button onClick={handleSearchmonth}>1개월</button>
+        </div> */}
+          <RangePicker
+            onChange={onChange}
+            inputReadOnly={true}
+            value={stDay && edDay ? [dayjs(stDay), dayjs(edDay)] : undefined}
+            allowClear={false}
+          />
         </div>
-        <RangePicker onChange={onChange} />
         <div className="search-bt">
           <button onClick={handleSearch}>검색</button>
           <button onClick={handleReset}>초기화</button>

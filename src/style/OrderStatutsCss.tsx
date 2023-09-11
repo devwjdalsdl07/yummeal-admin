@@ -8,11 +8,10 @@ export const OrderStatusWrap = styled.div`
   padding: 20px 30px;
   .search-wrap {
     display: flex;
-    gap: 30px;
+    gap: 50px;
     padding-top: 15px;
     margin-left: 40px;
     margin-top: 15px;
-
     h3 {
       font-size: 22px;
       margin-right: 25px;
@@ -32,24 +31,6 @@ export const OrderStatusWrap = styled.div`
         :hover {
           background: #61a1f3;
           border: 1px solid #61a1f3;
-          color: #fff;
-        }
-      }
-    }
-    .search-bt {
-      /* margin-left: auto; */
-      margin-left: 100px;
-      > button {
-        width: 150px;
-        height: 35px;
-        margin-right: 35px;
-        font-size: 15px;
-        border-radius: 8px;
-        border: 1px solid #d9d9d9;
-        background: #fff;
-        :hover {
-          background: #ff5d5c;
-          border: 1px solid #ff5d5c;
           color: #fff;
         }
       }
@@ -85,9 +66,42 @@ export const OrderStatusWrap = styled.div`
       }
     }
   }
+  .date-search-wrap {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 15px;
+    margin-left: 40px;
+    margin-top: 15px;
+    h3 {
+      font-size: 22px;
+      margin-right: 25px;
+      width: 95px;
+      color: #152941;
+    }
+    .date-picker {
+      display: flex;
+      gap: 50px;
+    }
+    .search-bt {
+      > button {
+        width: 150px;
+        height: 35px;
+        margin-right: 35px;
+        font-size: 15px;
+        border-radius: 8px;
+        border: 1px solid #d9d9d9;
+        background: #fff;
+        :hover {
+          background: #ff5d5c;
+          border: 1px solid #ff5d5c;
+          color: #fff;
+        }
+      }
+    }
+  }
   .menu {
     width: 1300px;
-    margin: 0 auto;
+    margin: 70px auto 0;
     display: grid;
     grid-template-columns: 100px 150px 150px 100px 350px 150px 150px 150px;
     text-align: center;

@@ -48,7 +48,7 @@ const Delivery = () => {
   // const [selectAll, setSelectAll] = useState(false)
 
   // 사용자가 검색에서 선택한 항목에 대한 state
-  const [orderCodeCheckIndex, setOrderCodeCheckIndex] = useState<number>(0);
+  const [orderCodeCheckIndex, setOrderCodeCheckIndex] = useState<number|string>(0);
   const [orderCodeCheckWord, setOrderCodeCheckWord] = useState<string>("");
 
   // RangePicker의 onChange 이벤트 핸들러

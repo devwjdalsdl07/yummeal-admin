@@ -18,8 +18,8 @@ const thisYear = new Date().getFullYear();
 const thisMonth = ("00" + (new Date().getMonth() + 1).toString()).slice(-2);
 
 const BestSellProd = () => {
-  const [year, setYear] = useState(thisYear.toString());
-  const [month, setMonth] = useState(thisMonth);
+  const [year, setYear] = useState<string>(thisYear.toString());
+  const [month, setMonth] = useState<string>(thisMonth);
   const [salesData, setSalesData] = useState<ISaleStatus>({
     count: 0,
     totalprice: 0,
@@ -99,7 +99,7 @@ const BestSellProd = () => {
           </div>
           <div className="select-wrap">
             <Select
-              defaultValue="연도 선택"
+              defaultValue={(thisYear).toString()}
               style={{ width: 130 }}
               onChange={handleYearChange}
               options={[
@@ -114,7 +114,7 @@ const BestSellProd = () => {
               ]}
             />
             <Select
-              defaultValue="월 선택"
+              defaultValue={thisMonth}
               style={{ width: 130 }}
               onChange={handleMonthChange}
               options={[

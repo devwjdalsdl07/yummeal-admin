@@ -4,7 +4,7 @@ import React from "react";
 interface IPagingProps {
   pageNm: number;
   setPageNm: React.Dispatch<React.SetStateAction<number>>;
-  totalItem?: number | string | undefined;
+  totalItem?: number;
 }
 
 const Paging: React.FC<IPagingProps> = ({ pageNm, setPageNm, totalItem }) => {
