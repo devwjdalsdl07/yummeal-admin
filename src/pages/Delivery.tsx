@@ -44,10 +44,16 @@ export interface OrderResponse {
 }
 const Delivery = () => {
   const [orderSearch, setOrderSearch] = useState<Array<Order>>([]);
+
   // 사용자가 검색에서 선택한 항목에 대한 state
-  const [orderCodeCheckIndex, setOrderCodeCheckIndex] = useState<number>(0);
+  const [orderCodeCheckIndex, setOrderCodeCheckIndex] = useState<
+    number | string
+  >(0);
+
   // const [selectAll, setSelectAll] = useState(false)
+
   const [orderCodeCheckWord, setOrderCodeCheckWord] = useState<string>("");
+
   // RangePicker의 onChange 이벤트 핸들러
   // 시작, 끝 날짜
   const [stDay, setStDay] = useState<string>("");
@@ -163,10 +169,11 @@ const Delivery = () => {
       <div className="search-wrap">
         <h3>검색어</h3>
         <Search
+          orderCodeCheckIndex={orderCodeCheckIndex}
           setOrderCodeCheckIndex={setOrderCodeCheckIndex}
+          orderCodeCheckWord={orderCodeCheckWord}
           setOrderCodeCheckWord={setOrderCodeCheckWord}
         />
-        {/* <Search /> */}
       </div>
       <div className="search-wrap">
         <h3>조회 검색</h3>
