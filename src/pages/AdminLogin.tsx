@@ -7,15 +7,11 @@ import {
   Title,
 } from "../style/AdminLoginCss";
 import { postLogin } from "../api/adminLoginAxios";
-
 import { useRecoilState } from "recoil";
 import { accessTokenState } from "../atom/atom";
-
 import { useNavigate } from "react-router-dom";
-import { ILoginProps } from "../components/Header";
 
-
-const AdminLogin = ({setIsLogin}:ILoginProps) => {
+const AdminLogin = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();

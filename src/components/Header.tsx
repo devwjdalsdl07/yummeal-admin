@@ -8,14 +8,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { HeaderCss } from "../style/SiderCss";
-import { useSetRecoilState } from "recoil";
-import { accessTokenState } from "../atom/atom";
-
 
 const Header = () => {
-  const setAccesToken = useSetRecoilState(accessTokenState);
-
-
   const [infoToggle, setInfoToggle] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,16 +21,19 @@ const Header = () => {
 
   // 홈버튼
   const handleHome = () => {
-    navigate("/main");
+    navigate("/");
   };
 
-  console.log(infoToggle);
-  const handleLogOutClick = () => {
-    setAccesToken("");
+  // 로그아웃
+  const handleLogOut = async () => {
+    const res = await axios.get("/api/user/sign-out");
     localStorage.removeItem("accessToken");
     navigate("/");
-    setInfoToggle(false);
   };
+
+  useEffect(() => {
+    setInfoToggle(false);
+  }, [location.pathname]);
 
   return (
     <HeaderCss>
@@ -67,9 +64,7 @@ const Header = () => {
               <div>쇼핑몰 가기</div>
             </Link>
           </div>
-
-          <button className="logout" onClick={handleLogOutClick}>
-
+          <button className="logout" onClick={handleLogOut}>
             로그아웃
           </button>
         </div>
