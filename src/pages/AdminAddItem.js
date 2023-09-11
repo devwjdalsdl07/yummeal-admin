@@ -160,13 +160,16 @@ const AdminAddItem = () => {
         editor.insertEmbed(
           range.index,
           "imageBlot",
-          { src: `http://192.168.0.144:5001${img.img}`, pk: img.pimgId },
+          {
+            src: `http://192.168.0.144:5001/img/webeditor/${productRef.current}/${img.img}`,
+            pk: img.pimgId,
+          },
           "user",
         );
         setUploadImg([
           ...uploadImg,
           {
-            src: `http://192.168.0.144:5001${img.img}`,
+            src: `http://192.168.0.144:5001/img/webeditor/${productRef.current}/${img.img}`,
             pk: img.pimgId,
           },
         ]);
@@ -222,12 +225,10 @@ const AdminAddItem = () => {
     };
     const result = imgArr.filter(item => item !== null);
     const itemResult = await itemAdd(data);
-    const imgResult = await imgAdd(product, result);
     if (1 == itemResult) {
-      if (imgResult.length > 0) {
-        localStorage.removeItem("adminStorage");
-        navigate("/adminitem");
-      }
+      const imgResult = await imgAdd(product, result);
+      localStorage.removeItem("adminStorage");
+      navigate("/adminitem");
     }
   };
   const adminStorage = () => {

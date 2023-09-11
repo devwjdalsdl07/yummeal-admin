@@ -29,3 +29,16 @@ export const deleteThumb = async (_item: any) => {
     console.log(err);
   }
 };
+
+export const itemEdit = async (_data:any) => {
+  try {
+    const res = await axios.patch("/api/admin/webeditor/product/modification", _data);
+    console.log("아이템등록",_data)
+    console.log("아이템등록 후",res.data)
+    return res.data;
+  } catch (err) {
+    console.log("아이템 등록 실패");
+    console.log(_data)
+    console.log(err);
+  }
+};

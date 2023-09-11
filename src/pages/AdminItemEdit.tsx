@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import ReactQuill, { Quill } from "react-quill";
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { AdminWrapper } from "../style/AdminAddCss";
-import { getCate, imgAdd, itemAdd, postImage } from "../api/adminAddAxios";
+import { getCate, imgAdd,  postImage } from "../api/adminAddAxios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { TAllergy } from "./AdminItem";
-import { getItemInfo } from "../api/adminItemEditAxios";
+import { getItemInfo, itemEdit } from "../api/adminItemEditAxios";
 import ImgEdit from "../components/ImgEdit";
 
 interface ICateList {
@@ -133,7 +133,7 @@ const AdminItemEdit = () => {
       try {
         const img = await imgUpload(productRef.current, file);
         console.log("받아오는 값", img);
-        editor.insertEmbed(range.index, "image", `http://192.168.0.144:5001${img.img}`);
+        editor.insertEmbed(range.index, "image", `http://192.168.0.144:5001/img/webeditor/${productRef.current}/${img.img}`);
         editor.setSelection(range.index + 1);
       } catch (error) {
         console.log(error);
@@ -185,7 +185,7 @@ const AdminItemEdit = () => {
     const result = imgArr.filter(
       item => item !== null || typeof item !== "string",
     );
-    const itemResult = await itemAdd(data);
+    const itemResult = await itemEdit(data);
     if (itemResult === 1) {
       const imgResult = await imgAdd(product, result);
       localStorage.removeItem("adminStorage");

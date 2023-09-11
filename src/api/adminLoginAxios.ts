@@ -1,6 +1,4 @@
 import axios from "axios";
-import { useRecoilState } from "recoil";
-import { accessTokenState } from "../atom/atom";
 
 export const postLogin = async (_user: { uid: string; upw: string }) => {
   try {

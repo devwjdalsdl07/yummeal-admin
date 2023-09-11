@@ -36,7 +36,12 @@ const ItemList = ({
   const handleDelClick = async () => {
     const result = await deleteItem(item.productId);
     if (result === 1) {
-      setFilter(filter.filter(filter => filter.productId !== item.productId));
+      setFilter(
+        filter.filter(filter => {
+          filter.productId !== item.productId;
+          return (item.delYn = 1);
+        }),
+      );
     }
   };
   return (
@@ -54,7 +59,10 @@ const ItemList = ({
         <span>{item.productId}</span>
       </div>
       <div className="itemName-item">
-        <img src={`http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`} alt="썸네일" />
+        <img
+          src={`http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`}
+          alt="썸네일"
+        />
         <span>{item.name}</span>
       </div>
       <div className="itemPrice">

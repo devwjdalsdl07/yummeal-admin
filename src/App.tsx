@@ -16,7 +16,7 @@ import OrderStatus from "./pages/OrderStatus";
 import SalesStatus from "./pages/SalesStatus";
 import UserList from "./pages/UserList";
 import Header from "./components/Header";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState} from "recoil";
 import { accessTokenState } from "./atom/atom";
 const App = () => {
   const [accessToken, setAccessToken] = useRecoilState<any>(accessTokenState);
@@ -26,20 +26,11 @@ const App = () => {
       setAccessToken(localStorage.getItem("accessToken"));
     }
   }, []);
-
-const App = () => {
-  const [isLogin, setIsLogin] = useState<string | null>(null);
-  const Token = localStorage.getItem("accessToken");
-  useEffect(() => {
-    setIsLogin(Token);
-  }, [Token]);
-
-
   return (
     <div className="wrap">
-      {isLogin && <Sider />}
+      <Sider />
       <Layout>
-        {isLogin && <Header setIsLogin={setIsLogin}/>}
+        <Header />
         <Routes>
           <Route path="/" element={accessToken ? <Main /> : <AdminLogin />} />
           <Route
@@ -79,6 +70,7 @@ const App = () => {
             path="/adminitemedit"
             element={accessToken ? <AdminItemEdit /> : <AdminLogin />}
           />
+          <Route path="*" element={<NotFound/>}/>
         </Routes>
       </Layout>
     </div>
