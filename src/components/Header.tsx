@@ -8,14 +8,23 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { HeaderCss } from "../style/SiderCss";
+import { useSetRecoilState } from "recoil";
+import { accessTokenState } from "../atom/atom";
 
 const Header = () => {
+  const setAccesToken = useSetRecoilState(accessTokenState);
   const [infoToggle, setInfoToggle] = useState<boolean>(false);
   const navigate = useNavigate();
   const handleUserMenu = () => {
     setInfoToggle(!infoToggle);
   };
   console.log(infoToggle);
+  const handleLogOutClick = () => {
+    setAccesToken("");
+    localStorage.removeItem("accessToken");
+    navigate("/");
+    setInfoToggle(false);
+  };
   return (
     <HeaderCss>
       <i onClick={handleUserMenu}>
@@ -37,7 +46,9 @@ const Header = () => {
               <div>쇼핑몰 가기</div>
             </Link>
           </div>
-          <button className="logout">로그아웃</button>
+          <button className="logout" onClick={handleLogOutClick}>
+            로그아웃
+          </button>
         </div>
       )}
     </HeaderCss>

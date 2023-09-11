@@ -8,11 +8,14 @@ import {
 } from "../style/AdminLoginCss";
 import { postLogin } from "../api/adminLoginAxios";
 import { useNavigate } from "react-router";
+import { useRecoilState } from "recoil";
+import { accessTokenState } from "../atom/atom";
 
 const AdminLogin: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -21,11 +24,11 @@ const AdminLogin: React.FC = () => {
       upw: password,
     };
     const login = await postLogin(user);
-    console.log(login);
-    if (login == "success") {
-      navigate("/");
-    } else if (login?.response.data.message) {
+    if (login?.response?.data?.message) {
       alert(login.response.data.message);
+    } else if (login) {
+      setAccessToken(login);
+      navigate("/");
     }
   };
 
