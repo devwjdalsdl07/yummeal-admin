@@ -89,22 +89,32 @@ export const ProductInfo = styled.div`
 
   .box-layout {
     display: flex;
-    margin: 30px 0;
+
+    margin: 30px 40px;
+
     padding: 20px 0;
     gap: 40px;
     border-bottom: 1px solid #969696;
     > span {
       font-size: 23px;
       font-weight: 600;
-      margin-left: 50px;
+
+      /* margin-left: 50px; */
+
       ::after {
         margin-left: 20px;
         content: " | ";
       }
     }
-   
 
-     button {
+    .delivery-bt {
+      > ul {
+        display: flex;
+        gap: 10px;
+      }
+    }
+
+    button {
       border: 1px solid #d9d9d9;
       background: #fff;
       border-radius: 5px;
@@ -120,7 +130,8 @@ export const ProductInfo = styled.div`
   }
   .content-info {
     height: 500px;
-    
+
+
     .title {
       margin: 0;
       display: grid;

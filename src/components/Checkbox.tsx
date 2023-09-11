@@ -8,7 +8,7 @@ interface IProps {
   shipment: number;
   userName: string;
   productName: string;
-  productNumber:number;
+  productNumber: number;
   count: number;
   totalProductPrice: number;
   totalDiscount: number;
@@ -27,7 +27,7 @@ const Checkbox: React.FC<IProps> = ({
   totalOrderAmount,
 }) => {
   const [isSelected, setIsSelected] = useState(false);
- 
+
   const handleCheckboxChange = () => {
 
     setIsSelected(!isSelected);
@@ -43,15 +43,20 @@ const Checkbox: React.FC<IProps> = ({
         return "준비중";
       case 2:
         return "배송중";
+      case 3:
+        return "주문취소";
       default:
         return "알 수 없음";
     }
   };
 
+
   // shipment : 준비중(1)/배송중(2)/주문취소(3)/배송완료(0)
+
 
   return (
     <CheckboxCss>
+      <ul>
       <li>
         <StyledLabel htmlFor={text}>
           <StyledInput
@@ -75,6 +80,9 @@ const Checkbox: React.FC<IProps> = ({
       <li>{totalProductPrice}</li>
       <li>{totalDiscount}</li>
       <li>{totalOrderAmount}</li>
+
+      </ul>
+
     </CheckboxCss>
   );
 };

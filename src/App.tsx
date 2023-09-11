@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Header from "./components/Header";
 import Layout from "./components/Layout";
 import Sider from "./components/Sider";
 import AdminAddItem from "./pages/AdminAddItem";

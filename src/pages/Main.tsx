@@ -42,6 +42,7 @@ const Main = () => {
   }, []);
 
   return (
+
     <MainWrap>
       <div className="contents-wrap">
         <div className="grid-wrap">
@@ -72,5 +73,6 @@ const Main = () => {
     </MainWrap>
   );
 };
+
 
 export default Main;

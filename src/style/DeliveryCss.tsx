@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 
+//checkbox css 
 export const StyledInput = styled.input`
   appearance: none;
   border: 1.5px solid gainsboro;
@@ -26,3 +27,4 @@ export const StyledLabel = styled.label`
 export const StyledP = styled.p`
   margin-left: 0.25rem;
 `;
+
