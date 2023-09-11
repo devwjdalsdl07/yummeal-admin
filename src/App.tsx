@@ -17,8 +17,6 @@ import OrderDetail from "./pages/OrderDetail";
 import OrderStatus from "./pages/OrderStatus";
 import SalesStatus from "./pages/SalesStatus";
 import UserList from "./pages/UserList";
-import { useRecoilState} from "recoil";
-import { accessTokenState } from "./atom/atom";
 
 const App = () => {
   const [accessToken, setAccessToken] = useRecoilState<any>(accessTokenState);
@@ -73,7 +71,6 @@ const App = () => {
             path="/adminitemedit"
             element={accessToken ? <AdminItemEdit /> : <AdminLogin />}
           />
-          <Route path="*" element={<NotFound/>}/>
         </Routes>
       </Layout>
     </div>
