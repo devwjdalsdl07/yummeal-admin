@@ -7,13 +7,19 @@ import {
   Title,
 } from "../style/AdminLoginCss";
 import { postLogin } from "../api/adminLoginAxios";
+
+import { useRecoilState } from "recoil";
+import { accessTokenState } from "../atom/atom";
+
 import { useNavigate } from "react-router-dom";
 import { ILoginProps } from "../components/Header";
+
 
 const AdminLogin = ({setIsLogin}:ILoginProps) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -22,12 +28,13 @@ const AdminLogin = ({setIsLogin}:ILoginProps) => {
       upw: password,
     };
     const login = await postLogin(user);
-    console.log(login);
-    if (login == "success") {
-      navigate("/main");
-      setIsLogin(localStorage.getItem("accessToken"))
-    } else if (login?.response.data.message) {
+
+    if (login?.response?.data?.message) {
+
       alert(login.response.data.message);
+    } else if (login) {
+      setAccessToken(login);
+      navigate("/");
     }
   };
 

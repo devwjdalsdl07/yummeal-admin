@@ -122,6 +122,7 @@ export const AdminWrapper = styled.div`
         height: 40px;
         font-size: 20px;
         border-radius: 10px;
+        cursor: pointer;
       }
       .okButton {
         background-color: #3971ff;

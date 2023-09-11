@@ -1,11 +1,13 @@
 import axios from "axios";
+import { Iitem } from "../pages/AdminItem";
 
 export const getItem = async () => {
   try {
     const res = await axios.get("/api/admin/product?page=0&size=1000&sort=productId")
     const result = res.data.content
-    console.log(result)
-    return result
+    const filter = result.filter((item:Iitem) => item.name )
+    console.log(filter)
+    return filter
   } catch (err) {
     console.log(err);
     return [{

@@ -8,12 +8,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { HeaderCss } from "../style/SiderCss";
+import { useSetRecoilState } from "recoil";
+import { accessTokenState } from "../atom/atom";
 
-export interface ILoginProps {
-  setIsLogin: React.Dispatch<React.SetStateAction<string | null>>;
-}
 
-const Header = ({ setIsLogin }: ILoginProps) => {
+const Header = () => {
+  const setAccesToken = useSetRecoilState(accessTokenState);
+
+
   const [infoToggle, setInfoToggle] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,17 +30,13 @@ const Header = ({ setIsLogin }: ILoginProps) => {
     navigate("/main");
   };
 
-  // 로그아웃
-  const handleLogOut = async () => {
-    const res = await axios.get("/api/user/sign-out");
+  console.log(infoToggle);
+  const handleLogOutClick = () => {
+    setAccesToken("");
     localStorage.removeItem("accessToken");
     navigate("/");
-    setIsLogin(null);
-  };
-
-  useEffect(() => {
     setInfoToggle(false);
-  }, [location.pathname]);
+  };
 
   return (
     <HeaderCss>
@@ -65,7 +63,9 @@ const Header = ({ setIsLogin }: ILoginProps) => {
               <div>쇼핑몰 가기</div>
             </Link>
           </div>
-          <button className="logout" onClick={handleLogOut}>
+
+          <button className="logout" onClick={handleLogOutClick}>
+
             로그아웃
           </button>
         </div>
