@@ -1,16 +1,11 @@
-
-
-
-.warp {
+.wrap {
   display: flex;
   background: #f2f3f9;
 }
-.contents-warp {
-height: 700px;
-overflow-y: auto;
-background-color: #fefefe;
-margin: 100px 30px 50px;
-padding-bottom: 50px;
+.contents-wrap {
+  height: 700px;
+  /* height: 75vh; */
+  overflow-y: auto;
+  background-color: #fefefe;
+  margin: 70px 0 100px;
 }
-
-

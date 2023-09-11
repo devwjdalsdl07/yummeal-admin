@@ -1,26 +1,19 @@
 import styled from "@emotion/styled";
 export const SiderCss = styled.div`
   min-height: 100vh;
-  width: 15vw;
-  background: #222;
+  width: 250px;
+  background: #2a2a3d;
   color: white;
   padding: 20px;
   flex-shrink: 0;
   font-size: 15px;
-
   .menu {
     list-style: none;
-    padding: 0;
-
     > li {
       display: flex;
       flex-direction: column;
       cursor: pointer;
       padding: 10px 0;
-
-      &:hover {
-        background-color: #444;
-      }
       .menu-wrap {
         display: flex;
         gap: 15px;
@@ -29,7 +22,6 @@ export const SiderCss = styled.div`
         margin-right: 10px;
         width: 15px;
       }
-
       .name {
         flex-grow: 1;
         & > div {
@@ -39,16 +31,19 @@ export const SiderCss = styled.div`
       }
     }
     a {
+      display: block;
       color: #fff;
     }
   }
-
   .sub-menu {
     padding-left: 20px;
     padding-top: 10px;
     > li {
       list-style-type: none;
       padding: 5px 20px;
+      &:hover {
+        background-color: #414253;
+      }
     }
     a {
       color: #fff;
