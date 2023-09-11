@@ -1,26 +1,55 @@
 import React, { useState } from "react";
 
 import { StyledInput, StyledLabel, StyledP } from "../style/DeliveryCss";
-import { IDataType } from "../pages/Delivery";
 import { CheckboxCss } from "../style/CheckboxCss";
-
-const Checkbox = ({
-  objNumber,
-  objOrder,
-  objId,
-  objName,
-  ea,
-  totalPrice,
-  discountPrice,
-  price,
-}: IDataType) => {
-  const [isSelected, setIsSelected] = useState(false); 
-
+interface IProps {
+  ordercode: number;
+  createdAt: string;
+  shipment: number;
+  userName: string;
+  productName: string;
+  productNumber:number;
+  count: number;
+  totalProductPrice: number;
+  totalDiscount: number;
+  totalOrderAmount: number;
+}
+const Checkbox: React.FC<IProps> = ({
+  ordercode,
+  createdAt,
+  shipment,
+  userName,
+  productName,
+  productNumber,
+  count,
+  totalProductPrice,
+  totalDiscount,
+  totalOrderAmount,
+}) => {
+  const [isSelected, setIsSelected] = useState(false);
+ 
   const handleCheckboxChange = () => {
+
     setIsSelected(!isSelected);
   };
 
   const text = "";
+
+  const mapShipmentStatus = (shipment: number) => {
+    switch (shipment) {
+      case 0:
+        return "배송완료";
+      case 1:
+        return "준비중";
+      case 2:
+        return "배송중";
+      default:
+        return "알 수 없음";
+    }
+  };
+
+  // shipment : 준비중(1)/배송중(2)/주문취소(3)/배송완료(0)
+
   return (
     <CheckboxCss>
       <li>
@@ -31,18 +60,21 @@ const Checkbox = ({
             name={text}
             checked={isSelected}
             onChange={handleCheckboxChange}
+    
           />
           <StyledP>{text}</StyledP>
         </StyledLabel>
       </li>
-      <li>{objNumber}</li>
-      <li>{objOrder}</li>
-      <li>{objId}</li>
-      <li>{objName}</li>
-      <li>{ea}</li>
-      <li>{totalPrice}</li>
-      <li>{discountPrice}</li>
-      <li>{price}</li>
+      <li>{ordercode}</li>
+      <li>{mapShipmentStatus(shipment)}</li>
+      <li>{createdAt}</li>
+      <li>{userName}</li>
+      <li>{productName}</li>
+      <li>{productNumber}</li>
+      <li>{count}</li>
+      <li>{totalProductPrice}</li>
+      <li>{totalDiscount}</li>
+      <li>{totalOrderAmount}</li>
     </CheckboxCss>
   );
 };

@@ -34,9 +34,6 @@ const SalesStatus = () => {
   const [month, setMonth] = useState(thisMonth);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  console.log(year);
-  console.log(month);
-
   // 전체 판매량 데이터
   const saleVolumData = async (page: number, year: string, month: string) => {
     const res = await axios.get(
@@ -49,6 +46,10 @@ const SalesStatus = () => {
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    saleVolumData(pageNm, year, month);
+  }, [pageNm, year, month]);
+
   // 셀렉트박스 연도 업데이트
   const handleYearChange = (value: string) => {
     setYear(value);
@@ -58,10 +59,6 @@ const SalesStatus = () => {
   const handleMonthChange = (value: string) => {
     setMonth(value);
   };
-
-  useEffect(() => {
-    saleVolumData(pageNm, year, month);
-  }, [pageNm, year, month]);
 
   return (
     <SaleStatusWrap>
@@ -93,7 +90,7 @@ const SalesStatus = () => {
         </div>
         <div className="select-wrap">
           <Select
-            defaultValue="연도 선택"
+            defaultValue={(thisYear).toString()}
             style={{ width: 130 }}
             onChange={handleYearChange}
             options={[
@@ -108,7 +105,7 @@ const SalesStatus = () => {
             ]}
           />
           <Select
-            defaultValue="월 선택"
+            defaultValue={thisMonth}
             style={{ width: 130 }}
             onChange={handleMonthChange}
             options={[
