@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import "./App.css";
+import { accessTokenState } from "./atom/atom";
+import Header from "./components/Header";
 import Layout from "./components/Layout";
 import Sider from "./components/Sider";
 import AdminAddItem from "./pages/AdminAddItem";
@@ -10,14 +13,10 @@ import AdminLogin from "./pages/AdminLogin";
 import BestSellProd from "./pages/BestSellProd";
 import Delivery from "./pages/Delivery";
 import Main from "./pages/Main";
-import NotFound from "./pages/NotFound";
 import OrderDetail from "./pages/OrderDetail";
 import OrderStatus from "./pages/OrderStatus";
 import SalesStatus from "./pages/SalesStatus";
 import UserList from "./pages/UserList";
-import Header from "./components/Header";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { accessTokenState } from "./atom/atom";
 const App = () => {
   const [accessToken, setAccessToken] = useRecoilState<any>(accessTokenState);
   useEffect(() => {
@@ -27,19 +26,11 @@ const App = () => {
     }
   }, []);
 
-const App = () => {
-  const [isLogin, setIsLogin] = useState<string | null>(null);
-  const Token = localStorage.getItem("accessToken");
-  useEffect(() => {
-    setIsLogin(Token);
-  }, [Token]);
-
-
   return (
     <div className="wrap">
-      {isLogin && <Sider />}
+      <Sider />
       <Layout>
-        {isLogin && <Header setIsLogin={setIsLogin}/>}
+        <Header />
         <Routes>
           <Route path="/" element={accessToken ? <Main /> : <AdminLogin />} />
           <Route
