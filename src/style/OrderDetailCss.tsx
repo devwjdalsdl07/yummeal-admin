@@ -97,7 +97,7 @@ export const OrderDetailWrap = styled.div`
       border-top: 1px solid #aaa;
     }
     .orderinfo-menu:nth-of-type(5),
-    .payment-menu:nth-of-type(7),
+    .payment-menu:nth-of-type(3),
     .pointback-menu:nth-of-type(1),
     .userinfo-menu:nth-of-type(7) {
       border-bottom: 1px solid #aaa;

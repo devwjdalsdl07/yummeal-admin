@@ -1,18 +1,20 @@
-import React, { useEffect } from "react";
-import { Route, Routes } from "react-router";
-import AdminAddItem from "./pages/AdminAddItem";
-import AdminLogin from "./pages/AdminLogin";
-import AdminItem from "./pages/AdminItem";
-import AdminItemEdit from "./pages/AdminItemEdit";
-import BestSellProd from "./pages/BestSellProd";
-import SalesStatus from "./pages/SalesStatus";
-import OrderStatus from "./pages/OrderStatus";
-import OrderDetail from "./pages/OrderDetail";
+import { useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Main from "./pages/Main";
-import Delivery from "./pages/Delivery";
+import Header from "./components/Header";
 import Layout from "./components/Layout";
 import Sider from "./components/Sider";
+import AdminAddItem from "./pages/AdminAddItem";
+import AdminItem from "./pages/AdminItem";
+import AdminItemEdit from "./pages/AdminItemEdit";
+import AdminLogin from "./pages/AdminLogin";
+import BestSellProd from "./pages/BestSellProd";
+import Delivery from "./pages/Delivery";
+import Main from "./pages/Main";
+import NotFound from "./pages/NotFound";
+import OrderDetail from "./pages/OrderDetail";
+import OrderStatus from "./pages/OrderStatus";
+import SalesStatus from "./pages/SalesStatus";
 import UserList from "./pages/UserList";
 import Header from "./components/Header";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -25,11 +27,20 @@ const App = () => {
       setAccessToken(localStorage.getItem("accessToken"));
     }
   }, []);
+
+const App = () => {
+  const [isLogin, setIsLogin] = useState<string | null>(null);
+  const Token = localStorage.getItem("accessToken");
+  useEffect(() => {
+    setIsLogin(Token);
+  }, [Token]);
+
+
   return (
-    <div className="warp">
-      <Sider />
+    <div className="wrap">
+      {isLogin && <Sider />}
       <Layout>
-        <Header />
+        {isLogin && <Header setIsLogin={setIsLogin}/>}
         <Routes>
           <Route path="/" element={accessToken ? <Main /> : <AdminLogin />} />
           <Route

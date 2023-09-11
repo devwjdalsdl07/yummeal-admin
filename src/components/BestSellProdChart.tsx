@@ -1,69 +1,79 @@
-import { ResponsiveBar, BarDatum, ComputedDatum } from '@nivo/bar';
+import { ResponsivePie } from '@nivo/pie';
+import { IPieData } from '../pages/BestSellProd';
 
-interface MyResponsiveBarProps {
-    data: BarDatum[];
+interface MyResponsivePieProps {
+    data: IPieData[];
 }
 
-const MyResponsiveBar: React.FC<MyResponsiveBarProps> = ({ data }) => (
-    <ResponsiveBar
+const MyResponsivePie: React.FC<MyResponsivePieProps> = ({ data }) => (
+    <ResponsivePie
         data={data}
-        keys={[
-            'hotdog',
-            'burger',
-            'sandwich',
-            'kebab',
-            'fries',
-        ]}
-        indexBy="country"
-        margin={{ top: 50, right: 80, bottom: 50, left: 80 }}
-        padding={0.3}
-        layout="horizontal"
-        valueScale={{ type: 'linear' }}
-        indexScale={{ type: 'band', round: true }}
-        colors={{ scheme: 'nivo' }}
-        defs={[
-            
-        ]}
-        fill={[
-            
-        ]}
+        margin={{ top: 40, right: 80, bottom: 30, left: 80 }}
+        padAngle={0}
+        cornerRadius={0}
+        activeOuterRadiusOffset={8}
+        borderWidth={1}
         borderColor={{
             from: 'color',
-            modifiers: [
-                [
-                    'darker',
-                    1.6
-                ]
-            ]
+            modifiers: [['darker', 0.2]],
         }}
-        axisTop={null}
-        axisRight={null}
-        axisBottom={{
-            
-        }}
-        axisLeft={{
-            
-        }}
-        labelSkipWidth={12}
-        labelSkipHeight={12}
-        labelTextColor={{
+        // enableArcLinkLabels={false}
+        arcLinkLabelsSkipAngle={10}
+        arcLinkLabelsTextColor="#333333"
+        arcLinkLabelsThickness={2}
+        arcLinkLabelsColor={{ from: 'color' }}
+        arcLabelsSkipAngle={10}
+        arcLabelsRadiusOffset={0.65}
+        arcLabelsTextColor={{
             from: 'color',
-            modifiers: [
-                [
-                    'darker',
-                    1.6
-                ]
-            ]
+            modifiers: [['darker', 2]],
         }}
-        legends={[
-            
+        defs={[
+            {
+                id: 'dots',
+                type: 'patternDots',
+                background: 'inherit',
+                color: 'rgba(255, 255, 255, 0.3)',
+                size: 4,
+                padding: 1,
+                stagger: true,
+            },
+            {
+                id: 'lines',
+                type: 'patternLines',
+                background: 'inherit',
+                color: 'rgba(255, 255, 255, 0.3)',
+                rotation: -45,
+                lineWidth: 6,
+                spacing: 10,
+            },
         ]}
-        role="application"
-        ariaLabel="Nivo bar chart demo"
-        barAriaLabel={(e: ComputedDatum<BarDatum>) =>
-            `${e.id}: ${e.formattedValue} in country: ${e.indexValue}`
-        }
+        // legends={[
+        //     {
+        //         anchor: 'bottom',
+        //         direction: 'row',
+        //         justify: false,
+        //         translateX: 0,
+        //         translateY: 56,
+        //         itemsSpacing: 20,
+        //         itemWidth: 150,
+        //         itemHeight: 18,
+        //         itemTextColor: '#999',
+        //         itemDirection: 'left-to-right',
+        //         itemOpacity: 1,
+        //         symbolSize: 18,
+        //         symbolShape: 'circle',
+        //         effects: [
+        //             {
+        //                 on: 'hover',
+        //                 style: {
+        //                     itemTextColor: '#000',
+        //                 },
+        //             },
+        //         ],
+        //     },
+        // ]}
     />
 );
 
-export default MyResponsiveBar;
+export default MyResponsivePie;
