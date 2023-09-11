@@ -1,27 +1,30 @@
-import React, {
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import ImgUpload from "../components/ImgUpload";
 import { AdminWrapper } from "../style/AdminAddCss";
-import {
-  deleteImage,
-  deleteProduct,
-  getCate,
-  getProductId,
-  imgAdd,
-  itemAdd,
-  postImage,
-} from "../api/adminAddAxios";
-import { useNavigate } from "react-router-dom";
+import { getCate, imgAdd, itemAdd, postImage } from "../api/adminAddAxios";
+import { useLocation, useNavigate } from "react-router-dom";
+import { TAllergy } from "./AdminItem";
+import { getItemInfo } from "../api/adminItemEditAxios";
+import ImgEdit from "../components/ImgEdit";
 
-const AdminAddItem = () => {
-  const allergyArr = [
+interface ICateList {
+  category: {
+    cateId: number;
+    cateName: string;
+  };
+  cateDetail: Array<ISubCateList>;
+}
+interface ISubCateList {
+  cateDetailEntity: {
+    cateDetailId: number;
+    cateDetailName: string;
+  };
+}
+
+const AdminItemEdit = () => {
+  const { state } = useLocation();
+  const allergyArr: Array<TAllergy> = [
     { value: 1, label: "난류" },
     { value: 2, label: "우유" },
     { value: 3, label: "메밀" },
@@ -44,47 +47,41 @@ const AdminAddItem = () => {
     { value: 20, label: "생선류" },
   ];
   const navigate = useNavigate();
-  const quillRef = useRef();
-  const [cateList, setCateList] = useState([]);
-  const [subCateList, setSubCateList] = useState([]);
-  const [content, setContent] = useState();
-  const [itemName, setItemName] = useState();
-  const [price, setPrice] = useState(0);
-  const [commaPrice, setCommaPrice] = useState(0);
-  const [cate, setCate] = useState();
-  const [selectedCateDetail, setSelectedCateDetail] = useState([]);
-  const [product, setProduct] = useState();
-  const [imgArr, setImgArr] = useState([null, null, null, null]);
-  const [showModal, setShowModal] = useState(false);
-  const [allegy, setAllegy] = useState([]);
-  const [commaQuant, setCommaQuant] = useState("");
-  const [quant, setQuant] = useState(0);
-  const [uploadImg, setUploadImg] = useState([]);
-  let storage = {
-    product,
-    itemName,
-    price,
-    cate,
-    selectedCateDetail,
-    content,
-    allegy,
-    quant,
-    uploadImg,
-  };
-  const productRef = useRef(product);
-  const handlePriceChange = e => {
+  const quillRef = useRef<any>();
+  const [cateList, setCateList] = useState<Array<ICateList>>([]);
+  const [subCateList, setSubCateList] = useState<Array<ISubCateList>>([]);
+  const [content, setContent] = useState<string>("");
+  const [itemName, setItemName] = useState<string>("");
+  const [price, setPrice] = useState<number>(0);
+  const [commaPrice, setCommaPrice] = useState<string>("0");
+  const [cate, setCate] = useState<string | number>();
+  const [selectedCateDetail, setSelectedCateDetail] = useState<Array<number>>(
+    [],
+  );
+  const [product, setProduct] = useState<number | string>();
+  const [imgArr, setImgArr] = useState<Array<File | null | string>>([
+    null,
+    null,
+    null,
+    null,
+  ]);
+  const [allegy, setAllegy] = useState<Array<number>>([]);
+  const [commaQuant, setCommaQuant] = useState<string>("");
+  const [quant, setQuant] = useState<number>(0);
+  const productRef = useRef<any>(product);
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const removedCommaValue = Number(value.replaceAll(/[^0-9]/g, ""));
     setCommaPrice(removedCommaValue.toLocaleString());
     setPrice(removedCommaValue);
   };
-  const handleQuantChange = e => {
+  const handleQuantChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const removedCommaValue = Number(value.replaceAll(/[^0-9]/g, ""));
     setCommaQuant(removedCommaValue.toLocaleString());
     setQuant(removedCommaValue);
   };
-  const handleCateChange = e => {
+  const handleCateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCate(e.target.value);
     setSelectedCateDetail([]);
     const selectedCate = cateList.find(
@@ -96,7 +93,7 @@ const AdminAddItem = () => {
       setSubCateList([]);
     }
   };
-  const handleCheckboxChange = e => {
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const cateDetailId = Number(e.target.value);
     if (e.target.checked) {
       // 체크 박스가 체크되었을 때
@@ -108,7 +105,7 @@ const AdminAddItem = () => {
       );
     }
   };
-  const handleAllegyChange = e => {
+  const handleAllegyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const allegyId = Number(e.target.value);
     if (e.target.checked) {
       setAllegy(prevSelected => [...prevSelected, allegyId]);
@@ -117,94 +114,59 @@ const AdminAddItem = () => {
     }
   };
   const handleCancleClick = () => {
-    deleteProduct(product);
-    localStorage.removeItem("adminStorage");
-    navigate("/admin");
+    navigate("/adminitem");
   };
-  const imgUpload = async (_product, _file) => {
+  const imgUpload = async (_product: number, _file: File | null) => {
     const result = await postImage(_product, _file);
     return result;
   };
 
-  var InlineBlot = Quill.import("blots/block");
-  class ImageBlot extends InlineBlot {
-    static create(data) {
-      console.log(data);
-      const node = super.create(data);
-      node.setAttribute("src", data.src);
-      node.setAttribute("pk", data.pk);
-      return node;
-    }
-    static value(domNode) {
-      const { src, pk } = domNode.dataset;
-      return { src, pk };
-    }
-  }
-  ImageBlot.blotName = "imageBlot";
-  ImageBlot.className = "image-blot";
-  ImageBlot.tagName = "img";
-  Quill.register({ "formats/imageBlot": ImageBlot });
-
   const imageHandler = () => {
-    const input = document.createElement("input");
+    const input: any = document.createElement("input");
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
     input.click();
     input.addEventListener("change", async () => {
       const editor = quillRef.current.getEditor();
-      const file = input.files[0];
+      const file: File | null = input.files[0];
       const range = editor.getSelection(true);
       try {
         const img = await imgUpload(productRef.current, file);
         console.log("받아오는 값", img);
-        editor.insertEmbed(
-          range.index,
-          "imageBlot",
-          { src: `http://192.168.0.144:5001${img.img}`, pk: img.pimgId },
-          "user",
-        );
-        setUploadImg([
-          ...uploadImg,
-          {
-            src: `http://192.168.0.144:5001${img.img}`,
-            pk: img.pimgId,
-          },
-        ]);
+        editor.insertEmbed(range.index, "image", `http://192.168.0.144:5001${img.img}`);
         editor.setSelection(range.index + 1);
       } catch (error) {
         console.log(error);
       }
     });
   };
-
-  const handleEditorChange = (content, delta, source, editor) => {
-    console.log("콘텐트", content);
-    console.log("델타", delta);
-    console.log("에디터", editor);
-    if (delta.filter(item => item.delete) && uploadImg.length > 0) {
-      for (let i = 0; i < uploadImg.length; i++) {
-        if (!quillRef.current?.value.includes(uploadImg[i].src)) {
-          const tempImgFiles = structuredClone(uploadImg);
-          const filterdImgFiles = tempImgFiles.filter(
-            img => img.id !== uploadImg[i].pk,
-          );
-          deleteImage(uploadImg[i].pk);
-          setUploadImg(filterdImgFiles);
-        }
-      }
+  const fetchItem = async () => {
+    const result = await getItemInfo(state);
+    const cateResult = await getCate();
+    setCateList(cateResult);
+    setProduct(state);
+    setItemName(result.name);
+    setPrice(result.price);
+    setCommaPrice(result.price?.toLocaleString());
+    setCate(result.cate);
+    setSelectedCateDetail(result.cateDetail);
+    setContent(result.description);
+    setAllegy(result.allergyId);
+    setQuant(result.quantity);
+    setCommaQuant(result.quantity?.toLocaleString());
+    setImgArr(
+      imgArr.map((item: any, idx: number) => (item = result.thumbnail[idx])),
+    );
+    productRef.current = result.productId;
+    console.log(result);
+    const selectedCate = cateResult.find(
+      (item: any) => item.category.cateId === Number(result.cate),
+    );
+    if (selectedCate && selectedCate.cateDetail) {
+      setSubCateList(selectedCate.cateDetail);
+    } else {
+      setSubCateList([]);
     }
-
-    setContent(content);
-  };
-
-  const fetchProductId = async () => {
-    const result = await getProductId();
-    setProduct(result);
-    productRef.current = result;
-  };
-  const fetchCate = async () => {
-    const result = await getCate();
-    setCateList(result);
   };
   const handleOkCliclk = async () => {
     console.log(imgArr);
@@ -220,80 +182,20 @@ const AdminAddItem = () => {
       cateDetail: selectedCateDetail,
       pointRate: 0,
     };
-    const result = imgArr.filter(item => item !== null);
-    const itemResult = await itemAdd(data);
-    const imgResult = await imgAdd(product, result);
-    if (1 == itemResult) {
-      if (imgResult.length > 0) {
-        localStorage.removeItem("adminStorage");
-        navigate("/adminitem");
-      }
-    }
-  };
-  const adminStorage = () => {
-    const storedStorage = localStorage.getItem("adminStorage");
-    const parsedStorage = JSON.parse(storedStorage);
-    console.log("파스한 스토레이지", parsedStorage);
-    return parsedStorage;
-  };
-  const handleGoClick = () => {
-    setShowModal(false);
-    const selectedCate = cateList.find(
-      item => item.category.cateId === Number(storage.cate),
+    const result = imgArr.filter(
+      item => item !== null || typeof item !== "string",
     );
-    if (selectedCate && selectedCate.cateDetail) {
-      setSubCateList(selectedCate.cateDetail);
-    } else {
-      setSubCateList([]);
+    const itemResult = await itemAdd(data);
+    if (itemResult === 1) {
+      const imgResult = await imgAdd(product, result);
+      localStorage.removeItem("adminStorage");
+      navigate("/adminitem");
     }
   };
-  const handleDelClick = async () => {
-    localStorage.removeItem("adminStorage");
-    deleteProduct(product);
-    fetchProductId();
-    fetchCate();
-    setItemName("");
-    setPrice(0);
-    setCommaPrice("");
-    setQuant(0);
-    setCommaQuant("");
-    setCate("");
-    setSelectedCateDetail([]);
-    setContent("");
-    setShowModal(false);
-    setAllegy([]);
-  };
-
-  useLayoutEffect(() => {
-    storage = adminStorage();
+  useEffect(() => {
+    fetchItem();
   }, []);
 
-  useEffect(() => {
-    if (storage && storage.product) {
-      setShowModal(true);
-      setProduct(storage.product);
-      setItemName(storage.itemName);
-      setPrice(storage.price);
-      setCommaPrice(storage.price?.toLocaleString());
-      setCate(storage.cate);
-      setSelectedCateDetail(storage.selectedCateDetail);
-      setContent(storage.content);
-      setAllegy(storage.allegy);
-      setQuant(storage.quant);
-      setCommaQuant(storage.quant?.toLocaleString());
-      setUploadImg(storage.uploadImg);
-      fetchCate();
-      productRef.current = storage.product;
-    } else {
-      fetchProductId();
-      fetchCate();
-    }
-  }, []);
-  useEffect(() => {
-    // storage 값이 변경될 때마다 값을 로컬스토리지에 저장
-    localStorage.setItem("adminStorage", JSON.stringify(storage));
-    console.log(storage);
-  }, [storage]); // storage 값이 변경될 때만 이펙트 실행
   const modules = useMemo(() => {
     return {
       toolbar: {
@@ -323,11 +225,12 @@ const AdminAddItem = () => {
             <div className="uploadContainer">
               {/* {elements} */}
               {imgArr.map((item, idx) => (
-                <ImgUpload
+                <ImgEdit
                   key={idx}
                   imgArr={imgArr}
                   setImgArr={setImgArr}
                   idx={idx}
+                  product={product}
                 />
               ))}
             </div>
@@ -421,7 +324,7 @@ const AdminAddItem = () => {
             theme="snow"
             ref={quillRef}
             value={content}
-            onChange={handleEditorChange}
+            onChange={setContent}
             modules={modules}
           />
           <div className="buttonWrap">
@@ -433,28 +336,9 @@ const AdminAddItem = () => {
             </button>
           </div>
         </div>
-
-        {showModal ? (
-          <div className="modalWrap">
-            <div className="modalBody">
-              <span>이어서 작성 하시겠습니까 ?</span>
-              <div className="modalButton">
-                <div className="goButton" onClick={handleGoClick}>
-                  이어쓰기
-                </div>
-                <div className="delButton" onClick={handleDelClick}>
-                  삭제
-                </div>
-              </div>
-              <div className="modalInfo">
-                <span>*이미지는 불러올수 없습니다.</span>
-              </div>
-            </div>
-          </div>
-        ) : null}
       </AdminWrapper>
     </div>
   );
 };
 
-export default AdminAddItem;
+export default AdminItemEdit;

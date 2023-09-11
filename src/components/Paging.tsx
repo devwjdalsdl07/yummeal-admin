@@ -1,7 +1,27 @@
-import React from 'react';
-import { Pagination } from 'antd';
+import { Pagination } from "antd";
+import React from "react";
 
-const Paging: React.FC = () => <Pagination defaultCurrent={1} total={50}/>;
-// pageSize : 페이지당 갯수 설정
+interface IPagingProps {
+  pageNm: number;
+  setPageNm: React.Dispatch<React.SetStateAction<number>>;
+  totalItem?: number;
+}
+
+const Paging: React.FC<IPagingProps> = ({ pageNm, setPageNm, totalItem }) => {
+  const changeValue = (page: number) => {
+    setPageNm(page);
+  };
+
+  return (
+    <Pagination
+      defaultCurrent={1}
+      current={pageNm}
+      total={totalItem}
+      pageSize={10}
+      onChange={changeValue}
+      showSizeChanger={false}
+    />
+  );
+};
 
 export default Paging;

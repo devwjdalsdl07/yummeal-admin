@@ -23,19 +23,22 @@ const Search = ({ setOrderCodeCheckIndex, setOrderCodeCheckWord }: IOrder) => (
       }}
       options={[
         { value: 1, label: "상품명" },
+
         { value: 2, label: "주문번호" },
         { value: 5, label: "주문자명" },
         { value: 3, label: "상품주문번호" },
       ]}
     />
+
   
-    <div className="search-bar">
+   <div className="search-bar">
       <i>
         <FontAwesomeIcon icon={faMagnifyingGlass} />
       </i>
       <input
         type="text"
         placeholder="검색어를 입력하세요"
+
         onChange={e => setOrderCodeCheckWord(e.target.value)}
       />
     </div>

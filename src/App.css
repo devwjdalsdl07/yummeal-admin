@@ -4,8 +4,10 @@
 }
 .contents-wrap {
   height: 700px;
-  /* height: 75vh; */
   overflow-y: auto;
   background-color: #fefefe;
-  margin: 70px 0 100px;
+  margin: 40px 0 100px;
+  box-shadow:
+    rgba(0, 0, 0, 0.16) 0px 3px 6px,
+    rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }

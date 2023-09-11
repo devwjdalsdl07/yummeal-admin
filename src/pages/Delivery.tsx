@@ -1,5 +1,10 @@
+import { DatePicker, Select } from "antd";
+import { RangePickerProps } from "antd/es/date-picker";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import { getOrder } from "../api/DeliveryFatch";
 import Checkbox from "../components/Checkbox";
+import Paging from "../components/Paging";
 import Search from "../components/Search";
 import { DatePicker, DatePickerProps, RadioChangeEvent, Select } from "antd";
 import {
@@ -8,6 +13,7 @@ import {
   StyledP,
   // Styledbt,
 } from "../style/DeliveryCss";
+import { StyledInput, StyledLabel, StyledP } from "../style/DeliveryCss";
 import { ProductInfo } from "../style/ProductInfoCss";
 import Paging from "../components/Paging";
 import { getOrder, putShipment } from "../api/DeliveryFatch";
@@ -23,6 +29,7 @@ export interface OrderDetail {
   count: number;
   totalPrice: number;
 }
+
 
 export interface UserVo {
   iuser: number;
@@ -56,14 +63,19 @@ export interface OrderResponse {
 const Delivery = () => {
   const [orderSearch, setOrderSearch] = useState<Array<Order>>([]);
 
+
   // 사용자가 검색에서 선택한 항목에 대한 state
   const [orderCodeCheckIndex, setOrderCodeCheckIndex] = useState<number>(0);
-  const [orderCodeCheckWord, setOrderCodeCheckWord] = useState<string>("");
+
+  // const [selectAll, setSelectAll] = useState(false)
+
+ const [orderCodeCheckWord, setOrderCodeCheckWord] = useState<string>("");
 
   // RangePicker의 onChange 이벤트 핸들러
   // 시작, 끝 날짜
   const [stDay, setStDay] = useState<string>("");
   const [edDay, setEdDay] = useState<string>("");
+  const [pageNm, setPageNm] = useState<number>(1);
   const onChange: RangePickerProps["onChange"] = (date, dateString) => {
     const startDate = dayjs(dateString[0]);
     const endDate = dayjs(dateString[1]);
@@ -76,14 +88,18 @@ const Delivery = () => {
   const handleSearch = () => {
     let sendQuery = "";
     if (stDay === "" || edDay === "") {
+
       // 날짜 선택없으면
       sendQuery = `filter${orderCodeCheckIndex}=${orderCodeCheckWord}&`;
     } else if (stDay !== "" || edDay !== "") {
       // 날짜 선택있을떄
+      sendQuery = `filter${orderCodeCheckIndex}=${orderCodeCheckWord}&`;
+    } else if (stDay !== "" || edDay !== "") {
       sendQuery = `startDate=${stDay}&endDate=${edDay}&`;
     } else {
       sendQuery = `filter${orderCodeCheckIndex}=${orderCodeCheckWord}&`;
     }
+
     orderSearchFetch(0, sendQuery);
   };
 
@@ -107,9 +123,25 @@ const Delivery = () => {
     } catch (err) {
       console.log(err);
     }
+    OrderSearchFetch(0, sendQuery);
   };
 
+
+  // 주문내역 조회
+  const OrderSearchFetch = async (_page: number, _query: string) => {
+    const sendQuery = _query;
+    // console.log(sendQuery);
+    try {
+      const orderSearchJson = await getOrder(_page, sendQuery);
+      setOrderSearch(orderSearchJson.content);
+      console.log(orderSearchJson);
+      return orderSearchJson;
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
+
     orderSearchFetch(0, "");
   }, []);
 
@@ -148,6 +180,7 @@ const Delivery = () => {
   const text = "";
 
   const handleAllCheck = (isChecked: boolean) => {
+
     const updatedCities = orderSearch.map(order => ({
       ...order,
       isSelected: isChecked,
@@ -174,6 +207,7 @@ const Delivery = () => {
           setOrderCodeCheckWord={setOrderCodeCheckWord}
         />
         {/* <Search /> */}
+
       </div>
       <div className="search-wrap">
         <h3>조회 검색</h3>
@@ -185,7 +219,9 @@ const Delivery = () => {
         <RangePicker onChange={onChange} />
         <div className="search-bt">
           <button onClick={handleSearch}>검색</button>
+
           <button>초기화</button>
+
         </div>
       </div>
       <div className="contents-wrap">
@@ -196,6 +232,7 @@ const Delivery = () => {
             style={{ width: 130 }}
             onChange={handleChange}
             options={[
+
               { value: 1, label: "준비중" },
               { value: 2, label: "배송중" },
               { value: 0, label: "배송완료" },
@@ -245,6 +282,7 @@ const Delivery = () => {
         <div className="page-bt">
           <Paging />
         </div>
+
       </div>
     </ProductInfo>
   );

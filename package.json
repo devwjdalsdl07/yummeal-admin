@@ -21,7 +21,7 @@
     "@types/react-dom": "^18.2.7",
     "antd": "^5.8.4",
     "axios": "^1.4.0",
-    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",
@@ -30,6 +30,8 @@
     "react-router": "^6.15.0",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
+    "react-select": "^5.7.4",
+    "recoil": "^0.7.7",
     "sass": "^1.66.1",
     "styled-components": "^6.0.7",
     "typescript": "4.9",
@@ -62,8 +64,9 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "eslint": "^8.47.0",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-react": "^7.33.2",
-    "prettier": "3.0.2"
+    "prettier": "^3.0.2"
   },
   "proxy": "http://192.168.0.144:5001"
 }

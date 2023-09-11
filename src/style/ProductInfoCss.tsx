@@ -89,19 +89,24 @@ export const ProductInfo = styled.div`
 
   .box-layout {
     display: flex;
+
     margin: 30px 40px;
+
     padding: 20px 0;
     gap: 40px;
     border-bottom: 1px solid #969696;
     > span {
       font-size: 23px;
       font-weight: 600;
+
       /* margin-left: 50px; */
+
       ::after {
         margin-left: 20px;
         content: " | ";
       }
     }
+
     .delivery-bt {
       > ul {
         display: flex;
@@ -125,6 +130,7 @@ export const ProductInfo = styled.div`
   }
   .content-info {
     height: 500px;
+
 
     .title {
       margin: 0;

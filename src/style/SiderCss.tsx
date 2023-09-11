@@ -2,7 +2,9 @@ import styled from "@emotion/styled";
 export const SiderCss = styled.div`
   min-height: 100vh;
   width: 250px;
+
   background: #2a2a3d;
+
   color: white;
   padding: 20px;
   flex-shrink: 0;
@@ -13,7 +15,9 @@ export const SiderCss = styled.div`
       display: flex;
       flex-direction: column;
       cursor: pointer;
+
       padding: 10px 0;
+
       .menu-wrap {
         display: flex;
         gap: 15px;
@@ -40,14 +44,23 @@ export const SiderCss = styled.div`
     padding-top: 10px;
     > li {
       list-style-type: none;
+
       padding: 5px 20px;
       &:hover {
         background-color: #414253;
+
       }
     }
     a {
+      display: block;
+      width: 100%;
       color: #fff;
     }
+  }
+  .sub-menu .active {
+    width: 130px;
+    text-align: center;
+    background: #444;
   }
 `;
 export const LayoutCss = styled.div`
@@ -55,18 +68,64 @@ export const LayoutCss = styled.div`
   position: relative;
 `;
 export const HeaderCss = styled.div`
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  display: block;
   height: 70px;
   width: 100%;
   background-color: #fefefe;
-  text-align: end;
   padding-top: 10px;
   padding-right: 40px;
-  i {
+  .title{
+    padding-left: 30px;
+    h2{
+      text-align: center;
+    }
+  }
+  & > i {
     font-size: 30px;
+    cursor: pointer;
+  }
+  .userinfo-wrap {
+    position: absolute;
+    top: 80px;
+    right: 10px;
+    width: 250px;
+    font-size: 20px;
+    font-weight: 700;
+    background: white;
+    border-radius: 6px;
+    padding: 30px;
+    z-index: 10;
+    box-shadow:
+      rgba(0, 0, 0, 0.16) 0px 3px 6px,
+      rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    .home,
+    .shoppingmall > a {
+      display: flex;
+      gap: 40px;
+      padding-bottom: 30px;
+      cursor: pointer;
+    }
+    .logout {
+      padding: 10px 15px;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      background: #fefefe;
+      &:hover {
+        border: 1px solid #c3cbf3;
+        background: #222;
+        color: #fefefe;
+      }
+    }
   }
 `;
 export const FooterCss = styled.div`
-  position: absolute;
+  position: fixed;
+  display: block;
   bottom: 0;
   height: 50px;
   width: 100%;

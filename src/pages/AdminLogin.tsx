@@ -1,18 +1,46 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { Button, Container, Input, LoginForm, Title } from '../style/AdminLoginCss';
+import React, { useState, ChangeEvent, FormEvent } from "react";
+import {
+  Button,
+  Container,
+  Input,
+  LoginForm,
+  Title,
+} from "../style/AdminLoginCss";
+import { postLogin } from "../api/adminLoginAxios";
 
-const AdminLogin: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+import { useRecoilState } from "recoil";
+import { accessTokenState } from "../atom/atom";
 
-  const handleSubmit = (e: FormEvent) => {
+import { useNavigate } from "react-router-dom";
+import { ILoginProps } from "../components/Header";
+
+
+const AdminLogin = ({setIsLogin}:ILoginProps) => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log('Email:', email, 'Password:', password);
+    const user = {
+      uid: email,
+      upw: password,
+    };
+    const login = await postLogin(user);
+
+    if (login?.response?.data?.message) {
+
+      alert(login.response.data.message);
+    } else if (login) {
+      setAccessToken(login);
+      navigate("/");
+    }
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
-    if (target.type === 'email') {
+    if (target.type === "email") {
       setEmail(target.value);
     } else {
       setPassword(target.value);

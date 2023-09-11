@@ -6,14 +6,12 @@ module.exports = {
   extends: [
     "eslint:recommended",
     "plugin:react/recommended",
-
     "plugin:@typescript-eslint/recommended",
     "prettier",
-
-   
   ],
   overrides: [],
   parserOptions: {
+    project: "**/tsconfig.json",
     ecmaVersion: "latest",
     sourceType: "module",
   },
@@ -21,7 +19,6 @@ module.exports = {
   rules: {
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
-    "no-unused-vars": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
   },
 };

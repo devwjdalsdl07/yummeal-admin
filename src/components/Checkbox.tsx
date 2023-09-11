@@ -29,6 +29,7 @@ const Checkbox: React.FC<IProps> = ({
   const [isSelected, setIsSelected] = useState(false);
 
   const handleCheckboxChange = () => {
+
     setIsSelected(!isSelected);
   };
 
@@ -49,6 +50,10 @@ const Checkbox: React.FC<IProps> = ({
     }
   };
 
+
+  // shipment : 준비중(1)/배송중(2)/주문취소(3)/배송완료(0)
+
+
   return (
     <CheckboxCss>
       <ul>
@@ -60,6 +65,7 @@ const Checkbox: React.FC<IProps> = ({
             name={text}
             checked={isSelected}
             onChange={handleCheckboxChange}
+    
           />
           <StyledP>{text}</StyledP>
         </StyledLabel>
@@ -74,7 +80,9 @@ const Checkbox: React.FC<IProps> = ({
       <li>{totalProductPrice}</li>
       <li>{totalDiscount}</li>
       <li>{totalOrderAmount}</li>
+
       </ul>
+
     </CheckboxCss>
   );
 };
