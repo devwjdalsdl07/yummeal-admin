@@ -113,7 +113,7 @@ const OrderStatus = () => {
   }, [pageNm]);
 
   const handleDetailMove = (ordercode: number) => {
-    navigate("/orderdetail", { state: { orderCode: ordercode } });
+    navigate("/admin/orderdetail", { state: { orderCode: ordercode } });
   };
 
   const handleTotalPPrice = (item: OrderData) => {

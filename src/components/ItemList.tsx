@@ -16,7 +16,6 @@ const ItemList = ({
   filter: Array<Iitem>;
   setFilter: React.Dispatch<React.SetStateAction<Iitem[]>>;
 }) => {
-  console.log(item);
   const navigate = useNavigate();
   const allergy: Array<TAllergy | undefined> = item.allegyName?.map(item => {
     return allergyArr.find(allergy => allergy.value === item);
@@ -31,7 +30,7 @@ const ItemList = ({
     return <span key={idx}>{item?.label}</span>;
   });
   const handleEditClick = () => {
-    navigate("/adminitemedit", { state: item.productId });
+    navigate("/admin/adminitemedit", { state: item.productId });
   };
   const handleDelClick = async () => {
     const result = await deleteItem(item.productId);
