@@ -97,7 +97,7 @@ const AdminItem = () => {
     setSelectAllergy(allergyArr);
   };
   const handleAddClick = () => {
-    navigate("/adminadd");
+    navigate("/admin/adminadd");
   };
   const handleRadioChange = (e: React.ChangeEvent<HTMLFormElement>) => {
     setRadio(e.target.value);

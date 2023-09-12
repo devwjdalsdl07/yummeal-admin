@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 
-const ImgUpload = ({ imgArr, setImgArr, idx }) => {
+const ImgUpload = ({ imgArr, setImgArr, idx}) => {
   const [imgPreview, setImgPreview] = useState(null);
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const fileInput = useRef(null);

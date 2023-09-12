@@ -4,12 +4,14 @@ import {
   faStore,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { HeaderCss } from "../style/SiderCss";
+import { useRecoilState } from "recoil";
+import { accessTokenState } from "../atom/atom";
 
 const Header = () => {
+  const [accessToken, setAccessToken] = useRecoilState<any>(accessTokenState);
   const [infoToggle, setInfoToggle] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,14 +23,15 @@ const Header = () => {
 
   // 홈버튼
   const handleHome = () => {
-    navigate("/");
+    navigate("/admin/");
   };
 
   // 로그아웃
   const handleLogOut = async () => {
-    const res = await axios.get("/api/user/sign-out");
+    setAccessToken("");
     localStorage.removeItem("accessToken");
-    navigate("/");
+    navigate("/admin/");
+    setInfoToggle(false);
   };
 
   useEffect(() => {

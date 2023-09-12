@@ -114,7 +114,7 @@ const AdminItemEdit = () => {
     }
   };
   const handleCancleClick = () => {
-    navigate("/adminitem");
+    navigate("/admin/adminitem");
   };
   const imgUpload = async (_product: number, _file: File | null) => {
     const result = await postImage(_product, _file);
@@ -186,10 +186,10 @@ const AdminItemEdit = () => {
       item => item !== null || typeof item !== "string",
     );
     const itemResult = await itemEdit(data);
-    if (itemResult === 1) {
+    if (itemResult === 1 && result) {
       const imgResult = await imgAdd(product, result);
       localStorage.removeItem("adminStorage");
-      navigate("/adminitem");
+      navigate("/admin/adminitem");
     }
   };
   useEffect(() => {

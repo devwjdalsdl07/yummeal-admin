@@ -188,7 +188,7 @@ export const deleteProduct = async _iproduct => {
 
 export const itemAdd = async _data => {
   try {
-    const res = await axios.patch("/api/admin/product", _data);
+    const res = await axios.post("/api/admin/product", _data);
     return res.data;
   } catch (err) {
     console.log("아이템 등록 실패");
