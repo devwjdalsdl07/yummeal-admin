@@ -42,6 +42,7 @@ export const BestProdWrap = styled.div`
       display: flex;
       width: 1050px;
       margin: 0 auto;
+      align-items: center;
       &:hover {
         background: #e3eaf2;
       }
