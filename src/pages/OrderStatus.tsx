@@ -198,7 +198,7 @@ const OrderStatus = () => {
       </div>
       <div className="date-search-wrap">
         <div className="date-picker">
-          <h3>조회 검색</h3>
+          <h3>날짜 조회</h3>
           {/* <div className="search-check">
           <button onClick={handleSearchDay}>어제</button>
           <button onClick={handleSearch}>1주일</button>
