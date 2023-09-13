@@ -11,6 +11,7 @@ import { useRecoilState } from "recoil";
 import { accessTokenState } from "../atom/atom";
 import { useNavigate } from "react-router-dom";
 
+
 const AdminLogin = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -30,7 +31,8 @@ const AdminLogin = () => {
       alert(login.response.data.message);
     } else if (login) {
       setAccessToken(login);
-      navigate("/");
+      navigate("/admin/");
+
     }
   };
 

@@ -16,7 +16,6 @@ const ItemList = ({
   filter: Array<Iitem>;
   setFilter: React.Dispatch<React.SetStateAction<Iitem[]>>;
 }) => {
-  console.log(item);
   const navigate = useNavigate();
   const allergy: Array<TAllergy | undefined> = item.allegyName?.map(item => {
     return allergyArr.find(allergy => allergy.value === item);
@@ -31,12 +30,17 @@ const ItemList = ({
     return <span key={idx}>{item?.label}</span>;
   });
   const handleEditClick = () => {
-    navigate("/adminitemedit", { state: item.productId });
+    navigate("/admin/adminitemedit", { state: item.productId });
   };
   const handleDelClick = async () => {
     const result = await deleteItem(item.productId);
     if (result === 1) {
-      setFilter(filter.filter(filter => filter.productId !== item.productId));
+      setFilter(
+        filter.filter(filter => {
+          filter.productId !== item.productId;
+          return (item.delYn = 1);
+        }),
+      );
     }
   };
   return (
@@ -54,7 +58,10 @@ const ItemList = ({
         <span>{item.productId}</span>
       </div>
       <div className="itemName-item">
-        <img src={`http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`} alt="썸네일" />
+        <img
+          src={`http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`}
+          alt="썸네일"
+        />
         <span>{item.name}</span>
       </div>
       <div className="itemPrice">

@@ -113,7 +113,7 @@ const OrderStatus = () => {
   }, [pageNm]);
 
   const handleDetailMove = (ordercode: number) => {
-    navigate("/orderdetail", { state: { orderCode: ordercode } });
+    navigate("/admin/orderdetail", { state: { orderCode: ordercode } });
   };
 
   const handleTotalPPrice = (item: OrderData) => {
@@ -139,9 +139,7 @@ const OrderStatus = () => {
   };
 
   // 사용자가 검색에서 선택한 항목에 대한 state
-  const [orderCodeCheckIndex, setOrderCodeCheckIndex] = useState<
-    number | string
-  >(0);
+  const [orderCodeCheckIndex, setOrderCodeCheckIndex] = useState<number|string>(0);
   const [orderCodeCheckWord, setOrderCodeCheckWord] = useState<string>("");
 
   // RangePicker의 onChange 이벤트 핸들러
@@ -200,7 +198,7 @@ const OrderStatus = () => {
       </div>
       <div className="date-search-wrap">
         <div className="date-picker">
-          <h3>조회 검색</h3>
+          <h3>날짜 조회</h3>
           {/* <div className="search-check">
           <button onClick={handleSearchDay}>어제</button>
           <button onClick={handleSearch}>1주일</button>

@@ -119,7 +119,7 @@ const AdminAddItem = () => {
   const handleCancleClick = () => {
     deleteProduct(product);
     localStorage.removeItem("adminStorage");
-    navigate("/admin");
+    navigate("/admin/adminitem");
   };
   const imgUpload = async (_product, _file) => {
     const result = await postImage(_product, _file);
@@ -160,13 +160,13 @@ const AdminAddItem = () => {
         editor.insertEmbed(
           range.index,
           "imageBlot",
-          { src: `http://192.168.0.144:5001${img.img}`, pk: img.pimgId },
+          { src: `http://192.168.0.144:5001/img/webeditor/${productRef.current}/${img.img}`, pk: img.pimgId },
           "user",
         );
         setUploadImg([
           ...uploadImg,
           {
-            src: `http://192.168.0.144:5001${img.img}`,
+            src: `http://192.168.0.144:5001/img/webeditor/${productRef.current}/${img.img}`,
             pk: img.pimgId,
           },
         ]);
@@ -226,7 +226,7 @@ const AdminAddItem = () => {
     if (1 == itemResult) {
       if (imgResult.length > 0) {
         localStorage.removeItem("adminStorage");
-        navigate("/adminitem");
+        navigate("/admin/adminitem");
       }
     }
   };
@@ -261,6 +261,7 @@ const AdminAddItem = () => {
     setSelectedCateDetail([]);
     setContent("");
     setShowModal(false);
+    setUploadImg([])
     setAllegy([]);
   };
 

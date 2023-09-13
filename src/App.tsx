@@ -17,6 +17,7 @@ import OrderDetail from "./pages/OrderDetail";
 import OrderStatus from "./pages/OrderStatus";
 import SalesStatus from "./pages/SalesStatus";
 import UserList from "./pages/UserList";
+
 const App = () => {
   const [accessToken, setAccessToken] = useRecoilState<any>(accessTokenState);
   useEffect(() => {
@@ -32,42 +33,42 @@ const App = () => {
       <Layout>
         <Header />
         <Routes>
-          <Route path="/" element={accessToken ? <Main /> : <AdminLogin />} />
+          <Route path="/admin/" element={accessToken ? <Main /> : <AdminLogin />} />
           <Route
-            path="/userlist"
+            path="/admin/userlist"
             element={accessToken ? <UserList /> : <AdminLogin />}
           />
           <Route
-            path="/delivery"
+            path="/admin/delivery"
             element={accessToken ? <Delivery /> : <AdminLogin />}
           />
           <Route
-            path="/bestsale"
+            path="/admin/bestsale"
             element={accessToken ? <BestSellProd /> : <AdminLogin />}
           />
           <Route
-            path="/salestatus"
+            path="/admin/salestatus"
             element={accessToken ? <SalesStatus /> : <AdminLogin />}
           />
           <Route
-            path="/orderstatus"
+            path="/admin/orderstatus"
             element={accessToken ? <OrderStatus /> : <AdminLogin />}
           />
           <Route
-            path="/orderdetail"
+            path="/admin/orderdetail"
             element={accessToken ? <OrderDetail /> : <AdminLogin />}
           />
           <Route
-            path="/adminadd"
+            path="/admin/adminadd"
             element={accessToken ? <AdminAddItem /> : <AdminLogin />}
           />
-          <Route path="/adminlogin" element={<AdminLogin />} />
+          <Route path="/admin/adminlogin" element={<AdminLogin />} />
           <Route
-            path="/adminitem"
+            path="/admin/adminitem"
             element={accessToken ? <AdminItem /> : <AdminLogin />}
           />
           <Route
-            path="/adminitemedit"
+            path="/admin/adminitemedit"
             element={accessToken ? <AdminItemEdit /> : <AdminLogin />}
           />
         </Routes>

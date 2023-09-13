@@ -188,13 +188,11 @@ export const deleteProduct = async _iproduct => {
 
 export const itemAdd = async _data => {
   try {
-    const res = await axios.patch("/api/admin/webeditor/product/modification", _data);
-    console.log("아이템등록",_data)
-    console.log("아이템등록 후",res.data)
+    const res = await axios.post("/api/admin/product", _data);
     return res.data;
   } catch (err) {
     console.log("아이템 등록 실패");
-    console.log(_data)
+    console.log(_data);
     console.log(err);
   }
 };
@@ -210,7 +208,7 @@ export const imgAdd = async (_iproduct, imgArr) => {
       config,
     );
     const result = res.data;
-    console.log("이미지 등록",result)
+    console.log("이미지 등록", result);
     return result;
   } catch (err) {
     console.log("이미지 등록 실패");
@@ -218,13 +216,13 @@ export const imgAdd = async (_iproduct, imgArr) => {
   }
 };
 
-export const deleteImage = async (_imgpk) => {
-  try{
-    const res = await axios.delete(`/api/admin/${_imgpk}/webeditor`)
-    const result = await res.data
-    console.log("이미지 삭제",result)
-    return result
-  }catch(err){
-    console.log(err)
+export const deleteImage = async _imgpk => {
+  try {
+    const res = await axios.delete(`/api/admin/${_imgpk}/webeditor`);
+    const result = await res.data;
+    console.log("이미지 삭제", result);
+    return result;
+  } catch (err) {
+    console.log(err);
   }
-}
+};

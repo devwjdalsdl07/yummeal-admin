@@ -1,14 +1,13 @@
 import { DatePicker, Select } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
-import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { getOrder, putShipment } from "../api/DeliveryFatch";
 import Checkbox from "../components/Checkbox";
-import Paging from "../components/Paging";
 import Search from "../components/Search";
 import { StyledInput, StyledLabel, StyledP } from "../style/DeliveryCss";
 import { ProductInfo } from "../style/ProductInfoCss";
 import { OrdersResponse } from "./OrderStatus";
+
 
 const { RangePicker } = DatePicker;
 export interface OrderDetail {
@@ -18,12 +17,10 @@ export interface OrderDetail {
   count: number;
   totalPrice: number;
 }
-
 export interface UserVo {
   iuser: number;
   name: string;
 }
-
 export interface Order {
   orderId: number;
   ordercode: number;
@@ -44,11 +41,9 @@ export interface Order {
   orderDetailVo: OrderDetail[];
   isSelected?: boolean;
 }
-
 export interface OrderResponse {
   content: Order[];
 }
-
 const Delivery = () => {
   // 상태 변수 선언
   const [orderSearchAll, setOrderSearchAll] = useState<OrdersResponse | null>(
@@ -73,6 +68,7 @@ const Delivery = () => {
     setEdDay(formattedEndDate);
   };
 
+
   // 배송 상태 조회
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
@@ -81,6 +77,7 @@ const Delivery = () => {
   };
 
   // 검색 버튼 클릭
+
   const handleSearch = () => {
     let sendQuery = "";
     if (stDay === "" || edDay === "") {
@@ -90,6 +87,7 @@ const Delivery = () => {
     }
     orderSearchFetch(0, sendQuery);
   };
+
 
   // 초기화 버튼 클릭
   const handleReset = () => {
@@ -102,6 +100,7 @@ const Delivery = () => {
   };
 
  const orderSearchFetch = async (_page: number, _query: string) => {
+
     const sendQuery = _query;
     try {
       const orderSearchJson = await getOrder(_page, sendQuery);
@@ -115,13 +114,18 @@ const Delivery = () => {
     OrderSearchFetch(0, sendQuery);
   };
 
+
   const OrderSearchFetch = (page: number, query: string) => {
     orderSearchFetch(page, query);
+
+
   };
 
   useEffect(() => {
+
     orderSearchFetch(pageNm, "");
   }, [pageNm]);
+
 
   const lists: Array<JSX.Element> = orderSearch.map(
     (order: Order, index: number) => {
@@ -168,6 +172,7 @@ const Delivery = () => {
     },
   );
 
+
   //배송 isSelected = true 찾기
   const deliveryBt: any = orderSearch.filter(item => item.isSelected);
 
@@ -179,6 +184,7 @@ const Delivery = () => {
     await orderSearchFetch(0, "");
   };
   // 모든 주문 선택/해제
+
   const handleAllCheck = (isChecked: boolean) => {
     const updatedOrders = orderSearch.map(order => ({
       ...order,
@@ -187,6 +193,8 @@ const Delivery = () => {
     setOrderSearch(updatedOrders);
     setSelectAll(isChecked);
   };
+
+
 
   return (
     <ProductInfo>
@@ -211,7 +219,9 @@ const Delivery = () => {
 
         <div className="search-bt">
           <button onClick={handleSearch}>검색</button>
+
           <button onClick={handleReset}>초기화</button>
+
         </div>
       </div>
 

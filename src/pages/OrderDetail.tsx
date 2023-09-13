@@ -24,6 +24,11 @@ interface Order {
   orderDetailVo: OrderDetail[];
   usePoint: number;
   givePoint: number;
+  iuser: number;
+  name: string;
+  mobileNb: string;
+  userMail: string;
+  orderMemo: string;
 }
 
 const OrderDetail = () => {
@@ -39,6 +44,11 @@ const OrderDetail = () => {
     orderDetailVo: [],
     usePoint: 0,
     givePoint: 0,
+    iuser: 0,
+    name: "",
+    mobileNb: "",
+    userMail: "",
+    orderMemo: "",
   });
   const [prodInfo, setProdInfo] = useState<Array<OrderDetail>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -134,13 +144,13 @@ const OrderDetail = () => {
             <h3>주문자 정보</h3>
             <ul className="userinfo">
               <li className="userinfo-menu">주문자명</li>
-              <li className="data">데이터자리</li>
+              <li className="data">{orderInfo?.name}</li>
               <li className="userinfo-menu">휴대폰번호</li>
-              <li className="data">데이터자리</li>
+              <li className="data">{orderInfo?.mobileNb?.replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")}</li>
               <li className="userinfo-menu">이메일</li>
-              <li className="data">데이터자리</li>
+              <li className="data">{orderInfo?.userMail}</li>
               <li className="userinfo-menu">주문메모</li>
-              <li className="data">데이터자리</li>
+              <li className="data">{orderInfo?.orderMemo}</li>
             </ul>
           </div>
         </div>
