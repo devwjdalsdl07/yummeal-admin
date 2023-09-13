@@ -76,7 +76,7 @@ const BestSellProd = () => {
             <div>이미지</div>
             <div>상품명</div>
             <div>판매수량</div>
-            <div>가격</div>
+            <div>매출액</div>
           </div>
           <div className="table">
             {salesData?.vo?.map((item: IProdInfo, idx: number) => (

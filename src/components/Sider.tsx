@@ -58,7 +58,7 @@ const Sider: React.FC = () => {
                   <span className="icon">{item.icon}</span>
                   <span className="name">
                     {item.name === "회원 관리" ? (
-                      <Link to="/userlist">회원 관리</Link>
+                      <Link to="/admin/userlist">회원 관리</Link>
                     ) : item.name === "상품 관리" ? (
                       <div onClick={() => setIconToggle(!iconToggle)}>
                         <div>상품 관리 </div>
@@ -97,15 +97,15 @@ const Sider: React.FC = () => {
                     onClick={() => setSubActive(subItem)}
                   >
                     {subItem === "판매 현황" ? (
-                      <Link to="/salestatus">판매 현황</Link>
+                      <Link to="/admin/salestatus">판매 현황</Link>
                     ) : subItem === "베스트 상품" ? (
-                      <Link to="/bestsale">베스트 상품</Link>
+                      <Link to="/admin/bestsale">베스트 상품</Link>
                     ) : subItem === "배송 관리" ? (
-                      <Link to="/delivery">배송 관리</Link>
+                      <Link to="/admin/delivery">배송 관리</Link>
                     ) : subItem === "주문 현황" ? (
-                      <Link to="/orderstatus">주문 현황</Link>
+                      <Link to="/admin/orderstatus">주문 현황</Link>
                     ) : subItem === "상품 관리" ? (
-                      <Link to="/adminitem">상품관리</Link>
+                      <Link to="/admin/adminitem">상품관리</Link>
                     ) : (
                       subItem
                     )}
