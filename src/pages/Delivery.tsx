@@ -1,4 +1,4 @@
-import { DatePicker, Select } from "antd";
+import { DatePicker, Select, Modal } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
 import { useEffect, useState } from "react";
 import { getOrder, putShipment } from "../api/DeliveryFatch";
@@ -7,7 +7,9 @@ import Search from "../components/Search";
 import { StyledInput, StyledLabel, StyledP } from "../style/DeliveryCss";
 import { ProductInfo } from "../style/ProductInfoCss";
 import { OrdersResponse } from "./OrderStatus";
-
+import dayjs from "dayjs";
+import Paging from "../components/Paging";
+import { ExclamationCircleFilled } from "@ant-design/icons";
 
 const { RangePicker } = DatePicker;
 export interface OrderDetail {
@@ -59,6 +61,9 @@ const Delivery = () => {
   const [edDay, setEdDay] = useState<string>("");
   const [pageNm, setPageNm] = useState<number>(1);
 
+    // ant modal
+    const { confirm } = Modal;
+
   const onChange: RangePickerProps["onChange"] = (date, dateString) => {
     const startDate = dayjs(dateString[0]);
     const endDate = dayjs(dateString[1]);
@@ -67,7 +72,6 @@ const Delivery = () => {
     setStDay(formattedStartDate);
     setEdDay(formattedEndDate);
   };
-
 
   // 배송 상태 조회
   const handleChange = (value: string) => {
@@ -88,7 +92,6 @@ const Delivery = () => {
     orderSearchFetch(0, sendQuery);
   };
 
-
   // 초기화 버튼 클릭
   const handleReset = () => {
     setStDay("");
@@ -99,8 +102,7 @@ const Delivery = () => {
     // orderListGet(pageNm, send);
   };
 
- const orderSearchFetch = async (_page: number, _query: string) => {
-
+  const orderSearchFetch = async (_page: number, _query: string) => {
     const sendQuery = _query;
     try {
       const orderSearchJson = await getOrder(_page, sendQuery);
@@ -114,18 +116,13 @@ const Delivery = () => {
     OrderSearchFetch(0, sendQuery);
   };
 
-
   const OrderSearchFetch = (page: number, query: string) => {
     orderSearchFetch(page, query);
-
-
   };
 
   useEffect(() => {
-
     orderSearchFetch(pageNm, "");
   }, [pageNm]);
-
 
   const lists: Array<JSX.Element> = orderSearch.map(
     (order: Order, index: number) => {
@@ -172,17 +169,16 @@ const Delivery = () => {
     },
   );
 
-
   //배송 isSelected = true 찾기
   const deliveryBt: any = orderSearch.filter(item => item.isSelected);
 
-  // 배송 상태 변경
-  const handleShipmentSubmit = async (ordercode: any[], shipment: string) => {
-    console.log("배송상태 변경:", ordercode);
-    const ordercodeSubmit = ordercode.map((item: any) => item.ordercode);
-    await putShipment(ordercodeSubmit, shipment);
-    await orderSearchFetch(0, "");
-  };
+  // // 배송 상태 변경
+  // const handleShipmentSubmit = async (ordercode: any[], shipment: string) => {
+  //   console.log("배송상태 변경:", ordercode);
+  //   const ordercodeSubmit = ordercode.map((item: any) => item.ordercode);
+  //   await putShipment(ordercodeSubmit, shipment);
+  //   await orderSearchFetch(0, "");
+  // };
   // 모든 주문 선택/해제
 
   const handleAllCheck = (isChecked: boolean) => {
@@ -194,7 +190,22 @@ const Delivery = () => {
     setSelectAll(isChecked);
   };
 
-
+  // 회원탈퇴 모달
+  const handleShipmentSubmit = async (ordercode: any[], shipment: string) => {
+    const ordercodeSubmit = ordercode.map((item: any) => item.ordercode);
+    confirm({
+      title: "배송상태 변경 하시겠습니까?",
+      icon: <ExclamationCircleFilled />,
+      content: "변경된 배송상태는 복구되지 않습니다.",
+      async onOk() {
+        await putShipment(ordercodeSubmit, shipment);
+        await orderSearchFetch(0, "");
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
 
   return (
     <ProductInfo>
@@ -221,13 +232,14 @@ const Delivery = () => {
           <button onClick={handleSearch}>검색</button>
 
           <button onClick={handleReset}>초기화</button>
-
         </div>
       </div>
 
       <div className="contents-wrap">
         <div className="box-layout">
-          <span>배송상태<p>조회/변경</p></span>
+          <span>
+            배송상태<p>조회/변경</p>
+          </span>
           <Select
             defaultValue="선택"
             style={{ width: 130 }}
