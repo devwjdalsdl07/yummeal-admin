@@ -32,6 +32,7 @@ const AdminLogin = () => {
     } else if (login) {
       setAccessToken(login);
       navigate("/admin/");
+
     }
   };
 
