@@ -4,9 +4,10 @@ import { Select } from "antd";
 import { Dispatch, SetStateAction } from "react";
 
 interface IOrder {
+  
   // 선택된 필터 조건을 보내주는 값
-  orderCodeCheckIndex: number|string;
-  setOrderCodeCheckIndex: Dispatch<SetStateAction<number|string>>;
+  orderCodeCheckIndex: number | string;
+  setOrderCodeCheckIndex: Dispatch<SetStateAction<number | string>>;
   orderCodeCheckWord: string;
   setOrderCodeCheckWord: Dispatch<SetStateAction<string>>;
 }
@@ -19,15 +20,13 @@ const Search = ({
 }: IOrder) => (
   <>
     <Select
-      // defaultValue="선택"
-      value={orderCodeCheckIndex == 0 ? "선택":orderCodeCheckIndex}
+      value={orderCodeCheckIndex == 0 ? "선택" : orderCodeCheckIndex}
       style={{ width: 130 }}
-      // onChange={handleChange}
       onChange={e => {
         setOrderCodeCheckIndex(e);
       }}
       options={[
-        // { value: 1, label: "상품명" },
+        { value: 1, label: "상품명" },
         { value: 2, label: "주문번호" },
         { value: 5, label: "주문자명" },
         { value: 3, label: "상품주문번호" },
@@ -42,7 +41,7 @@ const Search = ({
         placeholder="검색어를 입력하세요"
         value={orderCodeCheckWord}
         onChange={e => setOrderCodeCheckWord(e.target.value)}
-        onClick={()=>setOrderCodeCheckWord("")}
+        onClick={() => setOrderCodeCheckWord("")}
       />
     </div>
   </>

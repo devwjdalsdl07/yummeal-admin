@@ -16,13 +16,19 @@ export const getOrder = async (_page: number, _query: string) => {
 };
 
 //배송상태변경
-export const putShipment = async (orderCode: number, shipment: string) => {
+export const putShipment = async (orderCode: any[], shipment: string) => {
   try {
-    const res = await axios.put(`/api/admin/order/shipment?`, {
-      orderCode: orderCode,
-      shipment: shipment,
-    });
+    const res = await axios.put(
+      `/api/admin/order/shipment?orderCode=${orderCode}&shipment=${shipment}`,
+      {
+        orderCode: orderCode,
+        shipment: shipment,
+      },
+    );
+    console.log("수정 성공!!!!!!");
+    const result = res.data;
+    console.log(result);
   } catch (err) {
-    console.log(err);
+    console.log("왜 실패???:", err);
   }
 };

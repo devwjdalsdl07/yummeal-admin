@@ -56,7 +56,7 @@ interface OrderData {
   userVo: UserVo;
 }
 
-interface OrdersResponse {
+export interface OrdersResponse {
   content: OrderData[];
   pageable: Pageable;
   totalPages: number;

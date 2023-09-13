@@ -13,6 +13,8 @@ interface IProps {
   totalProductPrice: number;
   totalDiscount: number;
   totalOrderAmount: number;
+  isSelected: boolean;
+  handleCheckboxChange: () => void;
 }
 const Checkbox: React.FC<IProps> = ({
   ordercode,
@@ -25,15 +27,9 @@ const Checkbox: React.FC<IProps> = ({
   totalProductPrice,
   totalDiscount,
   totalOrderAmount,
+  isSelected,
+  handleCheckboxChange,
 }) => {
-  const [isSelected, setIsSelected] = useState(false);
-
-  const handleCheckboxChange = () => {
-
-    setIsSelected(!isSelected);
-  };
-
-  const text = "";
 
   const mapShipmentStatus = (shipment: number) => {
     switch (shipment) {
@@ -51,38 +47,29 @@ const Checkbox: React.FC<IProps> = ({
   };
 
 
-  // shipment : 준비중(1)/배송중(2)/주문취소(3)/배송완료(0)
-
-
   return (
     <CheckboxCss>
-      <ul>
-      <li>
-        <StyledLabel htmlFor={text}>
+      <StyledLabel>
+        <ul>
+          <li>
           <StyledInput
             type="checkbox"
-            id={text}
-            name={text}
             checked={isSelected}
             onChange={handleCheckboxChange}
-    
           />
-          <StyledP>{text}</StyledP>
-        </StyledLabel>
-      </li>
-      <li>{ordercode}</li>
-      <li>{mapShipmentStatus(shipment)}</li>
-      <li>{createdAt}</li>
-      <li>{userName}</li>
-      <li>{productName}</li>
-      <li>{productNumber}</li>
-      <li>{count}</li>
-      <li>{totalProductPrice}</li>
-      <li>{totalDiscount}</li>
-      <li>{totalOrderAmount}</li>
-
-      </ul>
-
+          </li>
+          <li>{ordercode}</li>
+          <li>{mapShipmentStatus(shipment)}</li>
+          <li>{createdAt}</li>
+          <li>{userName}</li>
+          <li>{productName}</li>
+          <li>{productNumber}</li>
+          <li>{count}</li>
+          <li>{totalProductPrice}</li>
+          <li>{totalDiscount}</li>
+          <li>{totalOrderAmount}</li>
+        </ul>
+      </StyledLabel>
     </CheckboxCss>
   );
 };

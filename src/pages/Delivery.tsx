@@ -1,13 +1,14 @@
 import { DatePicker, Select } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
 import { useEffect, useState } from "react";
-import { getOrder } from "../api/DeliveryFatch";
+import { getOrder, putShipment } from "../api/DeliveryFatch";
 import Checkbox from "../components/Checkbox";
 import Search from "../components/Search";
 import { StyledInput, StyledLabel, StyledP } from "../style/DeliveryCss";
 import { ProductInfo } from "../style/ProductInfoCss";
-import Paging from "../components/Paging";
-import dayjs from "dayjs";
+import { OrdersResponse } from "./OrderStatus";
+
+
 const { RangePicker } = DatePicker;
 export interface OrderDetail {
   orderDetailId: number;
@@ -38,27 +39,26 @@ export interface Order {
   usepoint: number;
   productName: string;
   orderDetailVo: OrderDetail[];
+  isSelected?: boolean;
 }
 export interface OrderResponse {
   content: Order[];
 }
 const Delivery = () => {
+  // 상태 변수 선언
+  const [orderSearchAll, setOrderSearchAll] = useState<OrdersResponse | null>(
+    null,
+  );
   const [orderSearch, setOrderSearch] = useState<Array<Order>>([]);
-
-  // 사용자가 검색에서 선택한 항목에 대한 state
+  const [selectAll, setSelectAll] = useState(false);
   const [orderCodeCheckIndex, setOrderCodeCheckIndex] = useState<
     number | string
   >(0);
-
-  // const [selectAll, setSelectAll] = useState(false)
-
   const [orderCodeCheckWord, setOrderCodeCheckWord] = useState<string>("");
-
-  // RangePicker의 onChange 이벤트 핸들러
-  // 시작, 끝 날짜
   const [stDay, setStDay] = useState<string>("");
   const [edDay, setEdDay] = useState<string>("");
   const [pageNm, setPageNm] = useState<number>(1);
+
   const onChange: RangePickerProps["onChange"] = (date, dateString) => {
     const startDate = dayjs(dateString[0]);
     const endDate = dayjs(dateString[1]);
@@ -67,31 +67,45 @@ const Delivery = () => {
     setStDay(formattedStartDate);
     setEdDay(formattedEndDate);
   };
+
+
+  // 배송 상태 조회
+  const handleChange = (value: string) => {
+    console.log(`selected ${value}`);
+    const sendQuery = `filter4=${value}&`;
+    orderSearchFetch(0, sendQuery);
+  };
+
+  // 검색 버튼 클릭
+
   const handleSearch = () => {
     let sendQuery = "";
     if (stDay === "" || edDay === "") {
-      // 날짜 선택없으면
       sendQuery = `filter${orderCodeCheckIndex}=${orderCodeCheckWord}&`;
-    } else if (stDay !== "" || edDay !== "") {
-      sendQuery = `startDate=${stDay}&endDate=${edDay}&`;
     } else {
-      sendQuery = `filter${orderCodeCheckIndex}=${orderCodeCheckWord}&`;
+      sendQuery = `startDate=${stDay}&endDate=${edDay}&`;
     }
     orderSearchFetch(0, sendQuery);
   };
-  // useEffect(() => {
-  //   console.log(orderCodeCheckIndex);
-  // }, [orderCodeCheckIndex]);
-  // useEffect(() => {
-  //   consputole.log(orderCodeCheckWord);
-  // }, [oputputProfilerderCodeCheckWord]);
-  // 주문내역 조회
-  const orderSearchFetch = async (_page: number, _query: string) => {
+
+
+  // 초기화 버튼 클릭
+  const handleReset = () => {
+    setStDay("");
+    setEdDay("");
+    setOrderCodeCheckWord("");
+    setOrderCodeCheckIndex(0);
+    const send = `filter0=0&`;
+    // orderListGet(pageNm, send);
+  };
+
+ const orderSearchFetch = async (_page: number, _query: string) => {
+
     const sendQuery = _query;
-    // console.log(sendQuery);
     try {
       const orderSearchJson = await getOrder(_page, sendQuery);
       setOrderSearch(orderSearchJson.content);
+      setOrderSearchAll(orderSearchJson);
       console.log(orderSearchJson);
       return orderSearchJson;
     } catch (err) {
@@ -99,37 +113,35 @@ const Delivery = () => {
     }
     OrderSearchFetch(0, sendQuery);
   };
-  // 주문내역 조회
-  const OrderSearchFetch = async (_page: number, _query: string) => {
-    const sendQuery = _query;
-    // console.log(sendQuery);
-    try {
-      const orderSearchJson = await getOrder(_page, sendQuery);
-      setOrderSearch(orderSearchJson.content);
-      console.log(orderSearchJson);
-      return orderSearchJson;
-    } catch (err) {
-      console.log(err);
-    }
+
+
+  const OrderSearchFetch = (page: number, query: string) => {
+    orderSearchFetch(page, query);
+
+
   };
+
   useEffect(() => {
-    orderSearchFetch(0, "");
-  }, []);
+
+    orderSearchFetch(pageNm, "");
+  }, [pageNm]);
+
+
   const lists: Array<JSX.Element> = orderSearch.map(
     (order: Order, index: number) => {
-      const ordercode = order.ordercode; // 주문번호
-      const createdAt = order.createdAt; // 주문일시
-      const shipment = order.shipment; //배송상태
-      const userName = order.userName; // 주문자명
-      const productName = order.productName; // 주문상품
+      const ordercode = order.ordercode;
+      const createdAt = order.createdAt;
+      const shipment = order.shipment;
+      const userName = order.userName;
+      const productName = order.productName;
       const productNumber =
-        order.orderDetailVo.length > 0 ? order.orderDetailVo[0].productId : 0; // 상품주문번호
+        order.orderDetailVo.length > 0 ? order.orderDetailVo[0].productId : 0;
       const productCount =
-        order.orderDetailVo.length > 0 ? order.orderDetailVo[0].count : 0; // 수량
+        order.orderDetailVo.length > 0 ? order.orderDetailVo[0].count : 0;
       const totalProductPrice =
-        order.orderDetailVo.length > 0 ? order.orderDetailVo[0].totalPrice : 0; // 총상품금액
-      const totalDiscount = order.usepoint; // 총할인금액
-      const totalOrderAmount = totalProductPrice - totalDiscount; // 총주문금액
+        order.orderDetailVo.length > 0 ? order.orderDetailVo[0].totalPrice : 0;
+      const totalDiscount = order.usepoint;
+      const totalOrderAmount = totalProductPrice - totalDiscount;
       return (
         <Checkbox
           key={order.orderId}
@@ -143,26 +155,47 @@ const Delivery = () => {
           totalProductPrice={totalProductPrice}
           totalDiscount={totalDiscount}
           totalOrderAmount={totalOrderAmount}
+          isSelected={order.isSelected || false}
+          handleCheckboxChange={() => {
+            const updatedOrders = orderSearch.map(item => {
+              if (item.orderId === order.orderId) {
+                return { ...item, isSelected: !item.isSelected };
+              }
+              return item;
+            });
+            setOrderSearch(updatedOrders);
+            const allSelected = updatedOrders.every(item => item.isSelected);
+            setSelectAll(allSelected);
+          }}
         />
       );
     },
   );
-  const text = "";
+
+
+  //배송 isSelected = true 찾기
+  const deliveryBt: any = orderSearch.filter(item => item.isSelected);
+
+  // 배송 상태 변경
+  const handleShipmentSubmit = async (ordercode: any[], shipment: string) => {
+    console.log("배송상태 변경:", ordercode);
+    const ordercodeSubmit = ordercode.map((item: any) => item.ordercode);
+    await putShipment(ordercodeSubmit, shipment);
+    await orderSearchFetch(0, "");
+  };
+  // 모든 주문 선택/해제
+
   const handleAllCheck = (isChecked: boolean) => {
-    const updatedCities = orderSearch.map(order => ({
+    const updatedOrders = orderSearch.map(order => ({
       ...order,
       isSelected: isChecked,
     }));
-    setOrderSearch(updatedCities);
+    setOrderSearch(updatedOrders);
+    setSelectAll(isChecked);
   };
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
-    const sendQuery = `filter4=${value}&`;
-    orderSearchFetch(0, sendQuery);
-  };
-  // const handleDeliveryChange = () =>{
-  // const updatedDelivery =
-  // }
+
+
+
   return (
     <ProductInfo>
       <h2>배송 관리</h2>
@@ -177,20 +210,24 @@ const Delivery = () => {
       </div>
       <div className="search-wrap">
         <h3>조회 검색</h3>
-        <div className="search-check">
-          {/* <button onClick={handleSearchDay}>어제</button>
-          <button onClick={handleSearch}>1주일</button>
-          <button onClick={handleSearchmonth}>1개월</button> */}
-        </div>
-        <RangePicker onChange={onChange} />
+        <RangePicker
+          onChange={onChange}
+          inputReadOnly={true}
+          value={stDay && edDay ? [dayjs(stDay), dayjs(edDay)] : undefined}
+          allowClear={false}
+        />
+
         <div className="search-bt">
           <button onClick={handleSearch}>검색</button>
-          <button>초기화</button>
+
+          <button onClick={handleReset}>초기화</button>
+
         </div>
       </div>
+
       <div className="contents-wrap">
         <div className="box-layout">
-          <span>검색걸과 총 {lists.length}건 </span>
+          <span>배송상태<p>조회/변경</p></span>
           <Select
             defaultValue="선택"
             style={{ width: 130 }}
@@ -205,13 +242,19 @@ const Delivery = () => {
           <div className="delivery-bt">
             <ul>
               <li>
-                <button>배송중</button>
+                <button onClick={() => handleShipmentSubmit(deliveryBt, "2")}>
+                  배송중
+                </button>
               </li>
               <li>
-                <button>배송완료</button>
+                <button onClick={() => handleShipmentSubmit(deliveryBt, "0")}>
+                  배송완료
+                </button>
               </li>
               <li>
-                <button>주문취소</button>
+                <button onClick={() => handleShipmentSubmit(deliveryBt, "3")}>
+                  주문취소
+                </button>
               </li>
             </ul>
           </div>
@@ -219,19 +262,18 @@ const Delivery = () => {
         <div className="content-info">
           <ul className="title">
             <li>
-              <StyledLabel htmlFor={text}>
+              <StyledLabel>
                 <StyledInput
                   type="checkbox"
-                  id={text}
-                  name={text}
+                  checked={selectAll}
                   onChange={e => handleAllCheck(e.target.checked)}
                 />
-                <StyledP>{text}</StyledP>
+                <StyledP></StyledP>
               </StyledLabel>
             </li>
             <li>주문번호</li>
-            <li>주문일시</li>
             <li>배송상태</li>
+            <li>주문일시</li>
             <li>주문자명</li>
             <li>주문상품</li>
             <li>상품주문번호</li>
@@ -240,10 +282,14 @@ const Delivery = () => {
             <li>총할인금액</li>
             <li>총주문금액</li>
           </ul>
-          {lists}
+          <div className="item-list">{lists}</div>
         </div>
         <div className="page-bt">
-          <Paging pageNm={pageNm} setPageNm={setPageNm} />
+          <Paging
+            pageNm={pageNm}
+            setPageNm={setPageNm}
+            totalItem={orderSearchAll?.totalElements}
+          />
         </div>
       </div>
     </ProductInfo>
