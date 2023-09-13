@@ -191,6 +191,9 @@ export const ItemListWrap = styled.div`
     .itemList {
       height: 400px;
     }
+    .itemList::-webkit-scrollbar {
+      display: none;
+    }
     .itemAllergy {
       width: 20%;
       gap: 10px;
