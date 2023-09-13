@@ -160,13 +160,13 @@ const AdminAddItem = () => {
         editor.insertEmbed(
           range.index,
           "imageBlot",
-          { src: `http://192.168.0.144:5001/img/webeditor/${productRef.current}/${img.img}`, pk: img.pimgId },
+          { src: `/img/webeditor/${productRef.current}/${img.img}`, pk: img.pimgId },
           "user",
         );
         setUploadImg([
           ...uploadImg,
           {
-            src: `http://192.168.0.144:5001/img/webeditor/${productRef.current}/${img.img}`,
+            src: `/img/webeditor/${productRef.current}/${img.img}`,
             pk: img.pimgId,
           },
         ]);

@@ -59,7 +59,7 @@ const ItemList = ({
       </div>
       <div className="itemName-item">
         <img
-          src={`http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`}
+          src={`/img/product/${item.productId}/${item.thumbnail}`}
           alt="썸네일"
         />
         <span>{item.name}</span>
