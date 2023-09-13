@@ -1,18 +1,34 @@
 import styled from "@emotion/styled";
 export const ProductInfo = styled.div`
-  flex-grow: 1;
-  min-width: auto;
-  height: 100%;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  font-size: 15px;
   padding: 20px 30px;
-  h2 {
-    font-size: 30px;
-  }
+
   .search-wrap {
     display: flex;
     gap: 30px;
     padding-top: 15px;
     margin-left: 40px;
     margin-top: 15px;
+    .search-bt {
+      margin-left: 400px;
+      > button {
+        width: 150px;
+        height: 35px;
+        margin-right: 35px;
+        font-size: 15px;
+        border-radius: 8px;
+        border: 1px solid #d9d9d9;
+        background: #fff;
+        :hover {
+          background: #ff5d5c;
+          border: 1px solid #ff5d5c;
+          color: #fff;
+        }
+      }
+    }
 
     h3 {
       font-size: 22px;
@@ -37,24 +53,7 @@ export const ProductInfo = styled.div`
         }
       }
     }
-    .search-bt {
-      /* margin-left: auto; */
-      margin-left: 100px;
-      > button {
-        width: 150px;
-        height: 35px;
-        margin-right: 35px;
-        font-size: 15px;
-        border-radius: 8px;
-        border: 1px solid #d9d9d9;
-        background: #fff;
-        :hover {
-          background: #ff5d5c;
-          border: 1px solid #ff5d5c;
-          color: #fff;
-        }
-      }
-    }
+
     .search-bar {
       width: 400px;
       height: 32px;
@@ -89,21 +88,18 @@ export const ProductInfo = styled.div`
 
   .box-layout {
     display: flex;
-
-    margin: 30px 40px;
-
-    padding: 20px 0;
+    margin: 30px 0;
+    padding: 20px 40px;
     gap: 40px;
-    border-bottom: 1px solid #969696;
+
     > span {
+      display: flex;
       font-size: 23px;
       font-weight: 600;
 
-      /* margin-left: 50px; */
-
-      ::after {
+      p {
         margin-left: 20px;
-        content: " | ";
+        font-size: 23px;
       }
     }
 
@@ -131,21 +127,21 @@ export const ProductInfo = styled.div`
   .content-info {
     height: 500px;
 
-
     .title {
-      margin: 0;
+      margin: 0 10px;
       display: grid;
-      grid-template-columns: repeat(9, 1fr);
+      grid-template-columns: 35px 140px 70px 130px 120px 260px 100px 75px 130px 130px 130px;
+      text-align: center;
       border-top: 1px solid #bfb6b6;
       border-bottom: 1px solid #bfb6b6;
-      background: #efeeee;
+      background: #e3eaf2;
       list-style: none;
 
       li {
-        padding: 10px;
+        display: grid;
+        margin: 10px 0;
         text-align: center;
         font-weight: bold;
-        border-right: 1px solid #bfb6b6;
 
         &:last-child {
           border-right: none;
@@ -156,6 +152,10 @@ export const ProductInfo = styled.div`
         padding-top: 10px;
         padding-right: 40px;
       }
+    }
+    .item-list {
+      display: grid;
+      grid-column: column;
     }
   }
   .page-bt {

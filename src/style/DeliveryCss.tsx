@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-//checkbox css 
+//checkbox css
 export const StyledInput = styled.input`
   appearance: none;
   border: 1.5px solid gainsboro;
@@ -15,16 +15,16 @@ export const StyledInput = styled.input`
     background-size: 100% 100%;
     background-position: 50%;
     background-repeat: no-repeat;
-    background-color: limegreen;
+    background-color: #ff5d5c;
   }
 `;
 export const StyledLabel = styled.label`
   display: flex;
   align-items: center;
+  padding: 0 10px;
   user-select: none;
 `;
 
 export const StyledP = styled.p`
   margin-left: 0.25rem;
 `;
-
