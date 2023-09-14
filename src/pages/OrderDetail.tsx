@@ -134,7 +134,7 @@ const OrderDetail = () => {
             </ul>
           </div>
           <div>
-            <h3>혜택지급내역</h3>
+            <h3>포인트 지급내역</h3>
             <ul className="pointback">
               <li className="pointback-menu">적립혜택</li>
               <li className="data">{orderInfo?.givePoint?.toLocaleString()}</li>
