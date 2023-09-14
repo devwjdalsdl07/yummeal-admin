@@ -13,6 +13,7 @@ const { RangePicker } = DatePicker;
 interface OrderDetail {
   orderDetailId: number;
   productId: number;
+  productName: string;
   count: number;
   totalPrice: number;
 }
@@ -20,19 +21,6 @@ interface OrderDetail {
 interface UserVo {
   iuser: number;
   name: string;
-}
-
-interface Pageable {
-  sort: {
-    empty: boolean;
-    unsorted: boolean;
-    sorted: boolean;
-  };
-  offset: number;
-  pageNumber: number;
-  pageSize: number;
-  unpaged: boolean;
-  paged: boolean;
 }
 
 interface OrderData {
@@ -57,27 +45,17 @@ interface OrderData {
 }
 
 export interface OrdersResponse {
-  content: OrderData[];
-  pageable: Pageable;
-  totalPages: number;
-  totalElements: number;
-  last: boolean;
-  size: number;
-  number: number;
-  sort: {
-    empty: boolean;
-    unsorted: boolean;
-    sorted: boolean;
-  };
-  numberOfElements: number;
-  first: boolean;
-  empty: boolean;
+  page: number;
+  count: number;
+  list: OrderData[];
+  allcount: number;
 }
 
 const OrderStatus = () => {
   const [orderList, setOrderList] = useState<OrdersResponse | null>(null);
   const [pageNm, setPageNm] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSearch, setIsSearch] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const orderListGet = async (page: number, query: string) => {
@@ -168,6 +146,7 @@ const OrderStatus = () => {
         sendQuery = `filter${orderCodeCheckIndex}=${orderCodeCheckWord}&`;
       }
       orderListGet(pageNm, sendQuery);
+      setIsSearch(true);
     } catch (error) {
       alert(error);
     }
@@ -181,6 +160,7 @@ const OrderStatus = () => {
       setOrderCodeCheckIndex(0);
       const send = `filter0=0&`;
       orderListGet(pageNm, send);
+      setIsSearch(false);
     } catch (error) {
       alert(error);
     }
@@ -211,6 +191,7 @@ const OrderStatus = () => {
             inputReadOnly={true}
             value={stDay && edDay ? [dayjs(stDay), dayjs(edDay)] : undefined}
             allowClear={false}
+            onClick={()=>setIsSearch(false)}
           />
         </div>
         <div className="search-bt">
@@ -231,7 +212,7 @@ const OrderStatus = () => {
         </div>
         <div className="table">
           {isLoading && <Spin size="large" />}
-          {orderList?.content.map((item: OrderData) => (
+          {orderList?.list.map((item: OrderData) => (
             <div key={item.ordercode} className="table-content-wrap">
               <div>{item.orderId}</div>
               <div>{item.createdAt}</div>
@@ -257,7 +238,7 @@ const OrderStatus = () => {
         <Paging
           pageNm={pageNm}
           setPageNm={setPageNm}
-          totalItem={orderList?.totalElements}
+          totalItem={isSearch ? orderList?.count : orderList?.allcount}
         />
       </div>
     </OrderStatusWrap>

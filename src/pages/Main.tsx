@@ -51,7 +51,7 @@ const Main = () => {
       `/api/admin/order?page=0&size=10000&sort=createdAt,asc`,
     );
     const result = res.data;
-    setOrderData(result.content);
+    setOrderData(result.list);
   };
 
   useEffect(() => {
