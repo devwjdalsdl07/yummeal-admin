@@ -139,7 +139,9 @@ const OrderStatus = () => {
   };
 
   // 사용자가 검색에서 선택한 항목에 대한 state
-  const [orderCodeCheckIndex, setOrderCodeCheckIndex] = useState<number|string>(0);
+  const [orderCodeCheckIndex, setOrderCodeCheckIndex] = useState<
+    number | string
+  >(0);
   const [orderCodeCheckWord, setOrderCodeCheckWord] = useState<string>("");
 
   // RangePicker의 onChange 이벤트 핸들러
@@ -246,9 +248,9 @@ const OrderStatus = () => {
                   ? `외 ${item.orderDetailVo.length - 1}건`
                   : null}
               </div>
-              <div>{handleTotalPPrice(item)}</div>
-              <div>{item.usepoint}</div>
-              <div>{handleTotalOPrice(item)}</div>
+              <div>{handleTotalPPrice(item).toLocaleString()}</div>
+              <div>{item.usepoint.toLocaleString()}</div>
+              <div>{handleTotalOPrice(item).toLocaleString()}</div>
             </div>
           ))}
         </div>
