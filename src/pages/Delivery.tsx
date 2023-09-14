@@ -1,15 +1,15 @@
-import { DatePicker, Select, Modal } from "antd";
+import { ExclamationCircleFilled } from "@ant-design/icons";
+import { DatePicker, Modal, Select } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { getOrder, putShipment } from "../api/DeliveryFatch";
 import Checkbox from "../components/Checkbox";
+import Paging from "../components/Paging";
 import Search from "../components/Search";
 import { StyledInput, StyledLabel, StyledP } from "../style/DeliveryCss";
 import { ProductInfo } from "../style/ProductInfoCss";
 import { OrdersResponse } from "./OrderStatus";
-import dayjs from "dayjs";
-import Paging from "../components/Paging";
-import { ExclamationCircleFilled } from "@ant-design/icons";
 
 const { RangePicker } = DatePicker;
 export interface OrderDetail {
@@ -61,8 +61,8 @@ const Delivery = () => {
   const [edDay, setEdDay] = useState<string>("");
   const [pageNm, setPageNm] = useState<number>(1);
 
-    // ant modal
-    const { confirm } = Modal;
+  // ant modal
+  const { confirm } = Modal;
 
   const onChange: RangePickerProps["onChange"] = (date, dateString) => {
     const startDate = dayjs(dateString[0]);
@@ -77,7 +77,7 @@ const Delivery = () => {
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
     const sendQuery = `filter4=${value}&`;
-    orderSearchFetch(0, sendQuery);
+    orderSearchFetch(pageNm, sendQuery);
   };
 
   // 검색 버튼 클릭
@@ -89,7 +89,7 @@ const Delivery = () => {
     } else {
       sendQuery = `startDate=${stDay}&endDate=${edDay}&`;
     }
-    orderSearchFetch(0, sendQuery);
+    orderSearchFetch(pageNm, sendQuery);
   };
 
   // 초기화 버튼 클릭
@@ -99,7 +99,7 @@ const Delivery = () => {
     setOrderCodeCheckWord("");
     setOrderCodeCheckIndex(0);
     const send = `filter0=0&`;
-    // orderListGet(pageNm, send);
+    orderSearchFetch(pageNm, send);
   };
 
   const orderSearchFetch = async (_page: number, _query: string) => {
@@ -108,16 +108,10 @@ const Delivery = () => {
       const orderSearchJson = await getOrder(_page, sendQuery);
       setOrderSearch(orderSearchJson.content);
       setOrderSearchAll(orderSearchJson);
-      console.log(orderSearchJson);
       return orderSearchJson;
     } catch (err) {
       console.log(err);
     }
-    OrderSearchFetch(0, sendQuery);
-  };
-
-  const OrderSearchFetch = (page: number, query: string) => {
-    orderSearchFetch(page, query);
   };
 
   useEffect(() => {
@@ -172,13 +166,6 @@ const Delivery = () => {
   //배송 isSelected = true 찾기
   const deliveryBt: any = orderSearch.filter(item => item.isSelected);
 
-  // // 배송 상태 변경
-  // const handleShipmentSubmit = async (ordercode: any[], shipment: string) => {
-  //   console.log("배송상태 변경:", ordercode);
-  //   const ordercodeSubmit = ordercode.map((item: any) => item.ordercode);
-  //   await putShipment(ordercodeSubmit, shipment);
-  //   await orderSearchFetch(0, "");
-  // };
   // 모든 주문 선택/해제
 
   const handleAllCheck = (isChecked: boolean) => {

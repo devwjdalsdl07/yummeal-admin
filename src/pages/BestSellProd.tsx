@@ -90,7 +90,7 @@ const BestSellProd = () => {
                 </div>
                 <div>{item.pname}</div>
                 <div>{item.count}</div>
-                <div>{item.pprice}</div>
+                <div>{(item.pprice).toLocaleString()}</div>
               </div>
             ))}
             {salesData.count < 1 && (

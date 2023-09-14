@@ -139,6 +139,7 @@ export const OrderStatusWrap = styled.div`
       }
       & > div:nth-of-type(3) {
         width: 150px;
+        color: #61a1f3;
       }
       & > div:nth-of-type(4) {
         width: 100px;

@@ -80,7 +80,7 @@ const SalesStatus = () => {
                 <div>{item.pname.slice(0, 6)}</div>
                 <div>{item.pname.slice(6)}</div>
                 <div>{item.count}</div>
-                <div>{item.pprice}</div>
+                <div>{(item.pprice).toLocaleString()}</div>
               </div>
             ))}
             {saleVolum.count < 1 && (
