@@ -61,8 +61,8 @@ const Delivery = () => {
   const [edDay, setEdDay] = useState<string>("");
   const [pageNm, setPageNm] = useState<number>(1);
 
-    // ant modal
-    const { confirm } = Modal;
+  // ant modal
+  const { confirm } = Modal;
 
   const onChange: RangePickerProps["onChange"] = (date, dateString) => {
     const startDate = dayjs(dateString[0]);
