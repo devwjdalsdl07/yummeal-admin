@@ -1,15 +1,16 @@
+
+import { ExclamationCircleFilled } from "@ant-design/icons";
 import { DatePicker, Modal, Select } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { getOrder, putShipment } from "../api/DeliveryFatch";
 import Checkbox from "../components/Checkbox";
+import Paging from "../components/Paging";
 import Search from "../components/Search";
 import { StyledInput, StyledLabel, StyledP } from "../style/DeliveryCss";
 import { ProductInfo } from "../style/ProductInfoCss";
 import { OrdersResponse } from "./OrderStatus";
-import dayjs from "dayjs";
-import Paging from "../components/Paging";
-import { ExclamationCircleFilled } from "@ant-design/icons";
 
 const { RangePicker } = DatePicker;
 export interface OrderDetail {
@@ -76,7 +77,6 @@ const Delivery = () => {
   // 배송 상태 조회
   const handleChange = (value: string) => {
     const sendQuery = `filter4=${value}&`;
-    console.log(`filter4=${value}&`);
     orderSearchFetch(pageNm, sendQuery);
   };
 
@@ -172,6 +172,9 @@ const Delivery = () => {
 
   //배송 isSelected = true 찾기
   const deliveryBt: any = orderSearch.filter(item => item.isSelected);
+
+
+ 
 
   // 회원탈퇴 모달
   const handleShipmentSubmit = async (ordercode: any[], shipment: string) => {

@@ -33,7 +33,7 @@ const App = () => {
       <Layout>
         <Header />
         <Routes>
-          <Route path="/admin/" element={accessToken ? <Main /> : <AdminLogin />} />
+          <Route path="/admin" element={accessToken ? <Main /> : <AdminLogin />} />
           <Route
             path="/admin/userlist"
             element={accessToken ? <UserList /> : <AdminLogin />}

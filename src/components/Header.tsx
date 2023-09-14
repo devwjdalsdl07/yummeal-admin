@@ -24,14 +24,14 @@ const Header = () => {
 
   // 홈버튼
   const handleHome = () => {
-    navigate("/admin/");
+    navigate("/admin");
   };
 
   // 로그아웃
   const handleLogOut = async () => {
     setAccessToken("");
     localStorage.removeItem("accessToken");
-    navigate("/admin/");
+    navigate("/admin");
     setInfoToggle(false);
   };
 

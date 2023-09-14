@@ -4,7 +4,7 @@
 
 ## 프로젝트 정보
 
-- [Notion](https://www.notion.so/YUMMEAL-80d792f626424ef59dd2f22e8097d48f)
+- [Notion](https://www.notion.so/3-YUMMEAL-ADMIN-acb5a15f6ddf4c0aba4d4cfa00bb26af)
 - [Figma(wireframe)](https://www.figma.com/file/A0h9Ai58OM6pRxUXWUmYJP/yummeal?type=design&node-id=1096%3A369&mode=design&t=2UxOfiDdVm4zzZRJ-1)
 - [Figma(flowchart)](<https://www.figma.com/file/wuGGvaWhGaIq53x6VOSm8P/Pokedex-Flowchart-(Community)?type=whiteboard&node-id=0%3A1&t=DYSvMAgpH8f4KJT6-1>)
 

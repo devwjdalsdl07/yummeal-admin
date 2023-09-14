@@ -390,7 +390,7 @@ const AdminItem = () => {
             <div
               className="itemList"
               style={{
-                overflowY: "auto",
+                overflow: "overlay",
               }}
             >
               {items}
