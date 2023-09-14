@@ -30,12 +30,11 @@ const Checkbox: React.FC<IProps> = ({
   isSelected,
   handleCheckboxChange,
 }) => {
-
   const mapShipmentStatus = (shipment: number) => {
     switch (shipment) {
       case 0:
         return "배송완료";
-      case 1:
+      case 4:
         return "준비중";
       case 2:
         return "배송중";
@@ -46,17 +45,16 @@ const Checkbox: React.FC<IProps> = ({
     }
   };
 
-
   return (
     <CheckboxCss>
       <StyledLabel>
         <ul>
           <li>
-          <StyledInput
-            type="checkbox"
-            checked={isSelected}
-            onChange={handleCheckboxChange}
-          />
+            <StyledInput
+              type="checkbox"
+              checked={isSelected}
+              onChange={handleCheckboxChange}
+            />
           </li>
           <li>{ordercode}</li>
           <li>{mapShipmentStatus(shipment)}</li>
@@ -65,9 +63,9 @@ const Checkbox: React.FC<IProps> = ({
           <li>{productName}</li>
           <li>{productNumber}</li>
           <li>{count}</li>
-          <li>{totalProductPrice}</li>
-          <li>{totalDiscount}</li>
-          <li>{totalOrderAmount}</li>
+          <li>{totalProductPrice.toLocaleString()}</li>
+          <li>{totalDiscount.toLocaleString()}</li>
+          <li>{totalOrderAmount.toLocaleString() }</li>
         </ul>
       </StyledLabel>
     </CheckboxCss>

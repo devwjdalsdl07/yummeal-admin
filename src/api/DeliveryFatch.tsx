@@ -10,9 +10,11 @@ export const getOrder = async (_page: number, _query: string) => {
     const result = res.data;
     console.log(result);
     return result;
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      const axiosError = error as AxiosError;
+
+  } catch (err: unknown) {
+    if (axios.isAxiosError(err)) {
+      const axiosError = err as AxiosError;
+
       if (axiosError.response) {
         // 서버 응답이 있는 경우
         const errorMessage = axiosError.response.data as any;
@@ -32,7 +34,6 @@ export const putShipment = async (orderCode: any[], shipment: string) => {
         shipment: shipment,
       },
     );
-    console.log("수정 성공!!!!!!");
     const result = res.data;
     console.log(result);
   } catch (err) {

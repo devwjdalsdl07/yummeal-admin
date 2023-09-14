@@ -1,3 +1,4 @@
+
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { DatePicker, Modal, Select } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
@@ -74,19 +75,24 @@ const Delivery = () => {
 
   // 배송 상태 조회
   const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
     const sendQuery = `filter4=${value}&`;
     orderSearchFetch(pageNm, sendQuery);
   };
 
   // 검색 버튼 클릭
-
   const handleSearch = () => {
-    let sendQuery = "";
-    if (stDay === "" || edDay === "") {
-      sendQuery = `filter${orderCodeCheckIndex}=${orderCodeCheckWord}&`;
-    } else {
-      sendQuery = `startDate=${stDay}&endDate=${edDay}&`;
+    try {
+      let sendQuery = "";
+      if (stDay === "" || edDay === "") {
+        sendQuery = `filter${orderCodeCheckIndex}=${orderCodeCheckWord}&`;
+      } else if (!orderCodeCheckIndex && !orderCodeCheckWord) {
+        sendQuery = `startDate=${stDay}&endDate=${edDay}&`;
+      } else {
+        sendQuery = `filter${orderCodeCheckIndex}=${orderCodeCheckWord}&startDate=${stDay}&endDate=${edDay}&`;
+      }
+      orderSearchFetch(pageNm, sendQuery);
+    } catch (error) {
+      alert(error);
     }
     orderSearchFetch(pageNm, sendQuery);
     setIsSearch(true);
@@ -130,8 +136,10 @@ const Delivery = () => {
         order.orderDetailVo.length > 0 ? order.orderDetailVo[0].productId : 0;
       const productCount =
         order.orderDetailVo.length > 0 ? order.orderDetailVo[0].count : 0;
-      const totalProductPrice =
-        order.orderDetailVo.length > 0 ? order.orderDetailVo[0].totalPrice : 0;
+      const totalProductPrice = order.orderDetailVo.reduce(
+        (acc, index) => acc + index.totalPrice,
+        0,
+      );
       const totalDiscount = order.usepoint;
       const totalOrderAmount = totalProductPrice - totalDiscount;
       return (
@@ -167,16 +175,8 @@ const Delivery = () => {
   //배송 isSelected = true 찾기
   const deliveryBt: any = orderSearch.filter(item => item.isSelected);
 
-  // 모든 주문 선택/해제
 
-  const handleAllCheck = (isChecked: boolean) => {
-    const updatedOrders = orderSearch.map(order => ({
-      ...order,
-      isSelected: isChecked,
-    }));
-    setOrderSearch(updatedOrders);
-    setSelectAll(isChecked);
-  };
+ 
 
   // 회원탈퇴 모달
   const handleShipmentSubmit = async (ordercode: any[], shipment: string) => {
@@ -187,12 +187,21 @@ const Delivery = () => {
       content: "변경된 배송상태는 복구되지 않습니다.",
       async onOk() {
         await putShipment(ordercodeSubmit, shipment);
-        await orderSearchFetch(0, "");
+        await orderSearchFetch(pageNm, "");
       },
       onCancel() {
         console.log("Cancel");
       },
     });
+  };
+  // 모든 주문 선택/해제
+  const handleAllCheck = (isChecked: boolean) => {
+    const updatedOrders = orderSearch.map(order => ({
+      ...order,
+      isSelected: isChecked,
+    }));
+    setOrderSearch(updatedOrders);
+    setSelectAll(isChecked);
   };
 
   return (
@@ -233,7 +242,7 @@ const Delivery = () => {
             style={{ width: 130 }}
             onChange={handleChange}
             options={[
-              { value: 1, label: "준비중" },
+              { value: 4, label: "준비중" },
               { value: 2, label: "배송중" },
               { value: 0, label: "배송완료" },
               { value: 3, label: "주문취소" },
