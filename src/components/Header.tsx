@@ -2,6 +2,7 @@ import {
   faCircleUser,
   faHouseChimneyUser,
   faStore,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
@@ -49,6 +50,14 @@ const Header = () => {
       </i>
       {infoToggle && (
         <div className="userinfo-wrap">
+          <div className="bt-close">
+            <i>
+              <FontAwesomeIcon
+                icon={faXmark}
+                onClick={() => setInfoToggle(false)}
+              />
+            </i>
+          </div>
           <div className="home" onClick={handleHome}>
             <i>
               <FontAwesomeIcon icon={faHouseChimneyUser} />
