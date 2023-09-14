@@ -26,7 +26,7 @@ export interface UserVo {
 export interface Order {
   orderId: number;
   ordercode: number;
-  iuser: number | null;
+  iuser: number;
   userName: string;
   payment: number;
   shipment: number;
@@ -41,10 +41,8 @@ export interface Order {
   usepoint: number;
   productName: string;
   orderDetailVo: OrderDetail[];
+  userVo: UserVo;
   isSelected?: boolean;
-}
-export interface OrderResponse {
-  content: Order[];
 }
 const Delivery = () => {
   // 상태 변수 선언
@@ -60,6 +58,7 @@ const Delivery = () => {
   const [stDay, setStDay] = useState<string>("");
   const [edDay, setEdDay] = useState<string>("");
   const [pageNm, setPageNm] = useState<number>(1);
+  const [isSearch, setIsSearch] = useState<boolean>(false);
 
   // ant modal
   const { confirm } = Modal;
@@ -90,6 +89,7 @@ const Delivery = () => {
       sendQuery = `startDate=${stDay}&endDate=${edDay}&`;
     }
     orderSearchFetch(pageNm, sendQuery);
+    setIsSearch(true);
   };
 
   // 초기화 버튼 클릭
@@ -98,6 +98,7 @@ const Delivery = () => {
     setEdDay("");
     setOrderCodeCheckWord("");
     setOrderCodeCheckIndex(0);
+    setIsSearch(false)
     const send = `filter0=0&`;
     orderSearchFetch(pageNm, send);
   };
@@ -106,7 +107,7 @@ const Delivery = () => {
     const sendQuery = _query;
     try {
       const orderSearchJson = await getOrder(_page, sendQuery);
-      setOrderSearch(orderSearchJson.content);
+      setOrderSearch(orderSearchJson.list);
       setOrderSearchAll(orderSearchJson);
       return orderSearchJson;
     } catch (err) {
@@ -287,7 +288,7 @@ const Delivery = () => {
           <Paging
             pageNm={pageNm}
             setPageNm={setPageNm}
-            totalItem={orderSearchAll?.totalElements}
+            totalItem={isSearch ? orderSearchAll?.count : orderSearchAll?.allcount}
           />
         </div>
       </div>
