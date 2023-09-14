@@ -1,4 +1,3 @@
-
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { DatePicker, Modal, Select } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
@@ -94,7 +93,6 @@ const Delivery = () => {
     } catch (error) {
       alert(error);
     }
-    orderSearchFetch(pageNm, sendQuery);
     setIsSearch(true);
   };
 
@@ -104,7 +102,7 @@ const Delivery = () => {
     setEdDay("");
     setOrderCodeCheckWord("");
     setOrderCodeCheckIndex(0);
-    setIsSearch(false)
+    setIsSearch(false);
     const send = `filter0=0&`;
     orderSearchFetch(pageNm, send);
   };
@@ -174,9 +172,6 @@ const Delivery = () => {
 
   //배송 isSelected = true 찾기
   const deliveryBt: any = orderSearch.filter(item => item.isSelected);
-
-
- 
 
   // 회원탈퇴 모달
   const handleShipmentSubmit = async (ordercode: any[], shipment: string) => {
@@ -297,7 +292,7 @@ const Delivery = () => {
           <Paging
             pageNm={pageNm}
             setPageNm={setPageNm}
-            totalItem={isSearch ? orderSearchAll?.count : orderSearchAll?.allcount}
+            totalItem={orderSearchAll?.allcount}
           />
         </div>
       </div>

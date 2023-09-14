@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { StyledInput, StyledLabel, StyledP } from "../style/DeliveryCss";
 import { CheckboxCss } from "../style/CheckboxCss";
+import { StyledInput, StyledLabel } from "../style/DeliveryCss";
 interface IProps {
   ordercode: number;
   createdAt: string;
@@ -34,12 +34,14 @@ const Checkbox: React.FC<IProps> = ({
     switch (shipment) {
       case 0:
         return "배송완료";
-      case 4:
+      case 1:
         return "준비중";
       case 2:
         return "배송중";
       case 3:
         return "주문취소";
+      case 4:
+        return "반품처리";
       default:
         return "알 수 없음";
     }
@@ -65,7 +67,7 @@ const Checkbox: React.FC<IProps> = ({
           <li>{count}</li>
           <li>{totalProductPrice.toLocaleString()}</li>
           <li>{totalDiscount.toLocaleString()}</li>
-          <li>{totalOrderAmount.toLocaleString() }</li>
+          <li>{totalOrderAmount.toLocaleString()}</li>
         </ul>
       </StyledLabel>
     </CheckboxCss>

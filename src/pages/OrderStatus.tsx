@@ -191,7 +191,7 @@ const OrderStatus = () => {
             inputReadOnly={true}
             value={stDay && edDay ? [dayjs(stDay), dayjs(edDay)] : undefined}
             allowClear={false}
-            onClick={()=>setIsSearch(false)}
+            onClick={() => setIsSearch(false)}
           />
         </div>
         <div className="search-bt">
@@ -238,7 +238,7 @@ const OrderStatus = () => {
         <Paging
           pageNm={pageNm}
           setPageNm={setPageNm}
-          totalItem={isSearch ? orderList?.count : orderList?.allcount}
+          totalItem={orderList?.allcount}
         />
       </div>
     </OrderStatusWrap>
