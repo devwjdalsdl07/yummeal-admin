@@ -66,7 +66,7 @@ const Header = () => {
           </div>
           <div className="shoppingmall">
             <Link
-              to="http://192.168.0.144:5001"
+              to="http://112.222.157.156:5001/admin"
               target="_blank"
               onClick={() => setInfoToggle(false)}
             >
