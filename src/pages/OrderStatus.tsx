@@ -140,10 +140,10 @@ const OrderStatus = () => {
       let sendQuery = "";
       if (stDay === "" || edDay === "") {
         sendQuery = `filter${orderCodeCheckIndex}=${orderCodeCheckWord}&`;
-      } else if (stDay !== "" || edDay !== "") {
+      } else if (!orderCodeCheckIndex && !orderCodeCheckWord) {
         sendQuery = `startDate=${stDay}&endDate=${edDay}&`;
       } else {
-        sendQuery = `filter${orderCodeCheckIndex}=${orderCodeCheckWord}&`;
+        sendQuery = `filter${orderCodeCheckIndex}=${orderCodeCheckWord}&startDate=${stDay}&endDate=${edDay}&`;
       }
       orderListGet(pageNm, sendQuery);
       setIsSearch(true);
