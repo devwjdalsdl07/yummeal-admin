@@ -7,9 +7,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { HeaderCss } from "../style/SiderCss";
 import { useRecoilState } from "recoil";
 import { accessTokenState } from "../atom/atom";
+import { HeaderCss } from "../style/SiderCss";
 
 const Header = () => {
   const [accessToken, setAccessToken] = useRecoilState<any>(accessTokenState);
@@ -66,7 +66,7 @@ const Header = () => {
           </div>
           <div className="shoppingmall">
             <Link
-              to="http://112.222.157.156:5001/admin"
+              to="http://112.222.157.156:5001/"
               target="_blank"
               onClick={() => setInfoToggle(false)}
             >
