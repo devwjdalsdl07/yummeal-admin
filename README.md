@@ -8,7 +8,7 @@
 구매자용 : http://112.222.157.156:5001/ <br/>
 관리자용 : http://112.222.157.156:5001/admin <br/>
 외부 접속 가능한 링크입니다. <br/> 구매자/관리자 페이지 모두 사용 가능합니다. <br/>
-이용가능 ID / PW : green502teama@gmail.com / WcANrCBW0Z
+이용가능 ID / PW : green502teama@gmail.com / WcANrCBW0Z <br/>
 관리자용 페이지도 이용 가능한 계정입니다.
 
 </div>
