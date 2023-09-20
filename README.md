@@ -3,6 +3,17 @@
 </div>
 <br/>
 <br/>
+<div align="center">
+
+구매자용 : http://112.222.157.156:5001/
+관리자용 : http://112.222.157.156:5001/admin
+외부 접속 가능한 링크입니다. 구매자/관리자 페이지 모두 사용 가능합니다.
+이용가능 ID / PW : green502teama@gmail.com / WcANrCBW0Z
+관리자용 페이지도 이용 가능한 계정입니다.
+
+</div>
+<br/>
+<br/>
 <div align="center">  
   <h3>
     :deciduous_tree:<br/>
