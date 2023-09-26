@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Paging from "../components/Paging";
 import Search from "../components/Search";
 import { OrderStatusWrap } from "../style/OrderStatutsCss";
+import { instance } from "../api/axios";
 
 const { RangePicker } = DatePicker;
 
@@ -66,7 +67,7 @@ const OrderStatus = () => {
           page - 1
         }&size=10&sort=createdAt,asc`,
       );
-      const res = await axios.get(
+      const res = await instance.get(
         `/api/admin/order?${sendQuery}page=${
           page - 1
         }&size=10&sort=createdAt,asc`,

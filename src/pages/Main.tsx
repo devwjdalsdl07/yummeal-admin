@@ -12,6 +12,7 @@ import {
   faDolly,
   faTruckFast,
 } from "@fortawesome/free-solid-svg-icons";
+import { instance } from "../api/axios";
 
 const Main = () => {
   const thisYear = new Date().getFullYear().toString();
@@ -27,7 +28,7 @@ const Main = () => {
 
   // 베스트상품 그래프 데이터
   const chartData = async (year: string, month: string) => {
-    const res = await axios.get(
+    const res = await instance.get(
       `/api/admin/salevolum/color?year=${year}&month=${month}`,
     );
     const result = await res.data;
@@ -36,7 +37,7 @@ const Main = () => {
 
   // 전체 판매량 데이터
   const saleVolumData = async (page: number, year: string, month: string) => {
-    const res = await axios.get(
+    const res = await instance.get(
       `/api/admin/salevolum?page=${
         page - 1
       }&row=10&year=${year}&month=${month}`,
@@ -47,7 +48,7 @@ const Main = () => {
 
   // 주문배송
   const orderStats = async () => {
-    const res = await axios.get(
+    const res = await instance.get(
       `/api/admin/order?page=0&size=10000&sort=createdAt,asc`,
     );
     const result = res.data;

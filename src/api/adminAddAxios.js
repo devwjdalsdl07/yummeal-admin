@@ -1,8 +1,9 @@
 import axios from "axios";
+import { instance } from "./axios";
 
 export const getProductId = async () => {
   try {
-    const res = await axios.post("/api/admin/product/webeditor");
+    const res = await instance.post("/api/admin/product/webeditor");
     const result = res.data;
     console.log("Product ID 임", result);
     return result;
@@ -13,7 +14,7 @@ export const getProductId = async () => {
 
 export const getCate = async () => {
   try {
-    const res = await axios.get("/api/cate/list");
+    const res = await instance.get("/api/cate/list");
     const result = res.data;
     return result;
   } catch (err) {
@@ -163,7 +164,7 @@ export const postImage = async (_iproduct, img) => {
   formData.append("img", img);
   try {
     console.log("폼데이타", formData);
-    const res = await axios.post(
+    const res = await instance.post(
       `/api/admin/${_iproduct}/img`,
       formData,
       // config,
@@ -178,7 +179,7 @@ export const postImage = async (_iproduct, img) => {
 
 export const deleteProduct = async _iproduct => {
   try {
-    const res = axios.delete(`/api/admin/${_iproduct}`);
+    const res = instance.delete(`/api/admin/${_iproduct}`);
     return res.data;
   } catch (err) {
     console.log(_iproduct);
@@ -188,7 +189,7 @@ export const deleteProduct = async _iproduct => {
 
 export const itemAdd = async _data => {
   try {
-    const res = await axios.post("/api/admin/product", _data);
+    const res = await instance.post("/api/admin/product", _data);
     return res.data;
   } catch (err) {
     console.log("아이템 등록 실패");
@@ -202,7 +203,7 @@ export const imgAdd = async (_iproduct, imgArr) => {
     formData.append("img", img);
   }
   try {
-    const res = await axios.post(
+    const res = await instance.post(
       `/api/admin/webeditor/product/imglist/thumbnail?productId=${_iproduct}`,
       formData,
       config,
@@ -218,7 +219,7 @@ export const imgAdd = async (_iproduct, imgArr) => {
 
 export const deleteImage = async _imgpk => {
   try {
-    const res = await axios.delete(`/api/admin/${_imgpk}/webeditor`);
+    const res = await instance.delete(`/api/admin/${_imgpk}/webeditor`);
     const result = await res.data;
     console.log("이미지 삭제", result);
     return result;

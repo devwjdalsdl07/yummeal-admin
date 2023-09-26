@@ -1,8 +1,9 @@
 import axios from "axios";
+import { instance } from "./axios";
 
 export const postLogin = async (_user: { uid: string; upw: string }) => {
   try {
-    const res = await axios.post("/api/user/admin/sign-in", _user);
+    const res = await instance.post("/api/user/admin/sign-in", _user);
     const result: string = res.data.accessToken;
     console.log(result);
     localStorage.setItem("accessToken", result);

@@ -1,10 +1,11 @@
 import axios, { AxiosError } from "axios";
+import { instance } from "./axios";
 
 //주문내역 조회/검색/필터
 export const getOrder = async (_page: number, _query: string) => {
   console.log("주문내역 조회 : ", _query);
   try {
-    const res = await axios.get(
+    const res = await instance.get(
       `/api/admin/order?${_query}page=${_page - 1}&size=10&sort=createdAt,asc`,
     );
     const result = res.data;
@@ -27,7 +28,7 @@ export const getOrder = async (_page: number, _query: string) => {
 //배송상태변경
 export const putShipment = async (orderCode: any[], shipment: string) => {
   try {
-    const res = await axios.put(
+    const res = await instance.put(
       `/api/admin/order/shipment?orderCode=${orderCode}&shipment=${shipment}`,
       {
         orderCode: orderCode,
