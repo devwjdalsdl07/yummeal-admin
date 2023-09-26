@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Paging from "../components/Paging";
 import { SaleStatusWrap } from "../style/SalesStatusCss";
+import { instance } from "../api/axios";
 
 // 판매량 데이터 타입
 export interface IProdInfo {
@@ -36,7 +37,7 @@ const SalesStatus = () => {
 
   // 전체 판매량 데이터
   const saleVolumData = async (page: number, year: string, month: string) => {
-    const res = await axios.get(
+    const res = await instance.get(
       `/api/admin/salevolum?page=${
         page - 1
       }&row=10&year=${year}&month=${month}`,

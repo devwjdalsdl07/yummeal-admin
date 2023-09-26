@@ -1,9 +1,10 @@
 import axios from "axios";
 import { Iitem } from "../pages/AdminItem";
+import { instance } from "./axios";
 
 export const getItem = async () => {
   try {
-    const res = await axios.get(
+    const res = await instance.get(
       "/api/admin/product?page=0&size=10000&sort=productId",
     );
     const result = res.data.content;
@@ -27,7 +28,7 @@ export const getItem = async () => {
 };
 export const deleteItem = async (_Iproduct: number) => {
   try {
-    const res = await axios.delete(
+    const res = await instance.delete(
       `/api/admin/product/productId?productId=${_Iproduct}`,
     );
     const result = await res.data;

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { OrderDetailWrap } from "../style/OrderDetailCss";
+import { instance } from "../api/axios";
 
 interface OrderDetail {
   productId: number;
@@ -54,7 +55,7 @@ const OrderDetail = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const detailProd = async () => {
-    const res = await axios.get(`/api/admin/order/${state.orderCode}`);
+    const res = await instance.get(`/api/admin/order/${state.orderCode}`);
     const result = await res.data;
     setOrderInfo(result);
     setProdInfo(result.orderDetailVo);

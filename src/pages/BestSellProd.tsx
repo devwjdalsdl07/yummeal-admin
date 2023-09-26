@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import MyResponsivePie from "../components/BestSellProdChart";
 import { BestProdWrap } from "../style/BestSellProdCss";
 import { IProdInfo, ISaleStatus } from "./SalesStatus";
+import { instance } from "../api/axios";
 
 // 파이차트 데이터 타입
 export interface IPieData {
@@ -30,7 +31,7 @@ const BestSellProd = () => {
 
   // 베스트판매량 데이터
   const bestSalesData = async (year: string, month: string) => {
-    const res = await axios.get(
+    const res = await instance.get(
       `/api/admin/salevolum?page=0&row=5&year=${year}&month=${month}`,
     );
     const result = await res.data;
@@ -40,7 +41,7 @@ const BestSellProd = () => {
 
   // 차트 데이터
   const chartData = async (year: string, month: string) => {
-    const res = await axios.get(
+    const res = await instance.get(
       `/api/admin/salevolum/color?year=${year}&month=${month}`,
     );
     const result = await res.data;

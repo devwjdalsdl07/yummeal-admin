@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Paging from "../components/Paging";
 import { UserListWrap } from "../style/UserListCss";
+import { instance } from "../api/axios";
 
 // 유저정보(리스트) 데이터 타입
 interface User {
@@ -46,7 +47,7 @@ const UserList = () => {
 
   // 회원정보 불러오기
   const userGet = async (page: number) => {
-    const res = await axios.get(
+    const res = await instance.get(
       `/api/admin/search?page=${page - 1}&size=10&sort=iuser%2CDESC`,
     );
     const result = res.data;
@@ -67,7 +68,7 @@ const UserList = () => {
       icon: <ExclamationCircleFilled />,
       content: "탈퇴된 회원정보는 복구되지 않습니다.",
       async onOk() {
-        const result = await axios.delete(`/api/admin/uid?uid=${uid}`);
+        const result = await instance.delete(`/api/admin/uid?uid=${uid}`);
         userGet(pageNm);
       },
       onCancel() {

@@ -1,8 +1,9 @@
 import axios from "axios";
+import { instance } from "./axios";
 
 export const getItemInfo = async (_id: number) => {
   try {
-    const res = await axios.get(
+    const res = await instance.get(
       `/api/admin/product/{productId}?productId=${_id}`,
     );
     const result = res.data;
@@ -14,7 +15,7 @@ export const getItemInfo = async (_id: number) => {
 };
 export const deleteThumb = async (_item: any) => {
   try {
-    const res = await axios.delete("/api/admin/webeditor/thumbnail", {
+    const res = await instance.delete("/api/admin/webeditor/thumbnail", {
       headers: {
         "Content-Type": "application/json",
       },
@@ -33,7 +34,7 @@ export const deleteThumb = async (_item: any) => {
 
 export const itemEdit = async (_data:any) => {
   try {
-    const res = await axios.patch("/api/admin/webeditor/product/modification", _data);
+    const res = await instance.patch("/api/admin/webeditor/product/modification", _data);
     console.log("아이템등록",_data)
     console.log("아이템등록 후",res.data)
     return res.data;
