@@ -34,7 +34,7 @@
 
 </h4>
 
-[ <img src="https://img.shields.io/badge/notion-181717?style=flat&logo=notion&logoColor=fff" />](https://www.notion.so/3-YUMMEAL-ADMIN-acb5a15f6ddf4c0aba4d4cfa00bb26af)&nbsp;&nbsp;&nbsp;[<img src="https://img.shields.io/badge/Figma-F24E1E?style=flat&logo=Figma&logoColor=fff" />](https://www.figma.com/file/A0h9Ai58OM6pRxUXWUmYJP/yummeal?type=design&node-id=1096%3A369&mode=design&t=2UxOfiDdVm4zzZRJ-1)
+[ <img src="https://img.shields.io/badge/notion-181717?style=flat&logo=notion&logoColor=fff" />](https://kaput-letter-d17.notion.site/3-Yummeal-Admin-acb5a15f6ddf4c0aba4d4cfa00bb26af?pvs=4)&nbsp;&nbsp;&nbsp;[<img src="https://img.shields.io/badge/Figma-F24E1E?style=flat&logo=Figma&logoColor=fff" />](https://www.figma.com/file/A0h9Ai58OM6pRxUXWUmYJP/yummeal?type=design&node-id=1096%3A369&mode=design&t=2UxOfiDdVm4zzZRJ-1)
 
 </div>
 <br/>
@@ -86,7 +86,7 @@
 <div align=center>
 - <strong>Frontend</strong><br/>
    팀장 : <span style="background-color:#fff5b1">손정민</span>(로그인 유지, 아이 맞춤, 마이페이지(회원정보수정),회원가입)<br/>
-   팀원 : <span style="background-color:#f5f0ff">손용수</span>(<strong>3차</strong> ADMIN(회원관리, 판매현황, 베스트 상품, 주문 현황)
+   팀원 : <span style="background-color:#f5f0ff">손용수</span>(<strong>3차</strong> ADMIN(회원관리, 판매현황, 베스트 상품, 주문 현황)<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>2차</strong>(헤더 & 푸터, 장바구니페이지, 결제페이지, 결제내역페이지,&nbsp;&nbsp;<br/>&nbsp;&nbsp;검색결과페이지, 카카오페이, 비회원장바구니, 최근 검색어)),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color:#f5f0ff">박지성</span> (<strong>3차</strong> ADMIN (관리자 로그인, 아이템 추가/검색/수정/삭제)) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>2차</strong>(상품등록페이지, 마이페이지(주문내역),TOKEN, REDUCER, 소셜 로그인),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color:#f5f0ff">정다혜</span> (<strong>3차</strong> ADMIN (배송, 검색필터)),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>2차</strong>(메인페이지, 상품리스트페이지, 상품상세페이지)<br/>
 <strong>- Backend</strong><br/>
    팀장 : 서영기<br/>
