@@ -34,7 +34,7 @@
 
 </h4>
 
-[ <img src="https://img.shields.io/badge/notion-181717?style=flat&logo=notion&logoColor=fff" />](https://www.notion.so/3-YUMMEAL-ADMIN-acb5a15f6ddf4c0aba4d4cfa00bb26af)&nbsp;&nbsp;&nbsp;[<img src="https://img.shields.io/badge/Figma-F24E1E?style=flat&logo=Figma&logoColor=fff" />](https://www.figma.com/file/A0h9Ai58OM6pRxUXWUmYJP/yummeal?type=design&node-id=1096%3A369&mode=design&t=2UxOfiDdVm4zzZRJ-1)
+[ <img src="https://img.shields.io/badge/notion-181717?style=flat&logo=notion&logoColor=fff" />](https://kaput-letter-d17.notion.site/3-Yummeal-Admin-acb5a15f6ddf4c0aba4d4cfa00bb26af?pvs=4)&nbsp;&nbsp;&nbsp;[<img src="https://img.shields.io/badge/Figma-F24E1E?style=flat&logo=Figma&logoColor=fff" />](https://www.figma.com/file/A0h9Ai58OM6pRxUXWUmYJP/yummeal?type=design&node-id=1096%3A369&mode=design&t=2UxOfiDdVm4zzZRJ-1)
 
 </div>
 <br/>
