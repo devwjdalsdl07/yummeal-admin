@@ -15,10 +15,14 @@
 <br/>
 <br/>
 
-##### 시연영상 
-- [Yummeal-admin](
+<div align="center">
+
+시연영상 - [Yummeal-admin](
 https://github.com/devwjdalsdl07/yummeal-admin/assets/131756886/7ee09ffd-7da9-4c3f-be35-bb5cfc793ba6
 )
+</div>
+
+<br/>
 
 <div align="center">  
   <h3>
